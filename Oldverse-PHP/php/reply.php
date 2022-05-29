@@ -21,9 +21,9 @@ $user = isset($user) ? $user : null;
     <span><span class="post-user-description">View <img src="<?= getAvatar($row['ogpost_mii_hash'], 0)?>" class="user-icon"><?= $row['ogpost_nickname'] ?>'s post for this comment.</span></span>
   </a>
 <div id="reply-<?= $row['id']?>" class="">
-<a href="/users/RixyRixy" class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], $row['feeling'])?>" class="icon"></a>
+<a href="/users/<?= $row['username'] ?>" class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], $row['feeling'])?>" class="icon"></a>
     <p class="timestamp-container"><span class="timestamp" href="/posts/<?= $_GET['id'] ?>"><?= getTimeAgo($row['timestamp']) ?> <?= $row['spoiler']==1 ? '- Spoilers!' : '' ?></span></p>
-    <p class="user-name"><a href="/users/<?= htmlspecialchars($row['username']) ?>?>"><?= htmlspecialchars($row['nickname']) ?></a></p>
+    <p class="user-name"><a href="/users/<?= htmlspecialchars($row['username']) ?>"><?= htmlspecialchars($row['nickname']) ?></a></p>
      <p class="community-container"> <? if(!empty($row['community'])){ ?><a href="/communities/<?= $row['community'] ?>"><img src="<?= $row['icon'] ?>" class="community-icon"><?= htmlspecialchars($row['name']) ?></a><? }else{ ?><a href="/activity"><img src="" class="community-icon">Activity Feed</a><? } ?></p><div class="body">
     <p class="reply-content-text"><?= nl2br(htmlspecialchars($row['body']))?></p>
 
