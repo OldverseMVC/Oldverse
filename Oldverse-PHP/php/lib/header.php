@@ -6,6 +6,7 @@ if(isset($_SESSION['token'])){
 $is_identified_user = isset($is_identified_user) ? $is_identified_user : null;
 $custom_id = isset($custom_id) ? $custom_id : null;
 ?>
+<!DOCTYPE html>
 <html lang="en" data-sitecatalyst-suite-id="miiverseweb">
     <head>
         <title><?= isset($title) ? $title ." | ".SITE_NAME: SITE_NAME ?></title>
