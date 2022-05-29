@@ -127,7 +127,7 @@ function getFeeling($feeling){
             return 'olv.yeah.yeahtext';
     }
 }
-function selected($page){
+function selected($page, $username=null){
     switch($page){
         case 'communities':
             if($_SERVER['REQUEST_URI']=='/'){
@@ -150,6 +150,8 @@ function selected($page){
                 return '';
             }
             break;
+        case 'my-userpage':
+            return $_SERVER['REQUEST_URI']=='/users/'.$username ? 'selected' : '';
     }
 }
 function getCommunityType($type, $if_text=true){

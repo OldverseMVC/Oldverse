@@ -38,7 +38,7 @@ $custom_id = isset($custom_id) ? $custom_id : null;
                     <li id="global-menu-list">
                         <ul>
                             <li id="global-menu-logo"><h1><img src="/assets/img/menu-logo.png" alt="Oldverse" width="200" height="55"></h1></li>
-                            <li id="global-menu-mymenu">
+                            <li id="global-menu-mymenu" class="<?= selected("my-userpage", $user['username']) ?>">
                                 <a href="/users/<?= $_SESSION['username'] ?>">
                                     <span class="icon-container <?= $user['level'] > 0 ? 'official-user' : ''?>">
                                         <img src="<?= getAvatar($user['mii_hash'], 0) ?>" alt="User Page">
