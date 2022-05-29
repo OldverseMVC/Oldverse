@@ -17,7 +17,7 @@ $custom_id = isset($custom_id) ? $custom_id : null;
         <link rel="apple-touch-icon" sizes="72x72" href="/assets/img/apple-touch-icon-72x72.png">
         <link rel="apple-touch-icon" sizes="144x144" href="/assets/img/apple-touch-icon-144x144.png">
     </head>
-    <body <?php if(!isset($_SESSION['username'])){ ?>id="<?php if(isset($is_guide)){ ?>help<?php } ?><?= !is_null($custom_id) ? ' '.$custom_id : '' ?>"  class="guest-top guest <?= $is_identified_user ? "identified_user" : "" ?>"<?php }else{ ?> class="<?= $is_identified_user ? "identified_user" : "" ?>" <?php } ?>id="<?php if(isset($is_guide)){ ?>help<?php } ?> <?= $custom_id ?>"data-token="<?= $_SESSION['token'] ?>">
+    <body <?php if(!isset($_SESSION['username'])){ ?>id="<?php if(isset($is_guide)){ ?>help<?php } ?><?= !is_null($custom_id) ? ' '.$custom_id : '' ?>"  class="guest-top guest <?= $is_identified_user ? "identified_user" : "" ?>"<?php }else{ ?> class="<?= $is_identified_user ? "identified_user" : "" ?>" <?php } ?>id="<?php if(isset($is_guide)){ ?>help<?php } ?><?= !is_null($custom_id) ? ' '.$custom_id : '' ?>"data-token="<?= $_SESSION['token'] ?>">
         <div id="wrapper">
             <div id="sub-body">
                 <?php
