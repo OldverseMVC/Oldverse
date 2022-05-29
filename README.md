@@ -8,3 +8,5 @@ n o (well, not yet. soon.)
 Well you install it like any classical PHP app, create a new DB, import DB structure, upload website files to your server, modify config.php as you liking.
 # It is finished?
 Nope, and probably never will, due to some impossible features.
+# is dis from scratch
+yes. nobody did that in a while, so we're starting this popular trend again.
