@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : Dim 29 mai 2022 à 07:58
+-- Généré le : Dim 29 mai 2022 à 11:58
 -- Version du serveur :  5.7.38-cll-lve
 -- Version de PHP : 7.3.28
 
@@ -21,6 +21,18 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `diskette_oldverse`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `ban`
+--
+
+CREATE TABLE `ban` (
+  `id` int(11) NOT NULL,
+  `target` int(11) NOT NULL,
+  `reason` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -146,6 +158,12 @@ CREATE TABLE `users` (
 --
 
 --
+-- Index pour la table `ban`
+--
+ALTER TABLE `ban`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `communities`
 --
 ALTER TABLE `communities`
@@ -199,6 +217,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT pour les tables déchargées
 --
+
+--
+-- AUTO_INCREMENT pour la table `ban`
+--
+ALTER TABLE `ban`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `communities`
