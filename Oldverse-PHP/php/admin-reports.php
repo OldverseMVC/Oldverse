@@ -60,6 +60,7 @@ if($result->num_rows == 0){
         <p><b> Report ID: <?=$row["id"]?></b> - <?=htmlspecialchars($rowuser["username"])?> is reporting <a href="/users/<?=$rowuser2["username"]?>">this</a> <b>profile.</b></p>
         <p>Report text: "<?=htmlspecialchars($row["report"])?>"</p>
         <a href="/settings/admin/reports?id=<?=$row["id"]?>">Delete report</a><br>
+        <a href=".">Delete post</a><br>
     <?php } ?>
     <?php } ?>
 </div>

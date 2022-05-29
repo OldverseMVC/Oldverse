@@ -53,6 +53,17 @@ if(!isset($skip_t_check) && isset($_SESSION['token'])){
     }
 }
 
+if($_SERVER['REQUEST_URI']!=='/banned'){
+    $user = getUserID($_SESSION['token']);
+    $stmt = $db->prepare("SELECT reason FROM ban WHERE target = ?");
+    $stmt->bind_param('i', $user);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if($result->num_rows>0){
+        header("Location: /banned");
+    }
+}
+
 function getUser($token){
     global $db;
     $stmt = $db->prepare("SELECT user FROM tokens WHERE token = ?");
@@ -261,4 +272,19 @@ function getAllYeahs($postid, $is_reply = false){
     }
     $result = $stmt->get_result();
     return $result;
+}
+function getUserID($token){
+    global $db;
+    $stmt = $db->prepare("SELECT user FROM tokens WHERE token = ?");
+    $stmt->bind_param('s', $token);
+    $stmt->execute();
+    if($stmt->error){
+        return false;
+    }
+    $result = $stmt->get_result();
+    if($result->num_rows==0){
+        return 'no_user';
+    }
+    $row = $result->fetch_array();
+    return $row['user'];
 }

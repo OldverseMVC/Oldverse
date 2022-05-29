@@ -89,6 +89,8 @@ if(!empty($row['description'])){?>
     <div class="user-main-profile data-content">
       <h4><span>Date created</span></h4>
       <div class="note"><?= date("m\/d\/y h:i:s A", strtotime($row['created_on'])) ?></div>
+      <h4><span>User ID</span></h4>
+      <div class="note">#<?= $row['id'] ?></div>
     </div>
   </div>
 </div>

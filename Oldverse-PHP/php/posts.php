@@ -3,7 +3,7 @@ require_once "lib/connect.php";
 if(!isset($_GET['id'])){
     showError(400, "You must give an post ID.");
 }
-$stmt = $db->prepare("SELECT posts.id, community, created_by, body, url, screenshot, spoiler, feeling, created_at, mii_hash, nickname, username, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE posts.id = ?");
+$stmt = $db->prepare("SELECT posts.id, community, created_by, body, url, screenshot, spoiler, feeling, created_at, mii_hash, nickname, username, level, icon, name, permissions, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE posts.id = ?");
 $stmt->bind_param('i', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -84,13 +84,13 @@ $user = isset($user) ? $user : null;
         <button type="button" class="button" data-modal-open="#report-violation-page" data-action="/posts/<?=$row['id']?>/violations" data-is-post="1" data-is-permalink="1" data-can-report-spoiler="1">Report Violation</button>
     </div>
 </div>
-<?php if($row["name"] == "Changelog Community" || $row["name"] == "Announcements Community"){ ?>
+<?php if($user['level'] < $row['permissions']){ ?>
 <div id="report-violation-page" class="dialog none" data-modal-types="report report-violation" data-is-template="1">
 <div class="dialog-inner">
                     <div class="window">
                         <h1 class="window-title">Report Violation to <?=SITE_NAME?> Administrators</h1>
                         <div class="window-body">
-                            <p class="description">You cannot report posts in the Changelog or Announcements community.</p>
+                            <p class="description">You cannot report posts in this community.</p>
                             <form>
                                 <div class="form-buttons">
                                     <input type="button" class="olv-modal-close-button gray-button" value="OK">
