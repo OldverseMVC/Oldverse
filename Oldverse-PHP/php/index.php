@@ -24,7 +24,7 @@ if(!isset($_SESSION['username'])){
   </div>
 
   <div id="identified-user-banner">
-    <a href="/identified_user_posts" data-pjax="#body" class="list-button eu">
+    <a href="/identified_user_posts" data-pjax="#body" class="list-button us">
       <span class="title">Get the latest news here!</span>
       <span class="text">Posts from Verified Users</span>
     </a>
