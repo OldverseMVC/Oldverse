@@ -1,0 +1,78 @@
+<?php
+require_once "lib/connect.php";
+if(!isset($_GET['id'])){
+    showError(400, 'You must precise an user ID.');
+}
+if(!isset($_GET['mode'])){
+    showError(400, 'You must precise an mode.');
+}
+$stmt = $db->prepare("SELECT id, nickname, mii_hash, description, created_on, level, (SELECT COUNT(*) FROM posts WHERE created_by = users.id) AS post_num, (SELECT COUNT(*) FROM follows WHERE target = users.id) AS follow_num, (SELECT COUNT(*) FROM follows WHERE source = users.id) AS followed_num FROM users WHERE username = ?");
+$stmt->bind_param('s', $_GET['id']);
+$stmt->execute();
+if($stmt->error){
+    showError(500, 'An error occured while fetching the user from the database.');
+}
+$result = $stmt->get_result();
+if($result->num_rows==0){
+    showError(404, 'The user could not be found.');
+}
+$row = $result->fetch_array();
+$name = $_GET['mode'] == 1 ? 'follows' : 'followers';
+$title = $row['nickname']."'s ".$name;
+require_once "lib/header.php";
+if($_GET['mode']==1){
+    $stmt = $db->prepare("SELECT users.id, username, nickname, mii_hash, description FROM follows LEFT JOIN users ON target = users.id WHERE source = ? ORDER BY users.id DESC");
+}else{
+    $stmt = $db->prepare("SELECT users.id, username, nickname, mii_hash, description FROM follows LEFT JOIN users ON source = users.id WHERE target = ? ORDER BY users.id DESC");
+}
+$stmt->bind_param('i', $row['id']);
+$stmt->execute();
+$result = $stmt->get_result();
+?>
+<div class="user-page">
+<div id="user-content" class=" no-profile-post-user">
+    <span class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], 0)?>" class="icon"></span>
+	    <div class="nick-name"><?= htmlspecialchars($row['nickname'])?><span class="id-name"><?= htmlspecialchars($_GET['id']) ?></span></div>
+    <a href="/users/<?= $_GET['id'] ?>" class="profile-page-button button">To Top</a>
+  </div><div id="nav-menu" class="nav-4">
+    <a href="/users/<?= htmlspecialchars($_GET['id']) ?>/posts">
+      <span class="number"><?= $row['post_num'] ?></span>
+      <span class="name">Posts</span>
+    </a>
+    <a href="/users/<?= htmlspecialchars($_GET['id']) ?>/following" class="<?= $_GET['mode']==1 ? 'selected' : '' ?>">
+      <span class="number"><?= $row['followed_num'] ?></span>
+      <span class="name">Following</span>
+    </a>
+    <a href="/users/<?= htmlspecialchars($_GET['id']) ?>/followers" class="<?= $_GET['mode']==2 ? 'selected' : '' ?>">
+      <span class="number"><?= $row['follow_num'] ?></span>
+      <span class="name">Followers</span>
+    </a>
+    <a href="/users/<?= htmlspecialchars($_GET['id']) ?>">
+      <span class="number">something</span>
+      <span class="name">i guess</span>
+    </a>
+  </div>
+</div>
+<div class="list follow-list following">
+<div id="user-page-no-content" class="none"></div>
+  <ul class="list-content-with-icon-and-text arrow-list" id="following-list-content" data-next-page-url="">
+    <?
+    if($result->num_rows==0){
+        showNoContent("No user was found.");
+        exit;
+    }
+    while($row = $result->fetch_array()){
+    ?>
+    <li class="trigger" data-href="/users/<?= $row['username'] ?>">
+        <a href="/users/<?= $row['username'] ?>" class="icon-container"><img src="<?= getAvatar($row['mii_hash'], 0) ?>" class="icon"></a>
+        <div class="body">
+            <p class="title">
+                <span class="nick-name"><a href="/users/<?= $row['username'] ?>"><?= $row['nickname'] ?></a></span>
+                <span class="id-name"><?= $row['username'] ?></span>
+            </p>
+            <p class="text"><?= $row['description'] ?></p>
+        </div>
+    </li>
+    <? } ?>
+    </ul>
+</div>
