@@ -3529,7 +3529,7 @@ div#activity-feed-tutorial.no-content p.tleft {
   background-color: #f9f9f9;
 }
 #identified-user-banner a:before {
-  background: url('/web/20150731010708im_/https://d13ph7xrk1ee39.cloudfront.net/img/identified-user-banner.png?9q2xnwfGThnanscduqRs9g');
+  background: url('/assets/img/identified-user-banner.png');
   background-size: 150px 50px;
   content: '';
   height: 50px;
