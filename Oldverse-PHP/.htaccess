@@ -1,6 +1,8 @@
 Options +FollowSymLinks -Indexes
 RewriteEngine on
 RewriteRule ^$ php/index.php [L,NC,QSA]
+RewriteRule ^banned$ php/banned.php [L,NC,QSA]
+RewriteRule ^ip-banned$ php/ip-banned.php [L,NC,QSA]
 RewriteRule ^activity$ php/activity.php [L,NC,QSA]
 RewriteRule ^activity\/post$ php/create-post.php?activity=1 [L,NC,QSA]
 RewriteRule ^account\/login$ php/signin.php [L,NC,QSA]
@@ -34,4 +36,4 @@ RewriteRule ^users/([A-Za-z0-9-_]+).unfollow.json$ php/follow.php?id=$1 [L,NC,QS
 RewriteRule ^qna$ php/qna.php [L,NC,QSA]
 ErrorDocument 404 /php/404.php
 ErrorDocument 403 /php/403.php
-php_flag display_errors on
+php_flag display_errors off
