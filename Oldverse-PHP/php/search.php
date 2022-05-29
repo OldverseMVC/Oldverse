@@ -5,17 +5,18 @@ require_once "lib/header.php";
 if(!isset($_GET["query"])){
     header("Location: /");
 }
-// TODO: make the search more efficient
-// Rixy: Working on that RN
-// 05/29/22 update: bit better but not what we want yet
-$stmt = $db->prepare("SELECT id, name, icon, type FROM `communities` WHERE name LIKE CONCAT('%', ?, '%') AND type = 0 OR name LIKE CONCAT('%', ?, '%') AND type = 2");
+//finally it works
+$stmt = $db->prepare("SELECT id, name, icon, type FROM `communities` WHERE name LIKE CONCAT('%', ?, '%') AND type = 0 OR name LIKE CONCAT('%', ?, '%') AND type = 2 ORDER BY RAND()");
 $stmt->bind_param("ss", $_GET["query"], $_GET['query']);
 $stmt->execute();
 $resultwiiu = $stmt->get_result();
-$stmt = $db->prepare("SELECT id, name, icon, type FROM `communities` WHERE name LIKE CONCAT('%', ?, '%') AND type = 1 OR name LIKE CONCAT('%', ?, '%') AND type = 2");
+$stmt = $db->prepare("SELECT id, name, icon, type FROM `communities` WHERE name LIKE CONCAT('%', ?, '%') AND type = 1 OR name LIKE CONCAT('%', ?, '%') AND type = 2 ORDER BY RAND()");
 $stmt->bind_param("ss", $_GET["query"], $_GET['query']);
 $stmt->execute();
 $result3ds = $stmt->get_result();
+$stmt = $db->prepare("SELECT id, name, icon, type FROM communities ORDER BY RAND() LIMIT 3");
+$stmt->execute();
+$resultrandom = $stmt->get_result();
 ?>
 <div class="body-content" id="search-top" data-region="USA">
     <div class="headline">
@@ -65,3 +66,20 @@ $result3ds = $stmt->get_result();
     </ul>
     </div>
   </div>
+<h2 class="label">Recommended Communities (3DS/Wii U)</h2>
+<ul class="list community-list community-title-list">
+    <?php
+    if($resultrandom->num_rows == 0){
+        showNoContent('No results found.');
+        goto skipother;
+    }
+    while($row = $resultrandom->fetch_array()){?>
+    <li id="community-<?= $row['id'] ?>" class="trigger" data-href="/communities/<?= $row['id'] ?>" tabindex="0">
+      <span class="icon-container"><img src="<?= htmlspecialchars($row['icon'])?>" class="icon"></span>
+      <div class="body">
+          <a class="title" href="/communities/<?= $row['id'] ?>"><?= htmlspecialchars($row['name']) ?></a>
+          <?= getCommunityType($row['type']) ?>
+      </div>
+    </li>
+    <?php } skipother: ?>
+</ul>
