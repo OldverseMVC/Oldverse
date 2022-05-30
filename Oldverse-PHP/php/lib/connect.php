@@ -17,6 +17,11 @@ if(!isset($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] != "on")
     exit;
 }
 
+if(in_array($_SERVER['REMOTE_ADDR'], FORBIDDEN_IPS) && $_SERVER['REQUEST_URI'] !== '/ip-banned'){
+    header("Location: /ip-banned");
+    exit;
+}
+
 // Connect to DB
 $db = @mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME); // DB_NAME
 
@@ -61,6 +66,7 @@ if($_SERVER['REQUEST_URI']!=='/banned'){
     $result = $stmt->get_result();
     if($result->num_rows>0){
         header("Location: /banned");
+        exit;
     }
 }
 
@@ -156,6 +162,13 @@ function selected($page, $username=null){
             break;
         case 'activity':
             if($_SERVER['REQUEST_URI']=='/activity'){
+                return 'selected';
+            }else{
+                return '';
+            }
+            break;
+        case 'notifications':
+            if($_SERVER['REQUEST_URI']=='/news/my_news'){
                 return 'selected';
             }else{
                 return '';
@@ -287,4 +300,14 @@ function getUserID($token){
     }
     $row = $result->fetch_array();
     return $row['user'];
+}
+function sendNotif($source, $target, $type, $url, $additional_id=null){
+    global $db;
+    $stmt = $db->prepare("INSERT INTO news(source, target, type, url, additional_id) VALUES(?, ?, ?, ?, ?)");
+    $stmt->bind_param('iiisi', $source, $target, $type, $url, $additional_id);
+    $stmt->execute();
+    if($stmt->error){
+        return false;
+    }
+    return true;
 }

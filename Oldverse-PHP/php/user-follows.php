@@ -21,9 +21,9 @@ $name = $_GET['mode'] == 1 ? 'follows' : 'followers';
 $title = $row['nickname']."'s ".$name;
 require_once "lib/header.php";
 if($_GET['mode']==1){
-    $stmt = $db->prepare("SELECT users.id, username, nickname, mii_hash, description FROM follows LEFT JOIN users ON target = users.id WHERE source = ? ORDER BY users.id DESC");
+    $stmt = $db->prepare("SELECT users.id, username, nickname, mii_hash, description, level FROM follows LEFT JOIN users ON target = users.id WHERE source = ? ORDER BY users.id DESC");
 }else{
-    $stmt = $db->prepare("SELECT users.id, username, nickname, mii_hash, description FROM follows LEFT JOIN users ON source = users.id WHERE target = ? ORDER BY users.id DESC");
+    $stmt = $db->prepare("SELECT users.id, username, nickname, mii_hash, description, level FROM follows LEFT JOIN users ON source = users.id WHERE target = ? ORDER BY users.id DESC");
 }
 $stmt->bind_param('i', $row['id']);
 $stmt->execute();
@@ -63,14 +63,14 @@ $result = $stmt->get_result();
     }
     while($row = $result->fetch_array()){
     ?>
-    <li class="trigger" data-href="/users/<?= $row['username'] ?>">
-        <a href="/users/<?= $row['username'] ?>" class="icon-container"><img src="<?= getAvatar($row['mii_hash'], 0) ?>" class="icon"></a>
+    <li class="trigger" data-href="/users/<?= htmlspecialchars($row['username']) ?>">
+        <a href="/users/<?= htmlspecialchars($row['username']) ?>" class="icon-container <?= $row['level']>0 ? 'official-user' : ''  ?>"><img src="<?= getAvatar($row['mii_hash'], 0) ?>" class="icon"></a>
         <div class="body">
             <p class="title">
-                <span class="nick-name"><a href="/users/<?= $row['username'] ?>"><?= $row['nickname'] ?></a></span>
-                <span class="id-name"><?= $row['username'] ?></span>
+                <span class="nick-name"><a href="/users/<?= $row['username'] ?>"><?= htmlspecialchars($row['nickname']) ?></a></span>
+                <span class="id-name"><?= htmlspecialchars($row['username']) ?></span>
             </p>
-            <p class="text"><?= $row['description'] ?></p>
+            <p class="text"><?= htmlspecialchars($row['description']) ?></p>
         </div>
     </li>
     <? } ?>

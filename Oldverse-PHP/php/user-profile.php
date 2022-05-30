@@ -3,7 +3,7 @@ require_once "lib/connect.php";
 if(!isset($_GET['id'])){
     showError(400, 'You must precise an user ID.');
 }
-$stmt = $db->prepare("SELECT id, nickname, mii_hash, description, created_on, level, (SELECT COUNT(*) FROM posts WHERE created_by = users.id) AS post_num, (SELECT COUNT(*) FROM follows WHERE target = users.id) AS follow_num, (SELECT COUNT(*) FROM follows WHERE source = users.id) AS followed_num FROM users WHERE username = ?");
+$stmt = $db->prepare("SELECT id, nickname, mii_hash, description, created_on, level, nnid, (SELECT COUNT(*) FROM posts WHERE created_by = users.id) AS post_num, (SELECT COUNT(*) FROM follows WHERE target = users.id) AS follow_num, (SELECT COUNT(*) FROM follows WHERE source = users.id) AS followed_num FROM users WHERE username = ?");
 $stmt->bind_param('s', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -92,5 +92,8 @@ if(!empty($row['description'])){?>
       <h4><span>User ID</span></h4>
       <div class="note">#<?= $row['id'] ?></div>
     </div>
+  <div class="user-main-profile data-content">
+      <h4><span>NNID</span></h4>
+      <div class="note"><?= htmlspecialchars($row['nnid']) ?></div>
   </div>
 </div>

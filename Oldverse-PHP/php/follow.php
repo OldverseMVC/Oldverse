@@ -43,3 +43,8 @@ $stmt->execute();
 if($stmt->error){
     showJSONError(500, 5654956, "An error occured while inserting/deleting the follow.");
 }
+if(!$is_follow){
+    if(!sendNotif($user['id'], $row['id'], 4, '/users/'.$user['username'])){
+        showJSONError(500, 5282694, "Could not send notification (but your follow has been made).");
+    }
+ }

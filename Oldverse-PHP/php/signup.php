@@ -34,8 +34,8 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
             goto showForm;
         }
     }
-    $stmt = $db->prepare("INSERT INTO `users`(`username`, `nickname`, `password`, `mii_hash`) VALUES(?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $_POST['username'], $_POST['nickname'], $hash_pass, $hash);
+    $stmt = $db->prepare("INSERT INTO `users`(`username`, `nickname`, `password`, `mii_hash`, `nnid`) VALUES(?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $_POST['username'], $_POST['nickname'], $hash_pass, $hash, $_POST['nnid']);
     $stmt->execute();
     if($stmt->error){
         $error = "An error occured while inserting your user into the database.";
@@ -56,7 +56,7 @@ showForm:
     <input type="password" placeholder="Password" name="password" required>
     <input type="password" placeholder="Confirm Password" name="cpassword" required>
     <p><b><i>This is required. You MUST have a valid NNID.</i></b></p>
-    <input type="text" placeholder="Nintendo Network ID (NNID)" name="nnid" requried>
+    <input type="text" placeholder="Nintendo Network ID (NNID)" name="nnid" maxlength="16" requried>
     <div class="form-buttons">
         <input type="submit" value="Sign Up" class="black-button">
     </div>

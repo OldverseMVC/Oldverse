@@ -17,7 +17,7 @@ if(mb_strlen($_POST['body']) > 2000) {
     showJSONError(400, 1219309, 'Your body is too long.');
 }
 $user = getUser($_SESSION['token']);
-$stmt = $db->prepare("SELECT id FROM posts WHERE id = ?");
+$stmt = $db->prepare("SELECT users.id, created_by FROM posts LEFT JOIN users ON created_by = users.id WHERE posts.id = ?");
 $stmt->bind_param('i', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -30,6 +30,7 @@ if($result->num_rows==0){
 if(empty($_POST['is_spoiler'])) {
     $_POST['is_spoiler'] = 0;
 }
+$post_row = $result->fetch_array();
 $stmt = $db->prepare('SELECT COUNT(*) FROM replies WHERE created_by = ? AND created_at > NOW() - INTERVAL '.rand(15,20).' SECOND');
 $stmt->bind_param('i', $user['id']);
 $stmt->execute();
@@ -58,5 +59,10 @@ if($result->num_rows==0){
     showJSONError(500, 4754858, 'WTF reply not found?!');
 }
 $row = $result->fetch_array();
+if($user['id']!==$post_row['id']){
+    if(!sendNotif($user['id'], $post_row['id'], 2, "/posts/".$_GET['id'], $_GET['id'])){
+        showJSONError(500, 5192669, 'An error occured while sending a notification. (your reply has been posted)');
+    }
+}
 require "elements/reply.php";
 ?>

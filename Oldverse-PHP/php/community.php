@@ -1,7 +1,13 @@
 <?php
 require_once "lib/connect.php";
-$stmt = $db->prepare("SELECT name, icon, banner, description, permissions, type FROM communities WHERE id = ?");
-$stmt->bind_param('i', $_GET['id']);
+if(isset($_SESSION['token'])){
+    $user = getUser($_SESSION['token']);
+    $userid = $user['id'];
+}else{
+    $userid = null;
+}
+$stmt = $db->prepare("SELECT name, icon, banner, description, permissions, type, (SELECT COUNT(*) FROM favorites WHERE source = ? AND target = communities.id) AS is_favorite FROM communities WHERE id = ?");
+$stmt->bind_param('ii', $userid, $_GET['id']);
 $stmt->execute();
 if($stmt->error){
     showError(500, "An error occured while fetching the community from the database.");
@@ -31,6 +37,10 @@ $result = $stmt->get_result();
   <span class="title"><?= htmlspecialchars($row['name']) ?></span>
   <span class="text"><?= htmlspecialchars($row['description']) ?></span>
   <div class="buttons-content">
+      <?
+      if(isset($_SESSION['token'])){?>
+      <button type="button" class="symbol button favorite-button <?= $row['is_favorite'] > 0 ? 'checked' : '' ?>" data-action-favorite="/communities/<?= $_GET['id'] ?>/favorite.json" data-action-unfavorite="/communities/<?= $_GET['id'] ?>/unfavorite.json"><span class="favorite-button-text">Favorite</span></button>
+      <? } ?>
   </div>
   <?php if(isset($_SESSION['username']) && $user['level'] > $row['permissions'] || isset($_SESSION['username']) && $user['level'] == $row['permissions']){ ?>
  <form id="post-form" method="post" action="/posts" class="folded for-identified-users">
@@ -40,9 +50,9 @@ $result = $stmt->get_result();
   <div class="feeling-selector"><label class="symbol feeling-button feeling-button-normal checked"><input type="radio" name="feeling_id" value="0" checked=""><span class="symbol-label">normal</span></label><label class="symbol feeling-button feeling-button-happy"><input type="radio" name="feeling_id" value="1"><span class="symbol-label">happy</span></label><label class="symbol feeling-button feeling-button-like"><input type="radio" name="feeling_id" value="2"><span class="symbol-label">like</span></label><label class="symbol feeling-button feeling-button-surprised"><input type="radio" name="feeling_id" value="3"><span class="symbol-label">surprised</span></label><label class="symbol feeling-button feeling-button-frustrated"><input type="radio" name="feeling_id" value="4"><span class="symbol-label">frustrated</span></label><label class="symbol feeling-button feeling-button-puzzled"><input type="radio" name="feeling_id" value="5"><span class="symbol-label">puzzled</span></label>
   </div>
   <textarea name="body" class="textarea-text textarea" maxlength="1000" placeholder="Share your thoughts in a post to this community." data-open-folded-form="" data-required=""></textarea>
+  <br>
+  <br>
  <input type="text" class="textarea-line url-form" name="url" placeholder="URL" maxlength="255">
- <br>
- <br>
     <label class="spoiler-button symbol">
     <input type="checkbox" id="is_spoiler" name="is_spoiler" value="1">
     Spoilers

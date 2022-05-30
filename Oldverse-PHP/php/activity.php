@@ -3,7 +3,9 @@ $title = "Activity Feed";
 require_once "lib/header.php";
 requireAuth();
 ?>
-<h2 class="headline">Activity Feed</h2>
+<div class="headline"><h2 class="headline-text">Activity Feed</h2><form method="GET" action="/users" class="search">
+      <input type="text" name="query" placeholder="Search Users" minlength="2"/><input type="submit" value="q" title="Search"/>
+    </form></div>
 <form id="post-form" method="post" action="/activity/post" class="folded for-identified-users">
   <div class="feeling-selector"><label class="symbol feeling-button feeling-button-normal checked"><input type="radio" name="feeling_id" value="0" checked=""><span class="symbol-label">normal</span></label><label class="symbol feeling-button feeling-button-happy"><input type="radio" name="feeling_id" value="1"><span class="symbol-label">happy</span></label><label class="symbol feeling-button feeling-button-like"><input type="radio" name="feeling_id" value="2"><span class="symbol-label">like</span></label><label class="symbol feeling-button feeling-button-surprised"><input type="radio" name="feeling_id" value="3"><span class="symbol-label">surprised</span></label><label class="symbol feeling-button feeling-button-frustrated"><input type="radio" name="feeling_id" value="4"><span class="symbol-label">frustrated</span></label><label class="symbol feeling-button feeling-button-puzzled"><input type="radio" name="feeling_id" value="5"><span class="symbol-label">puzzled</span></label>
   </div>
@@ -27,13 +29,16 @@ $stmt = $db->prepare("SELECT target FROM `follows` WHERE source = ?");
 $stmt->bind_param('i', $user['id']);
 $stmt->execute();
 $result = $stmt->get_result();
-if($result->num_rows==0){
-    showNoContent("You didn't followed any users yet. Go follow some and get back to this page!");
-    exit;
-}
 $users = "created_by = ".$user['id'];
 while($row = $result->fetch_array()){
     $users = $users. " OR created_by = ".$row['target'];
+}
+$stmt = $db->prepare("SELECT target FROM `favorites` WHERE source = ?");
+$stmt->bind_param('i', $user['id']);
+$stmt->execute();
+$result = $stmt->get_result();
+while($row = $result->fetch_array()){
+    $users = $users. " OR community = ".$row['target'];
 }
 if(empty($_GET['offset'])){
     $_GET['offset'] = 0;
@@ -44,15 +49,11 @@ $stmt->execute();
 $result = $stmt->get_result();?>
 <?php if($result->num_rows>0){ ?><div class="body-content" id="community-post-list" data-region="">
         <?php
-        if($result->num_rows==0){
-            showNoContent("No posts were found.");
-        }else{
-            $new_offset = $_GET['offset'] + 20;
-            echo '<div class="list post-list" data-next-page-url="/activity?offset='.$new_offset.'">';
-            while($row = $result->fetch_array()){
-                require "elements/post.php";
-            }
-            echo '</div>';
+        $new_offset = $_GET['offset'] + 20;
+        echo '<div class="list post-list" data-next-page-url="/activity?offset='.$new_offset.'">';
+        while($row = $result->fetch_array()){
+            require "elements/post.php";
         }
+        echo '</div>';
         ?>
-</div><? } ?>
+</div><? }else{ showNoContent("No posts were found. Go follow some users/do some actions and get back to this page!"); } ?>

@@ -49,7 +49,7 @@ $custom_id = isset($custom_id) ? $custom_id : null;
                             </li>
                             <li id="global-menu-feed" class="<?= selected("activity") ?>"><a href="/activity" class="symbol"><span>Activity Feed</span></a></li>
                             <li id="global-menu-community" class="<?= selected("communities") ?>"><a href="/" class="symbol"><span>Communities</span></a></li>
-                            <li id="global-menu-news" class="<?= selected("notifications") ?>"><a href="/notifications" class="symbol"><span>Notifications</span></a></li>
+                            <li id="global-menu-news" class="<?= selected("notifications") ?>"><a href="/news/my_news" class="symbol"><span>Notifications</span></a></li>
                             <li id="global-menu-mymenu" class="<?= selected("my-menu") ?>"><a href="/my-menu" class="symbol"><span>My Menu</span></a></li>
                         </ul>
                     </li>

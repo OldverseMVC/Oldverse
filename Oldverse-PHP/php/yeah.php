@@ -51,3 +51,10 @@ $stmt->execute();
 if($stmt->error){
     showJSONError(500, 5654956, "An error occured while inserting/deleting the yeah.");
 }
+if(!$is_yeah){
+    $notif_type = $_GET['type'] == 1 ? 3 : 1;
+    $verbose_type = $_GET['type'] == 1 ? 'replies' : 'posts';
+    if(!sendNotif($user['id'], $row['created_by'], $notif_type, '/'.$verbose_type.'/'.$_GET['id'], $_GET['id'])){
+        showJSONError("An error occured while sending the notification. (but your yeah has been made)");
+    }
+}
