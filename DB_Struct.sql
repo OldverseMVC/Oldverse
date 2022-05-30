@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : Dim 29 mai 2022 à 11:58
+-- Généré le : lun. 30 mai 2022 à 16:05
 -- Version du serveur :  5.7.38-cll-lve
 -- Version de PHP : 7.3.28
 
@@ -67,6 +67,18 @@ CREATE TABLE `empathies` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `favorites`
+--
+
+CREATE TABLE `favorites` (
+  `id` int(11) NOT NULL,
+  `source` int(11) NOT NULL,
+  `target` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `follows`
 --
 
@@ -74,6 +86,23 @@ CREATE TABLE `follows` (
   `id` int(11) NOT NULL,
   `source` int(11) NOT NULL,
   `target` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `news`
+--
+
+CREATE TABLE `news` (
+  `id` int(11) NOT NULL,
+  `source` int(11) NOT NULL,
+  `target` int(11) NOT NULL,
+  `type` tinyint(4) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `is_read` tinyint(1) NOT NULL,
+  `additional_id` int(11) DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -148,6 +177,7 @@ CREATE TABLE `users` (
   `nickname` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `mii_hash` varchar(50) NOT NULL,
+  `nnid` varchar(255) NOT NULL,
   `level` int(11) NOT NULL DEFAULT '0',
   `description` text NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -178,9 +208,21 @@ ALTER TABLE `empathies`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `favorites`
+--
+ALTER TABLE `favorites`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `follows`
 --
 ALTER TABLE `follows`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `news`
+--
+ALTER TABLE `news`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -237,9 +279,21 @@ ALTER TABLE `empathies`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `favorites`
+--
+ALTER TABLE `favorites`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `follows`
 --
 ALTER TABLE `follows`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `news`
+--
+ALTER TABLE `news`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
