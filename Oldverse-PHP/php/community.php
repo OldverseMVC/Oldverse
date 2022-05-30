@@ -50,9 +50,9 @@ $result = $stmt->get_result();
   <div class="feeling-selector"><label class="symbol feeling-button feeling-button-normal checked"><input type="radio" name="feeling_id" value="0" checked=""><span class="symbol-label">normal</span></label><label class="symbol feeling-button feeling-button-happy"><input type="radio" name="feeling_id" value="1"><span class="symbol-label">happy</span></label><label class="symbol feeling-button feeling-button-like"><input type="radio" name="feeling_id" value="2"><span class="symbol-label">like</span></label><label class="symbol feeling-button feeling-button-surprised"><input type="radio" name="feeling_id" value="3"><span class="symbol-label">surprised</span></label><label class="symbol feeling-button feeling-button-frustrated"><input type="radio" name="feeling_id" value="4"><span class="symbol-label">frustrated</span></label><label class="symbol feeling-button feeling-button-puzzled"><input type="radio" name="feeling_id" value="5"><span class="symbol-label">puzzled</span></label>
   </div>
   <textarea name="body" class="textarea-text textarea" maxlength="1000" placeholder="Share your thoughts in a post to this community." data-open-folded-form="" data-required=""></textarea>
-  <br>
-  <br>
  <input type="text" class="textarea-line url-form" name="url" placeholder="URL" maxlength="255">
+     <br>
+    <br>
     <label class="spoiler-button symbol">
     <input type="checkbox" id="is_spoiler" name="is_spoiler" value="1">
     Spoilers
