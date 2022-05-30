@@ -11,8 +11,8 @@ const DB_NAME = "oldverse";
 const TIMEZONE = "America/New_York";
 const SITE_NAME = "Oldverse";
 const MEMO = "".SITE_NAME." is a service that lets you communicate with other players from around the world. It is accessible via PC, Wii U, and systems in the Nintendo 3DS family.";
-const MAJOR = "DevelopmentBuild";
-const MINOR = "20220529";
+const MAJOR = "beta";
+const MINOR = "1.0";
 
 //Forbidden IP list
 /*
