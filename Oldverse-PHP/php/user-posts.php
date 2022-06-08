@@ -59,8 +59,7 @@ $result = $stmt->get_result();
   <div class="tab2 user-menu-activity">
   <a href="/users/<?= $_GET['id'] ?>/posts" class="<?= $_GET['mode']== 1 ? "selected" : ''?>"><span class="label">Posts</span><span class="number"><?= $row['post_num'] ?></span></a>
   <a href="/users/<?= $_GET['id'] ?>/empathies" class="<?= $_GET['mode']== 2 ? "selected" : ''?>"><span class="label">Yeahs</span><span class="number"><?= $row['yeah_num'] ?></span></a>
-</div>
-<?php if($result->num_rows>0){ ?><div class="body-content" id="community-post-list" data-region="">
+</div><div class="body-content" id="community-post-list" data-region="">
         <?php
         if($result->num_rows==0){
             showNoContent("No posts were found.");
@@ -73,5 +72,5 @@ $result = $stmt->get_result();
             echo '</div>';
         }
         ?>
-</div><? } ?>
+</div>
 </div>
