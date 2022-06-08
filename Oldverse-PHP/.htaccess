@@ -25,7 +25,7 @@ RewriteRule ^posts\/([0-9]+)\/empathies(\.delete)?$ php/yeah.php?id=$1&type=0 [L
 RewriteRule ^identified_user_posts$ php/identified_user_posts.php [L,NC,QSA]
 RewriteRule ^my-menu$ php/my-menu.php [L,NC,QSA]
 RewriteRule ^news\/my_news$ php/news.php [L,NC,QSA]
-RewriteRule ^settings\/account$ php/profile-settings.php [L,NC,QSA]
+RewriteRule ^settings\/profile$ php/profile-settings.php [L,NC,QSA]
 RewriteRule ^settings\/admin$ php/admin.php [L,NC,QSA]
 RewriteRule ^settings\/admin\/reports$ php/admin-reports.php [L,NC,QSA]
 RewriteRule ^settings\/admin\/accounts$ php/admin-accounts.php [L,NC,QSA]
