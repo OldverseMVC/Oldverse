@@ -27,7 +27,7 @@ require_once "lib/header.php";
 $user = isset($user) ? $user : null;
 ?>
 <div id="page-title"><? if(!empty($row['community'])){ ?><?= htmlspecialchars($row['name']) ?><? }else{ ?>Activity Feed<? } ?></div>
-<div id="post-content" class="post trigger <?= $row['spoiler']==1 ? 'hidden' : '' ?>" <?= $row['spoiler']==1 ? 'data-href-hidden="/posts/'.$row['id'].'"' : '' ?>>
+<div id="post-content" class="post <?= $row['spoiler']==1 ? 'hidden' : '' ?>" <?= $row['spoiler']==1 ? 'data-href-hidden="/posts/'.$row['id'].'"' : '' ?>>
   <a href="/users/<?= $row['username'] ?>" class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], $row['feeling']) ?>" class="icon"></a>
   <p class="timestamp-container">
     <a class="timestamp" href="/posts/<?= $_GET['id'] ?>"><?= getTimeAgo($row['timestamp']) ?> <?= $row['spoiler']==1 ? '- Spoilers!' : '' ?></a>
