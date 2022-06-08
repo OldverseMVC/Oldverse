@@ -13,6 +13,7 @@
 
 
       <p class="post-content-text"><?= nl2br(htmlspecialchars($row['body'])) ?></p>
+      <? if(!empty($row['screenshot'])){ ?><p class="screenshot-container still-image"><img src="<?= htmlspecialchars($row['screenshot'])?>"></p><? } ?>
       <?
       if($row['spoiler']==1){ ?>
       <div class="hidden-content">

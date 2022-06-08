@@ -10,6 +10,5 @@ if($user["level"] < 1){
     <p>Yup, it's all crap in terms of UI, but at least it works, be happy with it.</p>
     <a id="my-menu-settings-profile" class="scroll big-button" href='/settings/admin/reports'>View Reports</a>
     <a id="my-menu-settings-profile" class="scroll big-button" href='/settings/admin/accounts'>Manage Accounts/posts</a>
-    <a id="my-menu-settings-profile" class="scroll big-button" href='/settings/admin/site'>Site Settings</a>
     <a id="my-menu-logout" class="symbol" href='/my-menu'>Back</a>
 </div>

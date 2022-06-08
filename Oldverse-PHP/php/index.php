@@ -6,7 +6,12 @@ $stmtnewiiu = $db->query("SELECT id, icon, name, type FROM communities WHERE typ
 
 $stmt3ds = $db->query("SELECT id, icon FROM communities WHERE featured = 1 AND type = 1 OR featured = 1 AND type = 2 ORDER BY id DESC LIMIT 10");
 $stmtnew3ds = $db->query("SELECT id, icon, name, type FROM communities WHERE type = 1 OR type = 2 ORDER BY id DESC LIMIT 10");
-//don't ask why I added nin to $3dsrow, because else PHP NOT HAPPI <:()
+if(isset($_SESSION['username'])){
+    $stmtfav = $db->prepare("SELECT communities.id, icon, name, type FROM favorites LEFT JOIN communities ON target = communities.id WHERE source = ? ORDER BY favorites.id");
+    $stmtfav->bind_param('i', $user['id']);
+    $stmtfav->execute();
+    $resultfav = $stmtfav->get_result();
+}
 if(!isset($_SESSION['username'])){
 ?>
 <h2 class="welcome-message">Welcome to <?=SITE_NAME?>!</h2>
@@ -22,6 +27,21 @@ if(!isset($_SESSION['username'])){
       <input type="text" name="query" placeholder="Search Communities" minlength="2"/><input type="submit" value="q" title="Search"/>
     </form>
   </div>
+  <? if(isset($_SESSION['username']) && $resultfav->num_rows > 0) {?>
+  <h3 class="label">Favorite Communities</h3>
+    <ul class="list community-list community-title-list">
+        <?php
+        while($row = $resultfav->fetch_array()){ ?>
+        <li id="community-<?= $row['id'] ?>" class="trigger" data-href="/communities/<?= $row['id'] ?>" tabindex="0">
+          <span class="icon-container"><img src="<?= htmlspecialchars($row['icon'])?>" class="icon"></span>
+          <div class="body">
+              <a class="title" href="/communities/<?= $row['id'] ?>"><?= htmlspecialchars($row['name']) ?></a>
+              <?= getCommunityType($row['type']) ?>
+          </div>
+        </li>
+        <?php } ?>
+    </ul>
+    <? } ?>
 
   <div id="identified-user-banner">
     <a href="/identified_user_posts" data-pjax="#body" class="list-button us">
@@ -29,6 +49,13 @@ if(!isset($_SESSION['username'])){
       <span class="text">Posts from Verified Users</span>
     </a>
   </div>
+  <div class="close-announce-container">
+    <div class="close-announce-content">
+        <div class="symbol close-announce-link">
+            <a class="title" href="/posts/45">Important announcement</a>
+        </div>
+    </div>
+    </div>
   <div class="platform-tab">
     <a id="tab-wiiu" data-platform="wiiu" class="trigger selected" tabindex="0"><span>Wii U Communities</span></a>
     <a id="tab-3ds" data-platform="3ds" class="trigger" tabindex="0"><span>3DS Communities</span></a>
@@ -93,3 +120,7 @@ if(!isset($_SESSION['username'])){
   <a href="/codeofconduct" class="arrow-button"><span><?= SITE_NAME ?> Code of Conduct</span></a>
   <a href="https://github.com/Rix565/Oldverse" class="arrow-button"><span>Oldverse on GitHub</span></a>
 </div>
+<ul id="footer-selector">
+    <li><strong>Made with <3 by Oldverse Team</strong></li>
+    <li>This website is <strong>not-for-profit</strong>, please support Nintendo instead.</li>
+</ul>

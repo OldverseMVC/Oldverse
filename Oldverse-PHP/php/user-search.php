@@ -45,7 +45,7 @@ $resultrandom = $stmt->get_result();
 <h2 class="label">Recommended Users</h2>
  <ul class="list-content-with-icon-and-text arrow-list" id="following-list-content" data-next-page-url="">
     <?
-    if($result->num_rows==0){
+    if($resultrandom->num_rows==0){
         showNoContent("No user was found.");
         exit;
     }

@@ -38,7 +38,15 @@ if(empty($_POST['community'])) {
 if(empty($_POST['is_spoiler'])) {
     $_POST['is_spoiler'] = 0;
 }
-$screenshot = null;
+if(!empty($_POST['url']) && !preg_match('|(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', $_POST['url'])){
+     showJSONError(400, 584694, 'Invalid URL.');
+}
+if(empty($_POST['screenshot'])){
+    $_POST['screenshot'] = null;
+}
+if(!empty($_POST['screenshot']) && !preg_match('|(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', $_POST['screenshot'])){
+     showJSONError(400, 584694, 'Invalid screenshot URL.');
+}
 $stmt = $db->prepare('SELECT COUNT(*) FROM posts WHERE created_by = ? AND created_at > NOW() - INTERVAL '.rand(15,20).' SECOND');
 $stmt->bind_param('i', $user['id']);
 $stmt->execute();
@@ -51,12 +59,12 @@ if($row['COUNT(*)'] > 0) {
     showJSONError(403, 1213005, 'You\'re making too many posts in quick succession. Please try again in a moment.');
 }
 $stmt = $db->prepare("INSERT INTO `posts`(community, created_by, body, url, screenshot, spoiler, feeling) VALUES (?, ?, ?, ?, ?, ?, ?)");
-$stmt->bind_param('iisssii', $_POST['community'], $user['id'], $_POST['body'], $_POST['url'], $screenshot, $_POST['is_spoiler'], $_POST['feeling_id']);
+$stmt->bind_param('iisssii', $_POST['community'], $user['id'], $_POST['body'], $_POST['url'], $_POST['screenshot'], $_POST['is_spoiler'], $_POST['feeling_id']);
 $stmt->execute();
 if($stmt->error){
     showJSONError(500, 5655255, "An error occured while inserting the post in the database.");
 }
-$stmt = $db->prepare("SELECT posts.id, community, created_by, body, url, screenshot, spoiler, feeling, created_at, mii_hash, username, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count,  (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE created_by = ? ORDER BY id DESC LIMIT 1");
+$stmt = $db->prepare("SELECT posts.id, community, created_by, body, posts.url, screenshot, spoiler, feeling, created_at, mii_hash, username, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count,  (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE created_by = ? ORDER BY id DESC LIMIT 1");
 $stmt->bind_param('i', $user['id']);
 $stmt->execute();
 if($stmt->error){

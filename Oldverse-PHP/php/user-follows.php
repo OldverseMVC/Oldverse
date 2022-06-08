@@ -39,6 +39,10 @@ $result = $stmt->get_result();
       <span class="number"><?= $row['post_num'] ?></span>
       <span class="name">Posts</span>
     </a>
+    <a href="/users/<?= htmlspecialchars($_GET['id']) ?>/posts">
+      <span class="number">0 / 100</span>
+      <span class="name">Friends</span>
+    </a>
     <a href="/users/<?= htmlspecialchars($_GET['id']) ?>/following" class="<?= $_GET['mode']==1 ? 'selected' : '' ?>">
       <span class="number"><?= $row['followed_num'] ?></span>
       <span class="name">Following</span>
@@ -46,10 +50,6 @@ $result = $stmt->get_result();
     <a href="/users/<?= htmlspecialchars($_GET['id']) ?>/followers" class="<?= $_GET['mode']==2 ? 'selected' : '' ?>">
       <span class="number"><?= $row['follow_num'] ?></span>
       <span class="name">Followers</span>
-    </a>
-    <a href="/users/<?= htmlspecialchars($_GET['id']) ?>">
-      <span class="number">something</span>
-      <span class="name">i guess</span>
     </a>
   </div>
 </div>

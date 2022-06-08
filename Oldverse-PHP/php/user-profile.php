@@ -3,7 +3,7 @@ require_once "lib/connect.php";
 if(!isset($_GET['id'])){
     showError(400, 'You must precise an user ID.');
 }
-$stmt = $db->prepare("SELECT id, nickname, mii_hash, description, created_on, level, nnid, (SELECT COUNT(*) FROM posts WHERE created_by = users.id) AS post_num, (SELECT COUNT(*) FROM follows WHERE target = users.id) AS follow_num, (SELECT COUNT(*) FROM follows WHERE source = users.id) AS followed_num FROM users WHERE username = ?");
+$stmt = $db->prepare("SELECT id, nickname, mii_hash, description, created_on, level, nnid, url, (SELECT COUNT(*) FROM posts WHERE created_by = users.id) AS post_num, (SELECT COUNT(*) FROM follows WHERE target = users.id) AS follow_num, (SELECT COUNT(*) FROM follows WHERE source = users.id) AS followed_num FROM users WHERE username = ?");
 $stmt->bind_param('s', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -22,13 +22,18 @@ if(isset($_SESSION['token']) && $user['id'] !== $row['id']){
     $stmt->execute();
     $result = $stmt->get_result();
     $is_follow = $result->num_rows==0 ? false : true;
+}
+if(empty($row['url'])){
+    $row['url'] = "Not Set";
+}else{
+    $row['url'] = "<a href='".htmlspecialchars($row['url'])."'>".htmlspecialchars($row['url'])."</a>";
 }?>
 <div class="user-page">
 <div id="user-content" class=" no-profile-post-user">
     <span class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], 0)?>" class="icon"></span>
 	    <div class="nick-name"><?= htmlspecialchars($row['nickname'])?><span class="id-name"><?= htmlspecialchars($_GET['id']) ?></span></div>
     <div id="user-menu">
-      <? if(isset($_SESSION['token']) && $row['id']==$user['id']){ ?><div id="edit-profile-settings"><a class="button symbol" href="/settings/account">Profile Settings</a></div><? } ?>
+      <? if(isset($_SESSION['token']) && $row['id']==$user['id']){ ?><div id="edit-profile-settings"><a class="button symbol" href="/settings/profile">Profile Settings</a></div><? } ?>
     </div>
     <div class="user-action-content">
         <div class="toggle-button">
@@ -40,6 +45,10 @@ if(isset($_SESSION['token']) && $user['id'] !== $row['id']){
       <span class="number"><?= $row['post_num'] ?></span>
       <span class="name">Posts</span>
     </a>
+    <a href="/users/<?= htmlspecialchars($_GET['id']) ?>/posts" class="<?= $_SERVER['REQUEST_URI']=='/users/'.$username.'/posts' || $_SERVER['REQUEST_URI']=='/users/'.$username.'/yeahs' ? 'selected' : '' ?> ? 'selected' : '' ?>">
+      <span class="number">0 / 100</span>
+      <span class="name">Friends</span>
+    </a>
     <a href="/users/<?= htmlspecialchars($_GET['id']) ?>/following" class="<?= $_SERVER['REQUEST_URI']=='/users/'.$username.'/following' ? 'selected' : '' ?>">
       <span class="number"><?= $row['followed_num'] ?></span>
       <span class="name">Following</span>
@@ -47,10 +56,6 @@ if(isset($_SESSION['token']) && $user['id'] !== $row['id']){
     <a href="/users/<?= htmlspecialchars($_GET['id']) ?>/followers" class="<?= $_SERVER['REQUEST_URI']=='/users/'.$username.'/followers' ? 'selected' : '' ?>">
       <span class="number"><?= $row['follow_num'] ?></span>
       <span class="name">Followers</span>
-    </a>
-    <a href="/users/<?= htmlspecialchars($_GET['id']) ?>" class="<?= $_SERVER['REQUEST_URI']=='/users/'.$username ? 'selected' : '' ?>">
-      <span class="number">something</span>
-      <span class="name">i guess</span>
     </a>
   </div>
 </div>
@@ -95,5 +100,9 @@ if(!empty($row['description'])){?>
   <div class="user-main-profile data-content">
       <h4><span>NNID</span></h4>
       <div class="note"><?= htmlspecialchars($row['nnid']) ?></div>
+  </div>
+  <div class="user-main-profile data-content">
+      <h4><span>Custom URL</span></h4>
+      <div class="note"><?= $row['url'] ?></div>
   </div>
 </div>

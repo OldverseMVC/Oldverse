@@ -25,9 +25,9 @@ if(empty($_GET['offset'])){
     $_GET['offset'] = 0;
 }
 if($_GET['mode']==1){
-    $stmt = $db->prepare("SELECT posts.id, community, created_by, body, url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE created_by = ? ORDER BY posts.id DESC LIMIT 20 OFFSET ?");
+    $stmt = $db->prepare("SELECT posts.id, community, created_by, body, posts.url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE created_by = ? ORDER BY posts.id DESC LIMIT 20 OFFSET ?");
 }else{
-    $stmt = $db->prepare("SELECT posts.id, community, created_by, body, url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM empathies LEFT JOIN posts ON target = posts.id LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE empathies.source = ? AND empathies.type = 0 ORDER BY empathies.id DESC LIMIT 20 OFFSET ?");
+    $stmt = $db->prepare("SELECT posts.id, community, created_by, body, posts.url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM empathies LEFT JOIN posts ON target = posts.id LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE empathies.source = ? AND empathies.type = 0 ORDER BY empathies.id DESC LIMIT 20 OFFSET ?");
 }
 $stmt->bind_param('ii', $row['id'], $_GET['offset']);
 $stmt->execute();
@@ -43,6 +43,10 @@ $result = $stmt->get_result();
       <span class="number"><?= $row['post_num'] ?></span>
       <span class="name">Posts</span>
     </a>
+    <a href="/users/<?= htmlspecialchars($_GET['id']) ?>/posts" class="">
+      <span class="number">0 / 100</span>
+      <span class="name">Friends</span>
+    </a>
     <a href="/users/<?= htmlspecialchars($_GET['id']) ?>/following">
       <span class="number"><?= $row['followed_num'] ?></span>
       <span class="name">Following</span>
@@ -50,10 +54,6 @@ $result = $stmt->get_result();
     <a href="/users/<?= htmlspecialchars($_GET['id']) ?>/followers">
       <span class="number"><?= $row['follow_num'] ?></span>
       <span class="name">Followers</span>
-    </a>
-    <a href="/users/<?= htmlspecialchars($_GET['id']) ?>">
-      <span class="number">something</span>
-      <span class="name">i guess</span>
     </a>
   </div>
   <div class="tab2 user-menu-activity">

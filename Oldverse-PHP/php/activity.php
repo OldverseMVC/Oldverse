@@ -9,8 +9,9 @@ requireAuth();
 <form id="post-form" method="post" action="/activity/post" class="folded for-identified-users">
   <div class="feeling-selector"><label class="symbol feeling-button feeling-button-normal checked"><input type="radio" name="feeling_id" value="0" checked=""><span class="symbol-label">normal</span></label><label class="symbol feeling-button feeling-button-happy"><input type="radio" name="feeling_id" value="1"><span class="symbol-label">happy</span></label><label class="symbol feeling-button feeling-button-like"><input type="radio" name="feeling_id" value="2"><span class="symbol-label">like</span></label><label class="symbol feeling-button feeling-button-surprised"><input type="radio" name="feeling_id" value="3"><span class="symbol-label">surprised</span></label><label class="symbol feeling-button feeling-button-frustrated"><input type="radio" name="feeling_id" value="4"><span class="symbol-label">frustrated</span></label><label class="symbol feeling-button feeling-button-puzzled"><input type="radio" name="feeling_id" value="5"><span class="symbol-label">puzzled</span></label>
   </div>
-  <textarea name="body" class="textarea-text textarea" maxlength="1000" placeholder="Share your thoughts in a post to your activity feed." data-open-folded-form="" data-required=""></textarea>
+  <textarea name="body" class="textarea-text textarea" maxlength="1000" placeholder="Share your thoughts in a post to your followers." data-open-folded-form="" data-required=""></textarea>
  <input type="text" class="textarea-line url-form" name="url" placeholder="URL" maxlength="255">
+  <input type="text" class="textarea-line url-form" name="screenshot" placeholder="Screenshot URL" maxlength="255">
  <br>
  <br>
     <label class="spoiler-button symbol">
@@ -43,7 +44,7 @@ while($row = $result->fetch_array()){
 if(empty($_GET['offset'])){
     $_GET['offset'] = 0;
 }
-$stmt = $db->prepare("SELECT posts.id, community, created_by, body, url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE ".$users." ORDER BY posts.id DESC LIMIT 20 OFFSET ?");
+$stmt = $db->prepare("SELECT posts.id, community, created_by, body, posts.url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE ".$users." ORDER BY posts.id DESC LIMIT 20 OFFSET ?");
 $stmt->bind_param('i', $_GET['offset']);
 $stmt->execute();
 $result = $stmt->get_result();?>

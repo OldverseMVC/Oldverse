@@ -11,9 +11,9 @@ if(isset($_SESSION["username"])){
 }
 ?>
 <h2 class="headline">User Menu</h2><div class="list my-menu-list">
-    <a id="my-menu-settings-profile" class="scroll big-button" onClick='window.location = "/settings/account"'>Account Settings</a>
+    <a id="my-menu-settings-profile" class="scroll big-button" href="/settings/profile">Profile Settings</a>
     <?php if($adminrow["level"] > 1){ ?>
-    <a id="my-menu-settings-profile" class="scroll big-button" onClick='window.location = "/settings/admin"'>Admin Panel</a>
+    <a id="my-menu-settings-profile" class="scroll big-button" href="/settings/admin">Admin Panel</a>
     <?php } ?>
     <form action="/account/logout" method="get" id="my-menu-logout" class="symbol">
         <input type="hidden" name="location" value="/">

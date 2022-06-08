@@ -83,7 +83,7 @@ function getUser($token){
         return 'no_user';
     }
     $row = $result->fetch_array();
-    $stmt = $db->prepare("SELECT id, username, mii_hash, level FROM users WHERE id = ?");
+    $stmt = $db->prepare("SELECT id, username, mii_hash, level, password FROM users WHERE id = ?");
     $stmt->bind_param('i', $row['user']);
     $stmt->execute();
     if($stmt->error){

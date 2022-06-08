@@ -2,7 +2,7 @@
 $title = "Notifications";
 require_once "lib/header.php";
 requireAuth();
-$stmt = $db->prepare("SELECT news.id, type, url, username, nickname, mii_hash, level, is_read, additional_id, (SELECT UNIX_TIMESTAMP(news.timestamp)) AS tmstp FROM news LEFT JOIN users ON source = users.id WHERE target = ? ORDER BY news.id DESC LIMIT 20");
+$stmt = $db->prepare("SELECT news.id, type, news.url, username, nickname, mii_hash, level, is_read, additional_id, (SELECT UNIX_TIMESTAMP(news.timestamp)) AS tmstp FROM news LEFT JOIN users ON source = users.id WHERE target = ? ORDER BY news.id DESC LIMIT 20");
 $stmt->bind_param('i', $user['id']);
 $stmt->execute();
 if($stmt->error){
