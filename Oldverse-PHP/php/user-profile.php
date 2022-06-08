@@ -37,7 +37,7 @@ if(empty($row['url'])){
     </div>
     <div class="user-action-content">
         <div class="toggle-button">
-            <? if(isset($_SESSION['token']) && $user['id']!==$row['id']){ ?><button type="button" data-action="/users/<?= $_GET['id'] ?>.follow.json" class="follow-button button symbol <?= $is_follow ? 'none' : '' ?>">Follow</button><button type="button" data-action="/users/<?= $_GET['id'] ?>.unfollow.json" class="follow-button button symbol <?= $is_follow ? '' : 'none' ?>">Unfollow</button><? } ?>
+            <? if(isset($_SESSION['token']) && $user['id']!==$row['id']){ ?><button type="button" data-action="/users/<?= $_GET['id'] ?>.follow.json" class="follow-button button symbol <?= $is_follow ? 'none' : '' ?>">Follow</button><button type="button" data-action="/users/<?= $_GET['id'] ?>.unfollow.json" class="unfollow-button button symbol <?= $is_follow ? '' : 'none' ?>">Unfollow</button><? } ?>
         </div>
     </div>
   </div><div id="nav-menu" class="nav-4">
