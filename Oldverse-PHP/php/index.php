@@ -49,13 +49,6 @@ if(!isset($_SESSION['username'])){
       <span class="text">Posts from Verified Users</span>
     </a>
   </div>
-  <div class="close-announce-container">
-    <div class="close-announce-content">
-        <div class="symbol close-announce-link">
-            <a class="title" href="/posts/45">Important announcement</a>
-        </div>
-    </div>
-    </div>
   <div class="platform-tab">
     <a id="tab-wiiu" data-platform="wiiu" class="trigger selected" tabindex="0"><span>Wii U Communities</span></a>
     <a id="tab-3ds" data-platform="3ds" class="trigger" tabindex="0"><span>3DS Communities</span></a>
