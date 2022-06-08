@@ -51,23 +51,19 @@ $custom_id = isset($custom_id) ? $custom_id : null;
                 <?php
                 if(isset($_SESSION['username'])){ ?>
                 <menu id="global-menu">
-                    <li id="global-menu-list">
-                        <ul>
-                            <li id="global-menu-logo"><h1><img src="/assets/img/menu-logo.png" alt="Oldverse" width="200" height="55"></h1></li>
-                            <li id="global-menu-mymenu" class="<?= selected("my-userpage", $user['username']) ?>">
-                                <a href="/users/<?= $_SESSION['username'] ?>">
-                                    <span class="icon-container <?= $user['level'] > 0 ? 'official-user' : ''?>">
-                                        <img src="<?= getAvatar($user['mii_hash'], 0) ?>" alt="User Page">
-                                    </span>
-                                    <span>User Page</span>
-                                </a>
-                            </li>
-                            <li id="global-menu-feed" class="<?= selected("activity") ?>"><a href="/activity" class="symbol"><span>Activity Feed</span></a></li>
-                            <li id="global-menu-community" class="<?= selected("communities") ?>"><a href="/" class="symbol"><span>Communities</span></a></li>
-                            <li id="global-menu-news" class="<?= selected("notifications") ?>"><a href="/news/my_news" class="symbol"><span>Notifications</span></a></li>
-                            <li id="global-menu-mymenu" class="<?= selected("my-menu") ?>"><a href="/my-menu" class="symbol"><span>My Menu</span></a></li>
-                        </ul>
+                    <li id="global-menu-logo"><h1><img src="/assets/img/menu-logo.png" alt="Oldverse" width="200" height="55"></h1></li>
+                    <li id="global-menu-mymenu" class="<?= selected("my-userpage", $user['username']) ?>">
+                        <a href="/users/<?= $_SESSION['username'] ?>">
+                            <span class="icon-container <?= $user['level'] > 0 ? 'official-user' : ''?>">
+                                <img src="<?= getAvatar($user['mii_hash'], 0) ?>" alt="User Page">
+                            </span>
+                            <span>User Page</span>
+                        </a>
                     </li>
+                    <li id="global-menu-feed" class="<?= selected("activity") ?>"><a href="/activity" class="symbol"><span>Activity Feed</span></a></li>
+                    <li id="global-menu-community" class="<?= selected("communities") ?>"><a href="/" class="symbol"><span>Communities</span></a></li>
+                    <li id="global-menu-news" class="<?= selected("notifications") ?>"><a href="/news/my_news" class="symbol"><span>Notifications</span></a></li>
+                    <li id="global-menu-mymenu" class="<?= selected("my-menu") ?>"><a href="/my-menu" class="symbol"><span>My Menu</span></a></li>
                 </menu>
                 <?php } ?>
             </div>

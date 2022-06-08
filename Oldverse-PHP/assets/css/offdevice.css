@@ -1,4 +1,9 @@
 @charset 'UTF-8';
+/*
+offdevice.css originally created by Hatena/Nintendo in 2014.
+
+Modified for Oldverse needs.
+*/
 @font-face {
   font-family: 'MiiverseSymbols';
   src: url('/assets/img/font/MiiverseSymbols-Regular.eot?pJ0DV8vwpdSjNq9QtO15_Q');
@@ -576,8 +581,12 @@ html.os-mac body {
   content: 'n';
 }
 #global-menu li#global-menu-feed a:before,
-#global-menu li#global-menu-news a:before {
+#global-menu li#global-menu-news a:before,
+#global-menu li#global-menu-mymenu a:before{
   text-indent: -44px;
+}
+#global-menu li#global-menu-mymenu a:before {
+  content: 'Z';
 }
 #global-menu .selected a {
   color: #3caa00;
@@ -6520,7 +6529,6 @@ body.search .no-title-content p {
     background-color: transparent;
   }
   #global-menu li a:before {
-    position: relative;
     text-indent: 0 !important;
     line-height: 51px;
   }
@@ -6528,7 +6536,8 @@ body.search .no-title-content p {
     display: none;
   }
   #global-menu li a li#global-menu-feed a:before,
-  #global-menu li a li#global-menu-news a:before {
+  #global-menu li a li#global-menu-news a:before,
+  #global-menu li a li#global-menu-mymenu a:before{
     text-indent: 0;
   }
   #global-menu li#global-menu-mymenu a span.icon-container {
@@ -8313,26 +8322,49 @@ body.search .no-title-content p {
   height: auto;
   padding: 15px 15px 15px 10px;
 }
-
-
-/*
-     FILE ARCHIVED ON 01:07:08 Jul 31, 2015 AND RETRIEVED FROM THE
-     INTERNET ARCHIVE ON 22:57:42 May 26, 2022.
-     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
-
-     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
-     SECTION 108(a)(3)).
-*/
-/*
-playback timings (ms):
-  captures_list: 318.386
-  exclusion.robots: 0.09
-  exclusion.robots.policy: 0.084
-  RedisCDXSource: 12.001
-  esindex: 0.007
-  LoadShardBlock: 282.247 (3)
-  PetaboxLoader3.datanode: 126.372 (4)
-  CDXLines.iter: 21.688 (3)
-  PetaboxLoader3.resolve: 283.164 (2)
-  load_resource: 145.856
-*/
+.close-announce-container {
+  background-color: rgba(0, 0, 0, 0.06);
+  padding: 10px 10px 5px;
+  margin-bottom: 10px;
+  display: block;
+  text-align: center;
+}
+.close-announce-link {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  -webkit-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  text-align: left;
+  background: #fff9cd;
+  margin-bottom: 5px;
+  position: relative;
+}
+.close-announce-link:hover {
+  background-color: #fffce4;
+}
+.close-announce-link:before {
+  font-size: 14px;
+  content: 'A';
+  color: #FF9100;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  margin-top: -9px;
+}
+.close-announce-link .title {
+  font-size: 16px;
+  font-weight: bold;
+  display: block;
+  color: #FF9100;
+  padding: 10px 25px 8px 10px;
+  line-height: 1.3em;
+}
