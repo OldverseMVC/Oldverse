@@ -11,3 +11,5 @@ yes. nobody did that in a while, so we're starting this popular trend again.
 # Do I have the right to use this.
 
 Yes, due to this having a open-source license, but please GOD, don't use this for your 458484894849849844982191929852985895th clone.
+# Does it will be updated over time
+i don't think, codebase has since matured and is safe of use.
