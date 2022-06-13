@@ -34,8 +34,8 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
             goto showForm;
         }
     }
-    $stmt = $db->prepare("INSERT INTO `users`(`username`, `nickname`, `password`, `mii_hash`, `nnid`) VALUES(?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $_POST['username'], $_POST['nickname'], $hash_pass, $hash, $_POST['nnid']);
+    $stmt = $db->prepare("INSERT INTO `users`(`username`, `nickname`, `password`, `mii_hash`, `nnid`, `ip`) VALUES(?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $_POST['username'], $_POST['nickname'], $hash_pass, $hash, $_POST['nnid'], $_SERVER['REMOTE_ADDR']);
     $stmt->execute();
     if($stmt->error){
         $error = "An error occured while inserting your user into the database.";
