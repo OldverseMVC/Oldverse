@@ -181,7 +181,8 @@ CREATE TABLE `users` (
   `level` int(11) NOT NULL DEFAULT '0',
   `description` text NOT NULL,
   `url` varchar(255) NOT NULL DEFAULT '',
-  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ip` varchar(255) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
