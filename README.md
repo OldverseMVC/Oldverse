@@ -13,3 +13,5 @@ yes. nobody did that in a while, so we're starting this popular trend again.
 Yes, due to this having a open-source license, but please GOD, don't use this for your 458484894849849844982191929852985895th clone.
 # Does it will be updated over time
 i don't think, codebase has since matured and is safe of use.
+# is the official instance gone
+yup, due to adam-the-shitty being an idiot and shutted down the hosting oldverse used.
