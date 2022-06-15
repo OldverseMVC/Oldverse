@@ -17,7 +17,7 @@ $resultrandom = $stmt->get_result();
 <div class="body-content" id="search-top" data-region="USA">
     <div class="headline">
     <h2 class="headline-text">Search Users - "<?=htmlspecialchars($_GET["query"])?>"</h2>
-    <form method="GET" action="/communities/search" class="search">
+    <form method="GET" action="/users" class="search">
       <input type="text" name="query" placeholder="Search Users" minlength="2" value="<?= htmlspecialchars($_GET['query']) ?>"/><input type="submit" value="q" title="Search"/>
     </form>
     </div>
