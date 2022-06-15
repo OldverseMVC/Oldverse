@@ -33,13 +33,16 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         $stmt->bind_param('si', $hash_pass, $user['id']);
         $stmt->execute();
     }
-    $stmt = $db->prepare("UPDATE users SET description = ?, nnid = ?, mii_hash = ?, url = ? WHERE id = ?");
-    $stmt->bind_param('ssssi', $_POST['profile_comment'], $_POST['nnid'], $hash, $_POST['url'], $user['id']);
+    if(empty($_POST['nickname'])){
+        showJSONError(400, 5156458, 'An nickname cannot be empty.');
+    }
+    $stmt = $db->prepare("UPDATE users SET description = ?, nnid = ?, mii_hash = ?, url = ?, nickname = ? WHERE id = ?");
+    $stmt->bind_param('sssssi', $_POST['profile_comment'], $_POST['nnid'], $hash, $_POST['url'], $_POST['nickname'], $user['id']);
     $stmt->execute();
 }
 $title = "Profile Settings";
 require_once "lib/header.php";
-$stmt = $db->prepare("SELECT description, nnid, url, password FROM users WHERE id = ?");
+$stmt = $db->prepare("SELECT nickname, description, nnid, url, password FROM users WHERE id = ?");
 $stmt->bind_param('i', $user['id']);
 $stmt->execute();
 if($stmt->error){
@@ -51,6 +54,10 @@ $row = $result->fetch_array();
 <h2 class="headline">Profile Settings</h2>
     <form id="profile-settings-form" class="setting-form" method="post" action="/settings/profile">
   <ul class="settings-list">
+    <li class="setting-profile-comment">
+      <p class="settings-label">Nickname</p>
+      <input type="text" class="textarea-line url-form" name="nickname" placeholder="Nickname" value="<?= $row['nickname'] ?>">
+    </li>
     <li class="setting-profile-comment">
       <p class="settings-label">Profile Comment</p>
       <textarea id="profile-text" class="textarea" name="profile_comment" maxlength="1000" placeholder="Write about yourself here."><?= $row['description'] ?></textarea>
