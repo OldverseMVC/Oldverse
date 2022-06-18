@@ -1,14 +1,39 @@
 <?php
-$title = "Admin Panel";
-require_once "lib/header.php";
-requireAuth();
-if($user["level"] < 1){
-    showError(403, "You're not allowed to access this page.");
-}
+require_once "lib/adm-header.php";
+if(!isset($_SESSION['token'])){
 ?>
-<h2 class="headline">Admin Panel</h2><div class="list my-menu-list">
-    <p>Yup, it's all crap in terms of UI, but at least it works, be happy with it.</p>
-    <a id="my-menu-settings-profile" class="scroll big-button" href='/settings/admin/reports'>View Reports</a>
-    <a id="my-menu-settings-profile" class="scroll big-button" href='/settings/admin/accounts'>Manage Accounts/posts</a>
-    <a id="my-menu-logout" class="symbol" href='/my-menu'>Back</a>
+<div class="mainContainer">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="form-signin">
+            <div class="text-center">
+                <img src="/assets/img/apple-touch-icon-144x144.png">
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <a href="/account/login" class="btn btn-primary btn-block">Login with an Oldverse account</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<?
+}else{?>
+<div class="mainContainer">
+    <div class="col-md-6 col-md-offset-3">
+        <h1>Oldverse Administration</h1>
+        <a href="/">Home</a>
+        <?
+        if($user['level']<1){?>
+            <p class="red">You don't have any admin permissions. Access denied.</p>
+        <?}else{ ?>
+        <p>Welcome to Oldverse admin panel! This is mostly as WIP, but things are getting added! Hope you'll enjoy it....</p>
+        <h2>List of admin actions</h2>
+        <ul>
+            <li><a href="/settings/admin/accounts">Account/Posts management</a></li>
+            <li><a href="/settings/admin/reports">Reports management</a></li>
+        </ul>
+        <? } ?>
+    </div>
+</div>
+<?}
+?>

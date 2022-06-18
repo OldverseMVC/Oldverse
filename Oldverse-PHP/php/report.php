@@ -20,8 +20,6 @@ $report = $db->prepare("INSERT INTO reports (`id`, `type`, `source`, `target`, `
 $report->bind_param("iiis", $_POST["type"], $user["id"], $_GET["id"], $_POST["body"]);
 $report->execute();
 if($report->error){
-    showJSONError(500, 500100, 'An error occurred while trying to submit your report. '.$report->error.'');
-} else {
-    echo "";
+    showJSONError(500, 500100, 'An error occurred while trying to submit your report. ');
 }
 ?>
