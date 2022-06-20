@@ -25,8 +25,8 @@ $result = $stmt->get_result();
                 $bresult = $stmt->get_result();
                 $brow = $bresult->fetch_array();
                 $drycut = substr($brow['body'], 0, 50);
-                $cut = $drycut == $brow['body'] ? $brow['body'] : $drycut."...";
-                $builded_type = " yeahed your post (".htmlspecialchars($cut).")";
+                $cut = $drycut == $brow['body'] ? getBody(htmlspecialchars($brow['body'])) : getBody(htmlspecialchars($drycut))."...";                
+                $builded_type = " yeahed your post (".$cut.")";
                 break;
             case 2:
                 $stmt = $db->prepare("SELECT body FROM posts WHERE id = ?");
@@ -35,8 +35,8 @@ $result = $stmt->get_result();
                 $bresult = $stmt->get_result();
                 $brow = $bresult->fetch_array();
                 $drycut = substr($brow['body'], 0, 50);
-                $cut = $drycut == $brow['body'] ? $brow['body'] : $drycut."...";
-                $builded_type = " commented on your post (".htmlspecialchars($cut).")";
+                $cut = $drycut == $brow['body'] ? getBody(htmlspecialchars($brow['body'])) : getBody(htmlspecialchars($drycut))."...";  
+                $builded_type = " commented on your post (".$cut.")";
                 break;
             case 3:
                 $stmt = $db->prepare("SELECT body FROM replies WHERE id = ?");
@@ -45,8 +45,8 @@ $result = $stmt->get_result();
                 $bresult = $stmt->get_result();
                 $brow = $bresult->fetch_array();
                 $drycut = substr($brow['body'], 0, 50);
-                $cut = $drycut == $brow['body'] ? $brow['body'] : $drycut."...";
-                $builded_type = " yeahed your reply (".htmlspecialchars($cut).")";
+                $cut = $drycut == $brow['body'] ? getBody(htmlspecialchars($brow['body'])) : getBody(htmlspecialchars($drycut))."...";  
+                $builded_type = " yeahed your reply (".$cut.")";
                 break;
             case 4:
                 $builded_type = " followed you";
