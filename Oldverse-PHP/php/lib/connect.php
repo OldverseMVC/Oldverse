@@ -316,3 +316,10 @@ function sendNotif($source, $target, $type, $url, $additional_id=null){
     }
     return true;
 }
+function getBody($body){
+    $body = nl2br(htmlspecialchars($body));
+    foreach(EMOJIS as $key => $value){
+        $body = preg_replace('|:'.$key.':|', '<img src="'.$value.'" width="18" height="18">', $body);
+    }
+    return $body;
+}

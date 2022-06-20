@@ -15,6 +15,7 @@ if(isset($_SESSION["username"])){
     <?php if($adminrow["level"] > 1){ ?>
     <a id="my-menu-settings-profile" class="scroll big-button" href="/settings/admin">Admin Panel</a>
     <?php } ?>
+    <a id="my-menu-settings-account" class="scroll big-button" href="/emoji-list">Emoji List</a>
     <form action="/account/logout" method="get" id="my-menu-logout" class="symbol">
         <input type="hidden" name="location" value="/">
         <input type="submit" value="Log Out">

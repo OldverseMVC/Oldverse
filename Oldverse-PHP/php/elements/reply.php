@@ -9,7 +9,7 @@
     </p>
     </div>
     
-      <p class="reply-content-text"><?= nl2br(htmlspecialchars($row['body'])) ?></p>
+      <p class="reply-content-text"><?= getBody($row['body']) ?></p>
     
     <? if($row['spoiler']==1){ ?>
       <div class="hidden-content">

@@ -25,7 +25,7 @@ $user = isset($user) ? $user : null;
     <p class="timestamp-container"><span class="timestamp" href="/posts/<?= $_GET['id'] ?>"><?= getTimeAgo($row['timestamp']) ?> <?= $row['spoiler']==1 ? '- Spoilers!' : '' ?></span></p>
     <p class="user-name"><a href="/users/<?= htmlspecialchars($row['username']) ?>"><?= htmlspecialchars($row['nickname']) ?></a></p>
      <p class="community-container"> <? if(!empty($row['community'])){ ?><a href="/communities/<?= $row['community'] ?>"><img src="<?= $row['icon'] ?>" class="community-icon"><?= htmlspecialchars($row['name']) ?></a><? }else{ ?><a href="/activity"><img src="" class="community-icon">Activity Feed</a><? } ?></p><div class="body">
-    <p class="reply-content-text"><?= nl2br(htmlspecialchars($row['body']))?></p>
+    <p class="reply-content-text"><?= getBody($row['body']) ?></p>
 
     <div class="post-meta">
         <button type="button" class="symbol submit empathy-button <?= checkIfYeah($user['id'], $row['id'], true) ?> <?= !isset($_SESSION['token']) || $row['created_by']==$user['id'] ? 'disabled" disabled' : '"' ?> data-feeling="<?= getFeeling($row['feeling']) ?>" data-action="/replies/<?= $row['id'] ?>/empathies" ><span class="empathy-button-text"><?= getYeahText($row['feeling'], checkIfYeah($user['id'], $row['id'], true)) ?></span></button>
