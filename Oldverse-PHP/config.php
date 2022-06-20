@@ -32,4 +32,4 @@ const SIGNUP_CLOSED = false;
 // ----------------------EMOJIS------------------------
 
 //In this category you can setup custom emojis that can be sent in a message like this :emojiname: (like discord) (18x18)
-const EMOJIS = "oldverse"=>"/assets/img/favicon.ico"];
+const EMOJIS = ["oldverse"=>"/assets/img/favicon.ico"];
