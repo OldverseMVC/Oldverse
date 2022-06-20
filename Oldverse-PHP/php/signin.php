@@ -42,7 +42,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
 showForm:
 ?>
 <h2 class="welcome-message">Login</h2>
-<p style="text-align: center;">Time to shine, baby!</p>
+<p style="text-align: center;"><?= LOGIN_NOTE ?></p>
 <form method="post" class="center">
     <?php if(!empty($error)){?>
     <p style="color: red;"><b><?= $error ?></b></p>
@@ -53,5 +53,5 @@ showForm:
         <input type="submit" value="Login" class="black-button">
     </div>
     <br>
-    <a href="/account/signup">No account yet?</a>
+    <? if(!SIGNUP_CLOSED){ ?><a href="/account/signup">No account yet?</a><? } ?>
 </form>

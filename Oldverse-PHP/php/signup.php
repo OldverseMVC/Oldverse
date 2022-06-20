@@ -1,6 +1,9 @@
 <?php
 $title = "Sign Up";
 require_once "lib/header.php";
+if(SIGNUP_CLOSED){
+    showError(403, "Signups are closed. Contact an admin.");
+}
 if($_SERVER['REQUEST_METHOD']=="POST"){
     if(empty($_POST['username']) || empty($_POST['password']) || empty($_POST['cpassword']) || empty($_POST['nnid']) || empty($_POST['nickname'])){
         $error = "Some fields are empty.";
