@@ -128,7 +128,7 @@ function getYeahText($feeling, $is_yeah){
         case 5:
             return $is_yeah == "empathy-added" ? 'Unyeah' : 'Yeah...';
         default:
-            return 'olv.yeah.yeahtext';
+            return $is_yeah == "empathy-added" ? 'Unyeah' : 'olv.portal.miitoo.whatthefuck';
     }
 }
 function getFeeling($feeling){
