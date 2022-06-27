@@ -12,3 +12,13 @@ yes. nobody did that in a while, so we're starting this popular trend again.
 use it and get fcked
 # Does it will be updated over time
 i don't think, codebase has since matured and is safe of use.
+# Setup the FS3D server
+NOTE: config is in the /lib/connect.php file inside the FS3D-Server folder.
+
+Setup the config.
+
+Create a FS3D patch (<a href="https://github.com/Rix565/oldverse-fs3d-patch-tool">Using this repo for example</a>) to redirect the gallery URL to your FS3D server URL.
+
+You're good to go!
+# Credits
+- Thanks <a href="https://github.com/jaames">jaames</a> for <a href="https://github.com/jaames/flipnote.js">flipnote.js</a> and <a href="https://gist.github.com/jaames/69af90df7a51b56ba04826bd7660420d">KwzParser.php</a>
