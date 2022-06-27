@@ -7,7 +7,7 @@ $stmtnewiiu = $db->query("SELECT id, icon, name, type FROM communities WHERE typ
 $stmt3ds = $db->query("SELECT id, icon FROM communities WHERE featured = 1 AND type = 1 OR featured = 1 AND type = 2 ORDER BY id DESC LIMIT 10");
 $stmtnew3ds = $db->query("SELECT id, icon, name, type FROM communities WHERE type = 1 OR type = 2 ORDER BY id DESC LIMIT 10");
 if(isset($_SESSION['username'])){
-    $stmtfav = $db->prepare("SELECT communities.id, icon, name, type FROM favorites LEFT JOIN communities ON target = communities.id WHERE source = ? ORDER BY favorites.id");
+    $stmtfav = $db->prepare("SELECT communities.id, icon, name, type FROM favorites LEFT JOIN communities ON target = communities.id WHERE source = ? ORDER BY favorites.id DESC");
     $stmtfav->bind_param('i', $user['id']);
     $stmtfav->execute();
     $resultfav = $stmtfav->get_result();
