@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mer. 08 juin 2022 à 11:40
--- Version du serveur :  5.7.38-cll-lve
--- Version de PHP : 7.3.28
+-- Généré le : lun. 27 juin 2022 à 04:34
+-- Version du serveur :  5.6.51-cll-lve
+-- Version de PHP : 7.3.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `diskette_oldverse`
+-- Base de données : `oldverse`
 --
 
 -- --------------------------------------------------------
@@ -48,7 +48,8 @@ CREATE TABLE `communities` (
   `banner` varchar(255) NOT NULL,
   `permissions` int(11) NOT NULL,
   `type` int(11) NOT NULL,
-  `featured` tinyint(1) NOT NULL DEFAULT '0'
+  `featured` tinyint(1) NOT NULL DEFAULT '0',
+  `is_flipnote` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'This should be used in only 1 community, and defines the flipnote community.'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -117,6 +118,7 @@ CREATE TABLE `posts` (
   `created_by` int(10) NOT NULL,
   `body` text NOT NULL,
   `url` varchar(255) DEFAULT NULL,
+  `flipnote` varchar(255) DEFAULT NULL,
   `screenshot` varchar(255) DEFAULT NULL,
   `spoiler` tinyint(1) NOT NULL,
   `feeling` int(11) NOT NULL,
@@ -136,6 +138,7 @@ CREATE TABLE `replies` (
   `body` text NOT NULL,
   `feeling` int(11) NOT NULL,
   `spoiler` tinyint(1) NOT NULL DEFAULT '0',
+  `screenshot` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -182,7 +185,8 @@ CREATE TABLE `users` (
   `description` text NOT NULL,
   `url` varchar(255) NOT NULL DEFAULT '',
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `ip` varchar(255) NOT NULL DEFAULT ''
+  `ip` varchar(255) NOT NULL DEFAULT '',
+  `flipnote_token` varchar(50) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
