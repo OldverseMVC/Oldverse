@@ -42,7 +42,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 }
 $title = "Profile Settings";
 require_once "lib/header.php";
-$stmt = $db->prepare("SELECT nickname, description, nnid, url, password FROM users WHERE id = ?");
+$stmt = $db->prepare("SELECT nickname, description, nnid, url, flipnote_token, password FROM users WHERE id = ?");
 $stmt->bind_param('i', $user['id']);
 $stmt->execute();
 if($stmt->error){
@@ -54,6 +54,7 @@ $row = $result->fetch_array();
 <h2 class="headline">Profile Settings</h2>
     <form id="profile-settings-form" class="setting-form" method="post" action="/settings/profile">
   <ul class="settings-list">
+    <p><b>Personal Flipnote Token (to use in the <a href="/patch">companion app</a>): <?= $row['flipnote_token'] ?></b></p>
     <li class="setting-profile-comment">
       <p class="settings-label">Nickname</p>
       <input type="text" class="textarea-line url-form" name="nickname" placeholder="Nickname" value="<?= $row['nickname'] ?>">

@@ -1,6 +1,6 @@
 <?php
 require_once "lib/connect.php";
-$stmt = $db->prepare("SELECT replies.id, replies.created_by, replies.body, replies.spoiler, replies.feeling, replies.created_at, replies.target, mii_hash, nickname, username, icon, level, name, community, (SELECT COUNT(*) FROM empathies WHERE target = replies.id AND type = 1) AS empathy_count, (SELECT UNIX_TIMESTAMP(replies.created_at)) AS timestamp, (SELECT nickname FROM users WHERE id = posts.created_by) AS ogpost_nickname, (SELECT mii_hash FROM users WHERE id = posts.created_by) AS ogpost_mii_hash FROM replies LEFT JOIN users ON created_by = users.id LEFT JOIN posts ON target = posts.id LEFT JOIN communities ON posts.community = communities.id WHERE replies.id = ?");
+$stmt = $db->prepare("SELECT replies.id, replies.created_by, replies.body, replies.screenshot,replies.spoiler, replies.feeling, replies.created_at, replies.target, mii_hash, nickname, username, icon, level, name, community, (SELECT COUNT(*) FROM empathies WHERE target = replies.id AND type = 1) AS empathy_count, (SELECT UNIX_TIMESTAMP(replies.created_at)) AS timestamp, (SELECT nickname FROM users WHERE id = posts.created_by) AS ogpost_nickname, (SELECT mii_hash FROM users WHERE id = posts.created_by) AS ogpost_mii_hash FROM replies LEFT JOIN users ON created_by = users.id LEFT JOIN posts ON target = posts.id LEFT JOIN communities ON posts.community = communities.id WHERE replies.id = ?");
 $stmt->bind_param('i', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -26,6 +26,7 @@ $user = isset($user) ? $user : null;
     <p class="user-name"><a href="/users/<?= htmlspecialchars($row['username']) ?>"><?= htmlspecialchars($row['nickname']) ?></a></p>
      <p class="community-container"> <? if(!empty($row['community'])){ ?><a href="/communities/<?= $row['community'] ?>"><img src="<?= $row['icon'] ?>" class="community-icon"><?= htmlspecialchars($row['name']) ?></a><? }else{ ?><a href="/activity"><img src="" class="community-icon">Activity Feed</a><? } ?></p><div class="body">
     <p class="reply-content-text"><?= getBody($row['body']) ?></p>
+    <? if(!empty($row['screenshot'])){ ?><p class="screenshot-container still-image"><img src="<?= htmlspecialchars($row['screenshot'])?>"></p><? } ?>
 
     <div class="post-meta">
         <button type="button" class="symbol submit empathy-button <?= checkIfYeah($user['id'], $row['id'], true) ?> <?= !isset($_SESSION['token']) || $row['created_by']==$user['id'] ? 'disabled" disabled' : '"' ?> data-feeling="<?= getFeeling($row['feeling']) ?>" data-action="/replies/<?= $row['id'] ?>/empathies" ><span class="empathy-button-text"><?= getYeahText($row['feeling'], checkIfYeah($user['id'], $row['id'], true)) ?></span></button>

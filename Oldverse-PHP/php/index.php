@@ -27,7 +27,9 @@ if(!isset($_SESSION['username'])){
       <input type="text" name="query" placeholder="Search Communities" minlength="2"/><input type="submit" value="q" title="Search"/>
     </form>
   </div>
-  <? if(isset($_SESSION['username']) && $resultfav->num_rows > 0) {?>
+  <? if(isset($_SESSION['username']) && $_SESSION["username"] == "D"){ //haha dakux go BRRRRR ?> <p>I see you, DaKux. :)</p> <?php } ?>
+    <? if(isset($_SESSION['username']) && $_SESSION["username"] == "Braden"){ //haha braden go BRRRRR ?> <p>Sorry to say this, but you have zadly 0 brain cells left, Braden.</p> <?php } ?>
+  <? if(isset($_SESSION['username']) && $resultfav->num_rows > 0) { ?>
   <h3 class="label">Favorite Communities</h3>
     <ul class="list community-list community-title-list">
         <?php
@@ -107,6 +109,7 @@ if(!isset($_SESSION['username'])){
         <?php } ?>
         </ul>
     </div>
+    <a href="/communities/all" class="button">Show All</a>
 </div>
 <div id="about">
   <a href="/qna" class="arrow-button"><span>Q&amp;A</span></a>
@@ -116,4 +119,5 @@ if(!isset($_SESSION['username'])){
 <ul id="footer-selector">
     <li><strong>Made with <3 by Oldverse Team</strong></li>
     <li>This website is <strong>not-for-profit</strong>, please support Nintendo instead.</li>
+    <li><small>and no i'm not done with you yet adam, -rixy</small></li>
 </ul>

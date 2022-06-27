@@ -3,7 +3,7 @@ require_once "lib/connect.php";
 if(!isset($_GET['id'])){
     showError(400, "You must give an post ID.");
 }
-$stmt = $db->prepare("SELECT posts.id, community, created_by, body, posts.url, screenshot, spoiler, feeling, created_at, mii_hash, nickname, username, level, icon, name, permissions, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE posts.id = ?");
+$stmt = $db->prepare("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, created_at, mii_hash, nickname, username, level, icon, name, permissions, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE posts.id = ?");
 $stmt->bind_param('i', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -14,7 +14,7 @@ if($result->num_rows==0){
     showError(404, "The post could not be found.");
 }
 $row = $result->fetch_array();
-$stmt = $db->prepare("SELECT replies.id, replies.created_by, replies.body, replies.feeling, mii_hash, nickname, username, level, replies.created_at, replies.spoiler, (SELECT COUNT(*) FROM empathies WHERE target = replies.id AND type = 1) AS empathy_count, (SELECT UNIX_TIMESTAMP(replies.created_at)) AS timestamp, (SELECT id FROM users WHERE id = posts.created_by) AS target_id FROM replies LEFT JOIN users ON replies.created_by = users.id LEFT JOIN posts ON target = posts.id WHERE target = ?");
+$stmt = $db->prepare("SELECT replies.id, replies.created_by, replies.body, replies.screenshot, replies.feeling, mii_hash, nickname, username, level, replies.created_at, replies.spoiler, (SELECT COUNT(*) FROM empathies WHERE target = replies.id AND type = 1) AS empathy_count, (SELECT UNIX_TIMESTAMP(replies.created_at)) AS timestamp, (SELECT id FROM users WHERE id = posts.created_by) AS target_id FROM replies LEFT JOIN users ON replies.created_by = users.id LEFT JOIN posts ON target = posts.id WHERE target = ?");
 $stmt->bind_param('i', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -47,6 +47,9 @@ $user = isset($user) ? $user : null;
       <div class="hidden-content">
             <p>This Post may contain spoilers, view at your own risk!<button type="button" class="hidden-content-button">View Post</button></p>
         </div>
+    <? } ?>
+    <? if(!empty($row['flipnote'])){?>
+        <flipnote-player style="--flipnote-player-icon-color: green; --flipnote-player-button-background: #46b046;  --flipnote-player-slider-track: #46b046; --flipnote-player-slider-level: green; --flipnote-player-slider-handle: green;" src="/flipnote/kwz/<?= $row['flipnote'] ?>.kwz"></flipnote-player>
     <? } ?>
     <?
     if(preg_match('/(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\/?\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/', $row['url'], $matches)) {?>
@@ -147,7 +150,8 @@ if(isset($_SESSION['token'])){ ?>
 
 
   <textarea name="body" class="textarea-text textarea" maxlength="1000" placeholder="Add a comment to this post here." data-open-folded-form="" data-required=""></textarea>
-
+     <input type="text" class="textarea-line url-form" name="screenshot" placeholder="Screenshot URL" maxlength="255">
+     <br><br>
   <label class="spoiler-button symbol">
     <input type="checkbox" id="is_spoiler" name="is_spoiler" value="1">
     Spoilers

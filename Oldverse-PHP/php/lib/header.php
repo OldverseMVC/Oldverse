@@ -11,6 +11,7 @@ $custom_id = isset($custom_id) ? $custom_id : null;
     <head>
         <title><?= isset($title) ? $title ." | ".SITE_NAME: SITE_NAME ?></title>
         <script src="/assets/js/complete-en.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flipnote.js@5/dist/flipnote.webcomponent.min.js"></script>
         <link rel="stylesheet" href="/assets/css/offdevice.css">
         <link rel="shortcut icon" href="/assets/img/favicon.ico">
         <link rel="apple-touch-icon" sizes="57x57" href="/assets/img/apple-touch-icon-57x57.png">

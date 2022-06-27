@@ -30,6 +30,12 @@ if($result->num_rows==0){
 if(empty($_POST['is_spoiler'])) {
     $_POST['is_spoiler'] = 0;
 }
+if(empty($_POST['screenshot'])){
+    $_POST['screenshot'] = null;
+}
+if(!empty($_POST['screenshot']) && !preg_match('|(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', $_POST['screenshot'])){
+     showJSONError(400, 584694, 'Invalid screenshot URL.');
+}
 $post_row = $result->fetch_array();
 $stmt = $db->prepare('SELECT COUNT(*) FROM replies WHERE created_by = ? AND created_at > NOW() - INTERVAL '.rand(15,20).' SECOND');
 $stmt->bind_param('i', $user['id']);
@@ -42,13 +48,13 @@ $row = $result->fetch_assoc();
 if($row['COUNT(*)'] > 0) {
     showJSONError(403, 1213005, 'You\'re making too many posts in quick succession. Please try again in a moment.');
 }
-$stmt = $db->prepare("INSERT INTO `replies`(created_by, target, body, spoiler, feeling) VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param('iisii', $user['id'], $_GET['id'], $_POST['body'], $_POST['is_spoiler'], $_POST['feeling_id']);
+$stmt = $db->prepare("INSERT INTO `replies`(created_by, target, body, spoiler, feeling, screenshot) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt->bind_param('iisiis', $user['id'], $_GET['id'], $_POST['body'], $_POST['is_spoiler'], $_POST['feeling_id'], $_POST['screenshot']);
 $stmt->execute();
 if($stmt->error){
     showJSONError(500, 5655255, "An error occured while inserting the reply in the database.");
 }
-$stmt = $db->prepare("SELECT replies.id, created_by, body, spoiler, feeling, created_at, mii_hash, username, nickname, level, (SELECT COUNT(*) FROM empathies WHERE target = replies.id AND type = 1) AS empathy_count,  (SELECT UNIX_TIMESTAMP(replies.created_at)) AS timestamp FROM replies LEFT JOIN users ON created_by = users.id WHERE created_by = ? ORDER BY id DESC LIMIT 1");
+$stmt = $db->prepare("SELECT replies.id, created_by, body, screenshot, spoiler, feeling, created_at, mii_hash, username, nickname, level, (SELECT COUNT(*) FROM empathies WHERE target = replies.id AND type = 1) AS empathy_count,  (SELECT UNIX_TIMESTAMP(replies.created_at)) AS timestamp FROM replies LEFT JOIN users ON created_by = users.id WHERE created_by = ? ORDER BY id DESC LIMIT 1");
 $stmt->bind_param('i', $user['id']);
 $stmt->execute();
 if($stmt->error){

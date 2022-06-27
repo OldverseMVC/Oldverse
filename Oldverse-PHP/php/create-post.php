@@ -20,7 +20,7 @@ $user = getUser($_SESSION['token']);
 if(empty($_POST['community'])) {
     $_POST['community'] = 0;
 }else{
-    $stmt = $db->prepare("SELECT id, permissions FROM communities WHERE id = ?");
+    $stmt = $db->prepare("SELECT id, permissions, is_flipnote FROM communities WHERE id = ?");
     $stmt->bind_param('i', $_POST['community']);
     $stmt->execute();
     if($stmt->error){
@@ -33,6 +33,9 @@ if(empty($_POST['community'])) {
     $crow = $result->fetch_array();
     if($user['level'] < $crow['permissions']){
         showJSONError(404, 7578486, "You don't have permission to post inside this community.");
+    }
+    if($crow['is_flipnote']==1){
+        showJSONError(403, 5125845, "You can't post inside the Flipnote Community. Please send a flipnote from the companion app.");
     }
 }
 if(empty($_POST['is_spoiler'])) {

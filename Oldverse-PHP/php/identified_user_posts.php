@@ -2,7 +2,7 @@
 $title = "Identified User Posts";
 require_once "lib/header.php";
 //Ugly but eh, who cares, it works now.
-$stmt = $db->prepare("SELECT posts.id, community, created_by, body, posts.url, screenshot, spoiler, feeling, created_at, mii_hash, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE users.level > 6 ORDER BY posts.id DESC LIMIT 20");
+$stmt = $db->prepare("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, created_at, mii_hash, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE users.level > 6 ORDER BY posts.id DESC LIMIT 20");
 $stmt->execute();
 $result = $stmt->get_result();
 ?>

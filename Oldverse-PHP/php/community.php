@@ -6,7 +6,7 @@ if(isset($_SESSION['token'])){
 }else{
     $userid = null;
 }
-$stmt = $db->prepare("SELECT name, icon, banner, description, permissions, type, (SELECT COUNT(*) FROM favorites WHERE source = ? AND target = communities.id) AS is_favorite FROM communities WHERE id = ?");
+$stmt = $db->prepare("SELECT name, icon, banner, description, permissions, type, is_flipnote, (SELECT COUNT(*) FROM favorites WHERE source = ? AND target = communities.id) AS is_favorite FROM communities WHERE id = ?");
 $stmt->bind_param('ii', $userid, $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -25,7 +25,7 @@ require_once "lib/header.php";
 if(empty($_GET['offset'])){
     $_GET['offset'] = 0;
 }
-$stmt = $db->prepare("SELECT posts.id, community, created_by, body, posts.url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE community = ? ORDER BY posts.id DESC LIMIT 20 OFFSET ?");
+$stmt = $db->prepare("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE community = ? ORDER BY posts.id DESC LIMIT 20 OFFSET ?");
 $stmt->bind_param('ii', $_GET['id'], $_GET['offset']);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -42,7 +42,7 @@ $result = $stmt->get_result();
       <button type="button" class="symbol button favorite-button <?= $row['is_favorite'] > 0 ? 'checked' : '' ?>" data-action-favorite="/communities/<?= $_GET['id'] ?>/favorite.json" data-action-unfavorite="/communities/<?= $_GET['id'] ?>/unfavorite.json"><span class="favorite-button-text">Favorite</span></button>
       <? } ?>
   </div>
-  <?php if(isset($_SESSION['username']) && $user['level'] > $row['permissions'] || isset($_SESSION['username']) && $user['level'] == $row['permissions']){ ?>
+  <?php if(isset($_SESSION['username']) && $user['level'] > $row['permissions'] && $row['is_flipnote']!==1 || isset($_SESSION['username']) && $user['level'] == $row['permissions'] && $row['is_flipnote']!==1){ ?>
  <form id="post-form" method="post" action="/posts" class="folded for-identified-users">
   
   

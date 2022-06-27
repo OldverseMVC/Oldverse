@@ -21,6 +21,10 @@
         </div>
     <? } ?>
     <?
+    if(!empty($row['flipnote'])){?>
+        <div class="screenshot-container video"><img src="/flipnote/thumb/<?= $row['flipnote'] ?>.jpg"></div>
+    <? } ?>
+    <?
     if(preg_match('/(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\/?\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/', $row['url'], $matches)) {?>
         <div class="screenshot-container video"><img src="https://i.ytimg.com/vi/<?= htmlspecialchars($matches[1]) ?>/sddefault.jpg"></iframe></div>
     <? }else{
