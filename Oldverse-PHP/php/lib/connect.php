@@ -33,6 +33,13 @@ if (!$db)
 	exit(require_once "500.php");
 }
 
+//proxy check
+$proxy_chk = file_get_contents('http://proxycheck.io/v2/'.$_SERVER['REMOTE_ADDR'].'?key=111111-222222-333333-444444&risk=1&vpn=1');
+$json = json_decode($proxy_chk, true);
+if(isset($json[$_SERVER['REMOTE_ADDR']]['proxy']) && $json[$_SERVER['REMOTE_ADDR']]['proxy'] == "yes"){
+    exit("Please don't use a proxy.");
+}
+
 // Set Timezone
 date_default_timezone_set(TIMEZONE);
 
