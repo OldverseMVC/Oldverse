@@ -9,7 +9,7 @@
     </p>
     </div>
     
-      <p class="reply-content-text"><?= getBody($row['body']) ?></p>
+      <p class="reply-content-text"><?= getBody($row['body'], true, 500) ?></p>
     <? if(!empty($row['screenshot'])){ ?><p class="screenshot-container still-image"><img src="<?= htmlspecialchars($row['screenshot'])?>"></p><? } ?>
     
     <? if($row['spoiler']==1){ ?>

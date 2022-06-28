@@ -28,6 +28,7 @@ $user = isset($user) ? $user : null;
 ?>
 <div id="page-title"><? if(!empty($row['community'])){ ?><?= htmlspecialchars($row['name']) ?><? }else{ ?>Activity Feed<? } ?></div>
 <div id="post-content" class="post <?= $row['spoiler']==1 ? 'hidden' : '' ?>" <?= $row['spoiler']==1 ? 'data-href-hidden="/posts/'.$row['id'].'"' : '' ?>>
+    <?if($user['id'] == $row['created_by']){ ?><button type="button" class="symbol button edit-button profile-post-button" data-modal-open="#edit-post-page" data-is-post="1"><span class="symbol-label">Favorite post</span></button><? } ?>
   <a href="/users/<?= $row['username'] ?>" class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], $row['feeling']) ?>" class="icon"></a>
   <p class="timestamp-container">
     <a class="timestamp" href="/posts/<?= $_GET['id'] ?>"><?= getTimeAgo($row['timestamp']) ?> <?= $row['spoiler']==1 ? '- Spoilers!' : '' ?></a>
@@ -88,6 +89,29 @@ $user = isset($user) ? $user : null;
         <button type="button" class="button" data-modal-open="#report-violation-page" data-action="/posts/<?=$row['id']?>/violations" data-is-post="1" data-is-permalink="1" data-can-report-spoiler="1">Report Violation</button>
     </div>
 </div>
+<? if($user['id'] == $row['created_by']){ ?>
+<div id="edit-post-page" class="dialog none" data-modal-types="edit-post">
+<div class="dialog-inner">
+  <div class="window">
+    <h1 class="window-title">Edit Post</h1>
+    <div class="window-body">
+      <form method="post" class="edit-post-form">
+        <p class="select-button-label">Select an option.</p>
+        <select name="edit-type">
+          <option value selected>Select an option.</option>
+          <? if(!empty($row['screenshot'])){ ?><option value="screenshot-profile-post" data-action="/posts/<?= $_GET['id'] ?>/favorite">Set as favorite post</option><? } ?>
+            <option value="spoiler" data-action="/posts/<?= $_GET['id'] ?>.set_spoiler.json">Set as spoiler</option>
+          <option value="delete" data-action="/posts/<?= $_GET['id'] ?>.delete.json">Delete</option>
+        </select>
+         <div class="form-buttons">
+          <input type="button" class="olv-modal-close-button gray-button" value="Cancel">
+          <input type="submit" class="post-button black-button" value="Confirm">
+        </div>
+    </form>
+    </div>
+</div>
+</div></div>
+  <? } ?>
 <?php if($user['level'] < $row['permissions']){ ?>
 <div id="report-violation-page" class="dialog none" data-modal-types="report report-violation" data-is-template="1">
 <div class="dialog-inner">

@@ -12,7 +12,7 @@
 
 
 
-      <p class="post-content-text"><?= getBody($row['body']) ?></p>
+      <p class="post-content-text"><?= getBody($row['body'], true, 200) ?></p>
       <? if(!empty($row['screenshot'])){ ?><p class="screenshot-container still-image"><img src="<?= htmlspecialchars($row['screenshot'])?>"></p><? } ?>
       <?
       if($row['spoiler']==1){ ?>

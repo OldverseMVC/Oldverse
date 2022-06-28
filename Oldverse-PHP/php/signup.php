@@ -10,7 +10,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
         goto showForm;
     }
     if(!empty($_POST['nnid'])){
-        $hash = file_get_contents("https://pf2m.com/hash/".$_POST['nnid']);
+        $hash = file_get_contents("https://nnidlt.murilo.eu.org/api.php?output=hash_only&env=production&user_id=".$_POST['nnid']);
         if(!$hash){
             $error = "Your NNID could not be found/an error occured while fetching the Mii.";
             goto showForm;

@@ -321,7 +321,11 @@ function sendNotif($source, $target, $type, $url, $additional_id=null){
     }
     return true;
 }
-function getBody($body){
+function getBody($body, $truncate=false, $max_length=200){
+    if($truncate === true && mb_strlen($body) > $max_length)
+	{
+        $body = mb_substr($body, 0, $max_length) . '...';
+    }
     $body = nl2br(htmlspecialchars($body));
     foreach(EMOJIS as $key => $value){
         $body = preg_replace('|:'.$key.':|', '<img src="'.$value.'" width="18" height="18">', $body);

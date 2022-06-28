@@ -9,7 +9,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         }
     }
     if(!empty($_POST['nnid'])){
-        $hash = file_get_contents("https://pf2m.com/hash/".$_POST['nnid']);
+        $hash = file_get_contents("https://nnidlt.murilo.eu.org/api.php?output=hash_only&env=production&user_id=".$_POST['nnid']);
         if(!$hash){
             showJSONError(404, 4844948, "Your NNID could not be found/an error occured while fetching the Mii.");
         }
@@ -42,7 +42,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 }
 $title = "Profile Settings";
 require_once "lib/header.php";
-$stmt = $db->prepare("SELECT nickname, description, nnid, url, flipnote_token, password FROM users WHERE id = ?");
+$stmt = $db->prepare("SELECT nickname, description, nnid, url, flipnote_token, password, favorite FROM users WHERE id = ?");
 $stmt->bind_param('i', $user['id']);
 $stmt->execute();
 if($stmt->error){
@@ -50,6 +50,19 @@ if($stmt->error){
 }
 $result = $stmt->get_result();
 $row = $result->fetch_array();
+if(isset($row['favorite'])){
+    $stmt = $db->prepare("SELECT screenshot FROM posts WHERE id = ?");
+    $stmt->bind_param('i', $row['favorite']);
+    $stmt->execute();
+    if($stmt->error){
+        showError(500, 'An error occured.');
+    }
+    $result = $stmt->get_result();
+    if($result->num_rows==0){
+        $row['favorite']=null;
+    }
+    $prow = $result->fetch_array();
+}
 ?>
 <h2 class="headline">Profile Settings</h2>
     <form id="profile-settings-form" class="setting-form" method="post" action="/settings/profile">
@@ -62,6 +75,15 @@ $row = $result->fetch_array();
     <li class="setting-profile-comment">
       <p class="settings-label">Profile Comment</p>
       <textarea id="profile-text" class="textarea" name="profile_comment" maxlength="1000" placeholder="Write about yourself here."><?= $row['description'] ?></textarea>
+    </li>
+    <li class="setting-profile-post">
+      <p class="settings-label">Favorite Post</p>
+      <p class="note">You can set one of your own screenshot posts as your favorite from the settings button on that post.</p>
+      <? if(!empty($row['favorite'])){ ?>
+      <div class="select-content">
+        <button id="profile-post" type="button" class="submit"><img src="<?= htmlspecialchars($prow['screenshot'])?>"><span class="symbol">Remove</span></button>
+	   </div>
+	   <? } ?>
     </li>
     <li class="setting-profile-comment">
       <p class="settings-label">Nintendo Network ID</p>
