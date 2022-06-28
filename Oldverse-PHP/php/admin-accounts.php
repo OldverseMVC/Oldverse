@@ -36,6 +36,12 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             $stmt = $db->prepare("DELETE FROM `posts` WHERE id = ?");
             $stmt->bind_param('i', $_POST['postid']);
             $stmt->execute();
+            $stmt = $db->prepare("DELETE FROM `replies` WHERE target=?");
+            $stmt->bind_param('i', $_POST['postid']);
+            $stmt->execute();
+            $stmt = $db->prepare("DELETE FROM `news` WHERE additional_id=? AND type = 1 OR additional_id=? AND type = 2");
+            $stmt->bind_param('ii', $_POST['postid'], $_POST['postid']);
+            $stmt->execute();
             $success_msg = "This post got removed!";
             goto showForm;
         }else{
@@ -46,6 +52,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     if($_POST['mode']=="purgeact"){
         if(!empty($_POST['userid'])){
             $stmt = $db->prepare("DELETE FROM `posts` WHERE created_by = ?");
+            $stmt->bind_param('i', $_POST['userid']);
+            $stmt->execute();
+            $stmt = $db->prepare("DELETE FROM `replies` WHERE created_by=?");
             $stmt->bind_param('i', $_POST['userid']);
             $stmt->execute();
             $success_msg = "This user's posts got purged!";

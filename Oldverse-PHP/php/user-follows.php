@@ -34,9 +34,9 @@ $name = $_GET['mode'] == 1 ? 'follows' : 'followers';
 $title = $row['nickname']."'s ".$name;
 require_once "lib/header.php";
 if($_GET['mode']==1){
-    $stmt = $db->prepare("SELECT users.id, username, nickname, mii_hash, description, level FROM follows LEFT JOIN users ON target = users.id WHERE source = ? ORDER BY users.id DESC");
+    $stmt = $db->prepare("SELECT users.id, username, nickname, mii_hash, description, favorite, level FROM follows LEFT JOIN users ON target = users.id WHERE source = ? ORDER BY users.id DESC");
 }else{
-    $stmt = $db->prepare("SELECT users.id, username, nickname, mii_hash, description, level FROM follows LEFT JOIN users ON source = users.id WHERE target = ? ORDER BY users.id DESC");
+    $stmt = $db->prepare("SELECT users.id, username, nickname, mii_hash, description, favorite, level FROM follows LEFT JOIN users ON source = users.id WHERE target = ? ORDER BY users.id DESC");
 }
 $stmt->bind_param('i', $row['id']);
 $stmt->execute();
@@ -76,6 +76,19 @@ $result = $stmt->get_result();
         exit;
     }
     while($row = $result->fetch_array()){
+        if(isset($row['favorite'])){
+            $stmt = $db->prepare("SELECT screenshot FROM posts WHERE id = ?");
+            $stmt->bind_param('i', $row['favorite']);
+            $stmt->execute();
+            if($stmt->error){
+                showError(500, 'An error occured.');
+            }
+            $result = $stmt->get_result();
+            if($result->num_rows==0){
+                $row['favorite']=null;
+            }
+            $prow = $result->fetch_array();
+        }
     ?>
     <li class="trigger" data-href="/users/<?= htmlspecialchars($row['username']) ?>">
         <a href="/users/<?= htmlspecialchars($row['username']) ?>" class="icon-container <?= $row['level']>0 ? 'official-user' : ''  ?>"><img src="<?= getAvatar($row['mii_hash'], 0) ?>" class="icon"></a>
@@ -85,6 +98,7 @@ $result = $stmt->get_result();
                 <span class="id-name"><?= htmlspecialchars($row['username']) ?></span>
             </p>
             <p class="text"><?= htmlspecialchars($row['description']) ?></p>
+            <? if(isset($row['favorite'])){ ?><div class="user-profile-memo-content"><img src="<?= htmlspecialchars($prow['screenshot']) ?>" class="user-profile-memo"></div><? } ?>
         </div>
     </li>
     <? } ?>
