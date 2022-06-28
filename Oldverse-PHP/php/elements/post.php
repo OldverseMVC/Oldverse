@@ -2,7 +2,7 @@
 <div id="post-<?= $row['id'] ?>" data-href="/posts/<?= $row['id'] ?>" class="post trigger <?= $row['spoiler']==1 ? 'hidden' : '' ?>" <?= $row['spoiler']==1 ? 'data-href-hidden="/posts/'.$row['id'].'"' : '' ?> tabindex="0">
   <span class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], $row['feeling']) ?>" class="icon"></span>
   <p class="timestamp-container">
-    <a class="timestamp" href="/posts/<?= $_GET['id'] ?>"><?= getTimeAgo($row['timestamp']) ?> <?= $row['spoiler']==1 ? '- Spoilers!' : '' ?></a>
+    <a class="timestamp" href="/posts/<?= $row['id'] ?>"><?= getTimeAgo($row['timestamp']) ?> <?= $row['spoiler']==1 ? '- Spoilers!' : '' ?></a>
   </p>
   <p class="user-name"><?= htmlspecialchars($row['nickname']) ?></p>
   <? if(!empty($row['community'])){ ?><p class="community-container"><a href="/communities/<?= $row['community'] ?>"><img src="<?= $row['icon'] ?>" class="community-icon"><?= htmlspecialchars($row['name']) ?></a></p><? } ?>
