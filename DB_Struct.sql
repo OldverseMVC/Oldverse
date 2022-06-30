@@ -124,6 +124,7 @@ CREATE TABLE `posts` (
   `spoiler` tinyint(1) NOT NULL,
   `feeling` int(11) NOT NULL,
   `is_pinned` tinyint(1) NOT NULL,
+  `is_locked` tinyint(1) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
