@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mar. 28 juin 2022 à 07:32
+-- Généré le : jeu. 30 juin 2022 à 06:39
 -- Version du serveur :  5.6.51-cll-lve
 -- Version de PHP : 7.3.32
 
@@ -49,7 +49,8 @@ CREATE TABLE `communities` (
   `permissions` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   `featured` tinyint(1) NOT NULL DEFAULT '0',
-  `is_flipnote` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'This should be used in only 1 community, and defines the flipnote community.'
+  `is_flipnote` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'This should be used in only 1 community, and defines the flipnote community.',
+  `owner` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -122,8 +123,22 @@ CREATE TABLE `posts` (
   `screenshot` varchar(255) DEFAULT NULL,
   `spoiler` tinyint(1) NOT NULL,
   `feeling` int(11) NOT NULL,
+  `is_pinned` tinyint(1) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `referralkey`
+--
+
+CREATE TABLE `referralkey` (
+  `id` int(11) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `referralkey` varchar(255) NOT NULL,
+  `used` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -159,6 +174,19 @@ CREATE TABLE `reports` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `tags`
+--
+
+CREATE TABLE `tags` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  `created_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `tokens`
 --
 
@@ -187,7 +215,9 @@ CREATE TABLE `users` (
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ip` varchar(255) NOT NULL DEFAULT '',
   `flipnote_token` varchar(50) NOT NULL,
-  `favorite` int(11) DEFAULT NULL
+  `favorite` int(11) DEFAULT NULL,
+  `last_online` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `allows_online_status` tinyint(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -239,6 +269,12 @@ ALTER TABLE `posts`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `referralkey`
+--
+ALTER TABLE `referralkey`
+  ADD UNIQUE KEY `id` (`id`);
+
+--
 -- Index pour la table `replies`
 --
 ALTER TABLE `replies`
@@ -248,6 +284,12 @@ ALTER TABLE `replies`
 -- Index pour la table `reports`
 --
 ALTER TABLE `reports`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `tags`
+--
+ALTER TABLE `tags`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -310,6 +352,12 @@ ALTER TABLE `posts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `referralkey`
+--
+ALTER TABLE `referralkey`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `replies`
 --
 ALTER TABLE `replies`
@@ -320,6 +368,12 @@ ALTER TABLE `replies`
 --
 ALTER TABLE `reports`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `tags`
+--
+ALTER TABLE `tags`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `tokens`
