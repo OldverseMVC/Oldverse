@@ -83,11 +83,11 @@ $result = $stmt->get_result();
             if($stmt->error){
                 showError(500, 'An error occured.');
             }
-            $result = $stmt->get_result();
-            if($result->num_rows==0){
+            $fresult = $stmt->get_result();
+            if($fresult->num_rows==0){
                 $row['favorite']=null;
             }
-            $prow = $result->fetch_array();
+            $prow = $fresult->fetch_array();
         }
     ?>
     <li class="trigger" data-href="/users/<?= htmlspecialchars($row['username']) ?>">
