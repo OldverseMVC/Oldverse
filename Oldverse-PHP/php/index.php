@@ -136,5 +136,4 @@ while($row = $stmtposts->fetch_array()){
 <ul id="footer-selector">
     <li><strong>Made with <3 by Oldverse Team</strong></li>
     <li>This website is <strong>not-for-profit</strong>, please support Nintendo instead.</li>
-    <li><small>and no i'm not done with you yet adam, -rixy</small></li>
 </ul>
