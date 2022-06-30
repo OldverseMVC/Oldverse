@@ -36,13 +36,20 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     if(empty($_POST['nickname'])){
         showJSONError(400, 5156458, 'An nickname cannot be empty.');
     }
-    $stmt = $db->prepare("UPDATE users SET description = ?, nnid = ?, mii_hash = ?, url = ?, nickname = ? WHERE id = ?");
-    $stmt->bind_param('sssssi', $_POST['profile_comment'], $_POST['nnid'], $hash, $_POST['url'], $_POST['nickname'], $user['id']);
+    if(isset($_POST['allows-online-status'])){
+        if($_POST['allows-online-status']>1 || $_POST['allows-online-status']<0){
+            showJSONError(400, 6565655, 'Invalid value for your online status preference.');
+        }
+    }else{
+        showJSONError(400, 4894988, 'Your online status preference cannot be empty.');
+    }
+    $stmt = $db->prepare("UPDATE users SET description = ?, nnid = ?, mii_hash = ?, url = ?, nickname = ?, allows_online_status = ? WHERE id = ?");
+    $stmt->bind_param('sssssii', $_POST['profile_comment'], $_POST['nnid'], $hash, $_POST['url'], $_POST['nickname'], $_POST['allows-online-status'], $user['id']);
     $stmt->execute();
 }
 $title = "Profile Settings";
 require_once "lib/header.php";
-$stmt = $db->prepare("SELECT nickname, description, nnid, url, flipnote_token, password, favorite FROM users WHERE id = ?");
+$stmt = $db->prepare("SELECT nickname, description, nnid, url, flipnote_token, password, favorite, allows_online_status FROM users WHERE id = ?");
 $stmt->bind_param('i', $user['id']);
 $stmt->execute();
 if($stmt->error){
@@ -67,14 +74,14 @@ if(isset($row['favorite'])){
 <h2 class="headline">Profile Settings</h2>
     <form id="profile-settings-form" class="setting-form" method="post" action="/settings/profile">
   <ul class="settings-list">
-    <p><b>Personal Flipnote Token (to use in the <a href="/patch">companion app</a>): <?= $row['flipnote_token'] ?></b></p>
+    <p><b>Personal Flipnote Token (to use in the <a href="/patch">companion app</a>): <?= htmlspecialchars($row['flipnote_token']) ?></b></p>
     <li class="setting-profile-comment">
       <p class="settings-label">Nickname</p>
-      <input type="text" class="textarea-line url-form" name="nickname" placeholder="Nickname" value="<?= $row['nickname'] ?>">
+      <input type="text" class="textarea-line url-form" name="nickname" placeholder="Nickname" value="<?= htmlspecialchars($row['nickname']) ?>">
     </li>
     <li class="setting-profile-comment">
       <p class="settings-label">Profile Comment</p>
-      <textarea id="profile-text" class="textarea" name="profile_comment" maxlength="1000" placeholder="Write about yourself here."><?= $row['description'] ?></textarea>
+      <textarea id="profile-text" class="textarea" name="profile_comment" maxlength="1000" placeholder="Write about yourself here."><?= htmlspecialchars($row['description']) ?></textarea>
     </li>
     <li class="setting-profile-post">
       <p class="settings-label">Favorite Post</p>
@@ -87,11 +94,19 @@ if(isset($row['favorite'])){
     </li>
     <li class="setting-profile-comment">
       <p class="settings-label">Nintendo Network ID</p>
-      <input type="text" class="textarea-line url-form" name="nnid" placeholder="NNID" value="<?= $row['nnid'] ?>" maxlength="16">
+      <input type="text" class="textarea-line url-form" name="nnid" placeholder="NNID" value="<?= htmlspecialchars($row['nnid']) ?>" maxlength="16">
     </li>
     <li class="setting-profile-comment">
       <p class="settings-label">Custom URL</p>
-      <input type="text" class="textarea-line url-form" name="url" placeholder="This will show up on your profile." value="<?= $row['url'] ?>" maxlength="64">
+      <input type="text" class="textarea-line url-form" name="url" placeholder="This will show up on your profile." value="<?= htmlspecialchars($row['url']) ?>" maxlength="64">
+    </li>
+    <li class="setting-profile-comment">
+      <p class="settings-label">Allow to display your online status</p>
+      <p class="note">This setting, if set to Yes, will display "Last Seen" on your profile main page.</p>
+      <select name="allows-online-status">
+          <option value="1" <?= $row['allows_online_status']==1 ? 'selected': '' ?>>Yes</option>
+          <option value="0"<?= $row['allows_online_status']==0 ? 'selected': '' ?>>No</option>
+      </select>
     </li>
     <li class="setting-profile-comment">
       <p class="settings-label">Change Password</p>

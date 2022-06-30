@@ -1,5 +1,3 @@
-var oldverse11 = null;
-
 var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
 if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
 {
@@ -1199,6 +1197,20 @@ var Olv = Olv || {};
             }), a("body").on("pjax:complete", function() {
                 c.resetInterval()
             }), c.invoke()
+        }
+    }), b.router.connect("^/$", function(c, d, e) {
+        var i = 7e3,
+            j = setInterval(h, i);
+        e.done(function() {
+            clearInterval(j)
+        })
+        function h() {
+            var b = a(".post-list"),
+                c = b.find(".post:not(:hidden)"),
+                d = c.next();
+            0 == d.length && (d = b.children().first()), c.fadeOut("slow", function() {
+                d.fadeIn("slow")
+            })
         }
     }), b.router.connect("^/activity$", function(c, d, e) {
         function f() {

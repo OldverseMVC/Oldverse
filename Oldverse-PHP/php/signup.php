@@ -5,7 +5,7 @@ if(SIGNUP_CLOSED){
     showError(403, "Signups are closed. Contact an admin.");
 }
 if($_SERVER['REQUEST_METHOD']=="POST"){
-    if(empty($_POST['username']) || empty($_POST['password']) || empty($_POST['cpassword']) || empty($_POST['nnid']) || empty($_POST['nickname'])){
+    if(empty($_POST['username']) || empty($_POST['password']) || empty($_POST['cpassword']) || empty($_POST['nnid']) || empty($_POST['nickname']) || empty($_POST['referral'])){
         $error = "Some fields are empty.";
         goto showForm;
     }
@@ -37,7 +37,33 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
             goto showForm;
         }
     }
-    $stmt = $db->prepare("INSERT INTO `users`(`username`, `nickname`, `password`, `mii_hash`, `nnid`, `ip`, `flipnote_token`) VALUES(?, ?, ?, ?, ?, ?, ?)");
+    if(!empty($_POST['referral'])){
+        $stmt = $db->prepare("SELECT used FROM referralkey WHERE referralkey = ?");
+        $stmt->bind_param('s', $_POST['referral']);
+        $stmt->execute();
+        if($stmt->error){
+            $error = "There was an error while trying to fetch the referral key from the database.";
+            goto showForm;
+        }
+        $result = $stmt->get_result();
+        if($result->num_rows==0){
+            $error = "Invalid referral key.";
+            goto showForm;
+        }
+        $row = $result->fetch_array();
+        if($row['used']==1){
+            $error = "This referral key has already been used. Please ask for another one.";
+            goto showForm;
+        }
+        $stmt = $db->prepare("UPDATE referralkey SET used = 1 WHERE referralkey = ?");
+        $stmt->bind_param('s', $_POST['referral']);
+        $stmt->execute();
+        if($stmt->error){
+            $error = "There was an error while trying to set the used flag on the referral key.";
+            goto showForm;
+        }
+    }
+    $stmt = $db->prepare("INSERT INTO `users`(`username`, `nickname`, `password`, `mii_hash`, `nnid`, `ip`, `flipnote_token`, `allows_online_status`) VALUES(?, ?, ?, ?, ?, ?, ?, 1)");
     $stmt->bind_param("sssssss", $_POST['username'], $_POST['nickname'], $hash_pass, $hash, $_POST['nnid'], $_SERVER['REMOTE_ADDR'], rand(1, 2147483647));
     $stmt->execute();
     if($stmt->error){
@@ -60,6 +86,8 @@ showForm:
     <input type="password" placeholder="Confirm Password" name="cpassword" required>
     <p><b><i>This is required. You MUST have a valid NNID.</i></b></p>
     <input type="text" placeholder="Nintendo Network ID (NNID)" name="nnid" maxlength="16" requried>
+    <p><b><i>Required. To have a referral key, <br>you must be friend with the people here, and ask someone<br> you know for a referral key.</i></b></p>
+    <input type="text" placeholder="Referral key" name="referral" maxlength="69" requried>
     <div class="form-buttons">
         <input type="submit" value="Sign Up" class="black-button">
     </div>

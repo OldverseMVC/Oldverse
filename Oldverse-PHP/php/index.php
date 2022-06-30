@@ -1,6 +1,7 @@
 <?php
 $title = "Communities";
 require_once "lib/header.php";
+$stmtposts = $db->query("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE posts.created_at  >= DATE_SUB(NOW(), INTERVAL 1 HOUR) ORDER BY posts.id DESC LIMIT 20");
 $stmtwiiu = $db->query("SELECT id, icon FROM communities WHERE featured = 1 AND type = 0 OR featured = 1 AND type = 2 ORDER BY id DESC LIMIT 10");
 $stmtnewiiu = $db->query("SELECT id, icon, name, type FROM communities WHERE type = 0 OR type = 2 ORDER BY id DESC LIMIT 10");
 
@@ -20,6 +21,21 @@ if(!isset($_SESSION['username'])){
     <p><?= MEMO ?></p>
 </div>
 <?php }?>
+<? if($stmtposts->num_rows!==0){ ?>
+<h2 class="headline">Yo momma (Latest posts)</h2>
+<div class="list post-list">
+<?
+$i = 0;
+while($row = $stmtposts->fetch_array()){
+    if($i!==0){
+        $display_none = true;
+    }
+    require "elements/post.php";
+    $i++;
+}
+?>
+</div>
+<? } ?>
 <div class="body-content" id="community-top" data-region="USA">
 <div class="headline">
     <h2 class="headline-text">Communities</h2>
@@ -27,6 +43,8 @@ if(!isset($_SESSION['username'])){
       <input type="text" name="query" placeholder="Search Communities" minlength="2"/><input type="submit" value="q" title="Search"/>
     </form>
   </div>
+  <? if(isset($_SESSION['username']) && $_SESSION["username"] == "D"){ //haha dakux go BRRRRR ?> <p>I see you, DaKux. :)</p> <?php } ?>
+    <? if(isset($_SESSION['username']) && $_SESSION["username"] == "Braden"){ //haha braden go BRRRRR ?> <p>Sorry to say this, but you have zadly 0 brain cells left, Braden.</p> <?php } ?>
   <? if(isset($_SESSION['username']) && $resultfav->num_rows > 0) { ?>
   <h3 class="label">Favorite Communities</h3>
     <ul class="list community-list community-title-list">
@@ -49,6 +67,7 @@ if(!isset($_SESSION['username'])){
       <span class="text">Posts from Verified Users</span>
     </a>
   </div>
+  <a href="/communities/create" class="button">Create community</a>
   <div class="platform-tab">
     <a id="tab-wiiu" data-platform="wiiu" class="trigger selected" tabindex="0"><span>Wii U Communities</span></a>
     <a id="tab-3ds" data-platform="3ds" class="trigger" tabindex="0"><span>3DS Communities</span></a>
@@ -117,4 +136,5 @@ if(!isset($_SESSION['username'])){
 <ul id="footer-selector">
     <li><strong>Made with <3 by Oldverse Team</strong></li>
     <li>This website is <strong>not-for-profit</strong>, please support Nintendo instead.</li>
+    <li><small>and no i'm not done with you yet adam, -rixy</small></li>
 </ul>

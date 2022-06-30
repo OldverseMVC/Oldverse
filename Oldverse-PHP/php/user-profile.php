@@ -3,7 +3,7 @@ require_once "lib/connect.php";
 if(!isset($_GET['id'])){
     showError(400, 'You must precise an user ID.');
 }
-$stmt = $db->prepare("SELECT id, nickname, mii_hash, description, created_on, level, favorite, nnid, url, (SELECT COUNT(*) FROM posts WHERE created_by = users.id) AS post_num, (SELECT COUNT(*) FROM follows WHERE target = users.id) AS follow_num, (SELECT COUNT(*) FROM follows WHERE source = users.id) AS followed_num FROM users WHERE username = ?");
+$stmt = $db->prepare("SELECT id, nickname, mii_hash, description, created_on, level, favorite, nnid, url, allows_online_status, (SELECT UNIX_TIMESTAMP(last_online)) AS timestamp, (SELECT COUNT(*) FROM posts WHERE created_by = users.id) AS post_num, (SELECT COUNT(*) FROM follows WHERE target = users.id) AS follow_num, (SELECT COUNT(*) FROM follows WHERE source = users.id) AS followed_num FROM users WHERE username = ?");
 $stmt->bind_param('s', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -40,7 +40,15 @@ if(empty($row['url'])){
     $row['url'] = "Not Set";
 }else{
     $row['url'] = "<a href='".htmlspecialchars($row['url'])."'>".htmlspecialchars($row['url'])."</a>";
-}?>
+}
+$stmt = $db->prepare("SELECT name, value FROM tags WHERE created_by = ?");
+$stmt->bind_param('i', $row['id']);
+$stmt->execute();
+if($stmt->error){
+    showError(500, 'There was an error while trying to fetch tags from the database.');
+}
+$result = $stmt->get_result();
+?>
 <div class="user-page">
 <? if(!empty($row['favorite'])){ ?><a href="/posts/<?= $row['favorite'] ?>" class="user-profile-memo-container" style="background-image:url('<?= htmlspecialchars($prow['screenshot'] )?>')"><img src="<?= htmlspecialchars($prow['screenshot']) ?>" class="user-profile-screenshot"></a><? } ?>
 <div id="user-content" class="<?= !empty($row['favorite']) ? '' : 'no-profile-post-user' ?>">
@@ -80,7 +88,7 @@ if(!empty($row['description'])){?>
 </div>
 <?php } ?>
 <div class="report-buttons-content">
-    <button type="button" class="button" data-modal-open="#report-violation-page" data-action="/posts/<?=$row['id']?>/violations" data-is-post="1" data-is-permalink="1" data-can-report-spoiler="1">Report Violation&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="button" data-modal-open="#report-violation-page" data-action="/posts/<?= $row['id'] ?>/violations" data-is-post="1" data-is-permalink="1" data-can-report-spoiler="1">Report Violation&nbsp;&nbsp;&nbsp;</button>
 </div>
 <div id="report-violation-page" class="dialog none" data-modal-types="report report-violation" data-is-template="1">
 <div class="dialog-inner">
@@ -88,7 +96,7 @@ if(!empty($row['description'])){?>
                         <h1 class="window-title">Report Violation to <?=SITE_NAME?> Administrators</h1>
                         <div class="window-body">
                             <p class="description">You are about to report a profile with content which violates the <?=SITE_NAME?> Code of Conduct. This report will be sent to the <?=SITE_NAME?> administrators and not to the creator of the profile.</p>
-                            <form method="post" action="/posts/<?=$_GET["id"]?>/violations">
+                            <form method="post" action="/posts/<?= $row['id'] ?>/violations">
                                 <input type="hidden" name="token" value="<?=$_SESSION["token"]?>">
                                 <select name="type" class="can-report-spoiler" style="display: inline-block;">
                                     <option value="">Select who should see the report.</option>
@@ -119,4 +127,15 @@ if(!empty($row['description'])){?>
       <h4><span>Custom URL</span></h4>
       <div class="note"><?= $row['url'] ?></div>
   </div>
+  <? if($row['allows_online_status']==1){ ?><div class="user-main-profile data-content">
+      <h4><span>Last seen</span></h4>
+      <div class="note"><?= getTimeAgo($row['timestamp']) ?></div>
+  </div><? } ?>
+  <?
+  while($row = $result->fetch_array()){ ?>
+  <div class="user-main-profile data-content">
+      <h4><span><?= htmlspecialchars($row['name']) ?></span></h4>
+      <div class="note"><?= htmlspecialchars($row['value']) ?></div>
+  </div>
+  <? } ?>
 </div>

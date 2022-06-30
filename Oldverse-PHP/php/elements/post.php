@@ -1,5 +1,6 @@
-<? $user = isset($user) ? $user : null; ?>
-<div id="post-<?= $row['id'] ?>" data-href="/posts/<?= $row['id'] ?>" class="post trigger <?= $row['spoiler']==1 ? 'hidden' : '' ?>" <?= $row['spoiler']==1 ? 'data-href-hidden="/posts/'.$row['id'].'"' : '' ?> tabindex="0">
+<? $user = isset($user) ? $user : null;
+$display_none = isset($display_none) ? $display_none : false; ?>
+<div id="post-<?= $row['id'] ?>" data-href="/posts/<?= $row['id'] ?>" class="post trigger <?= $row['spoiler']==1 ? 'hidden' : '' ?>" <?= $row['spoiler']==1 ? 'data-href-hidden="/posts/'.$row['id'].'"' : '' ?> tabindex="0" <?= $display_none ? 'style="display: none;"' : ''?> >
   <span class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], $row['feeling']) ?>" class="icon"></span>
   <p class="timestamp-container">
     <a class="timestamp" href="/posts/<?= $row['id'] ?>"><?= getTimeAgo($row['timestamp']) ?> <?= $row['spoiler']==1 ? '- Spoilers!' : '' ?></a>
@@ -9,7 +10,6 @@
 
   <div class="body">
     <div class="post-content">
-
 
 
       <p class="post-content-text"><?= getBody($row['body'], true, 200) ?></p>
@@ -33,7 +33,7 @@
     <? } ?>
 
       <div class="post-meta">
-        <button type="button" class="symbol submit empathy-button <?= checkIfYeah($user['id'], $row['id']) ?> <?= !isset($_SESSION['token']) || $row['created_by']==$user['id'] ? 'disabled" disabled' : '"' ?> data-feeling="<?= getFeeling($row['feeling']) ?>" data-action="/posts/<?= $row['id'] ?>/empathies" ><span class="empathy-button-text"><?= getYeahText($row['feeling'], checkIfYeah($user['id'], $row['id'])) ?></span></button>
+        <? if($_SERVER['REQUEST_URI']!=="/"){ ?><button type="button" class="symbol submit empathy-button <?= checkIfYeah($user['id'], $row['id']) ?> <?= !isset($_SESSION['token']) || $row['created_by']==$user['id'] ? 'disabled" disabled' : '"' ?> data-feeling="<?= getFeeling($row['feeling']) ?>" data-action="/posts/<?= $row['id'] ?>/empathies" ><span class="empathy-button-text"><?= getYeahText($row['feeling'], checkIfYeah($user['id'], $row['id'])) ?></span></button><? } ?>
         <div class="empathy symbol"><span class="symbol-label">Yeahs</span><span class="empathy-count"><?= $row['empathy_count'] ?></span></div>
         <div class="reply symbol"><span class="symbol-label">Comments</span><span class="reply-count"><?= $row['reply_count'] ?></span></div>
       </div>

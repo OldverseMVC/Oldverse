@@ -78,12 +78,12 @@ $result = $stmt->get_result();
         if($result->num_rows==0){
             showNoContent("No posts were found.");
         }else{
-            $new_offset = $_GET['offset'] + 20;
-            echo '<div class="list post-list" data-next-page-url="/users/'.$_GET['id'].'/'.$name_2.'?offset='.$new_offset.'">';
+            $new_offset = $_GET['offset'] + 20;?>
+            <div class="list post-list" data-next-page-url="/users/<?= $_GET['id'] ?>/<?= $name_2 ?>?offset=<?= $new_offset ?>"><?
             while($row = $result->fetch_array()){
                 require "elements/post.php";
             }
-            echo '</div>';
+            ?></div><?
         }
         ?>
 </div>

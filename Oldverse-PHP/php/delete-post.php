@@ -9,7 +9,7 @@ if(!isset($_SESSION['token'])){
 if(!isset($_GET['id'])){
     showJSONError(403, 8484888, 'You must precise a post ID.');
 }
-$stmt = $db->prepare("SELECT created_by FROM posts WHERE id = ?");
+$stmt = $db->prepare("SELECT created_by, (SELECT owner FROM communities WHERE id = posts.community) AS owner FROM posts WHERE id = ?");
 $stmt->bind_param('i', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -22,7 +22,11 @@ if($result->num_rows==0){
 $row = $result->fetch_array();
 $user = getUser($_SESSION['token']);
 if($user['id']!==$row['created_by']){
-    showJSONError(403, 6265654, "You're not the post owner.");
+    if($row['owner'] !== $user['id']){
+        if($user['level'] < 1){
+            showJSONError(403, 6265654, "You're not the post owner.");
+        }
+    }
 }
 $stmt = $db->prepare("DELETE FROM `posts` WHERE id=?");
 $stmt->bind_param('i', $_GET['id']);

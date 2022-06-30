@@ -26,4 +26,10 @@ $notifs = array(
     "mission" => array('unread_count' => 0),
     "news" => array('unread_count' => $row['COUNT(*)'])
 );
+$stmt = $db->prepare("UPDATE users SET last_online=CURRENT_TIMESTAMP WHERE id = ?");
+$stmt->bind_param('i', $user['id']);
+$stmt->execute();
+if($stmt->error){
+    showJSONError(500, 252566, "An error occured while updating your online status.");
+}
 echo json_encode($notifs);

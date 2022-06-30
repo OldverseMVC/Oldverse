@@ -36,19 +36,6 @@ $custom_id = isset($custom_id) ? $custom_id : null;
         </script>
     </head>
     <body <?php if(!isset($_SESSION['username'])){ ?>id="<?php if(isset($is_guide)){ ?>help<?php } ?><?= !is_null($custom_id) ? ' '.$custom_id : '' ?>"  class="guest-top guest <?= $is_identified_user ? "identified_user" : "" ?>"<?php }else{ ?> class="<?= $is_identified_user ? "identified_user" : "" ?>" <?php } ?>id="<?php if(isset($is_guide)){ ?>help<?php } ?><?= !is_null($custom_id) ? ' '.$custom_id : '' ?>"data-token="<?= $_SESSION['token'] ?>">
-        <!-- version check -->
-        <script>
-           if (typeof oldverse11 === 'undefined'){
-               var tag = document.createElement("p");
-               var text = document.createTextNode('Your Oldverse frontend stored in cache is not up-to-date anymore. Clear it to continue.');
-               tag.appendChild(text);
-               var element = document.getElementsByTagName("body");
-               for (var i = 0; i < element.length; i++) {
-                   element[i].appendChild(tag);
-               }
-               stop();
-           }
-        </script>
         <div id="wrapper">
             <div id="sub-body">
                 <?php

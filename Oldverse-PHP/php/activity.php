@@ -50,11 +50,10 @@ $stmt->execute();
 $result = $stmt->get_result();?>
 <?php if($result->num_rows>0){ ?><div class="body-content" id="community-post-list" data-region="">
         <?php
-        $new_offset = $_GET['offset'] + 20;
-        echo '<div class="list post-list" data-next-page-url="/activity?offset='.$new_offset.'">';
+        $new_offset = $_GET['offset'] + 20;?>
+        <div class="list post-list" data-next-page-url="/activity?offset=<?= $new_offset ?>"><?
         while($row = $result->fetch_array()){
             require "elements/post.php";
         }
-        echo '</div>';
-        ?>
+        ?></div>
 </div><? }else{ showNoContent("No posts were found. Go follow some users/do some actions and get back to this page!"); } ?>

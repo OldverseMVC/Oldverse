@@ -18,11 +18,11 @@ $result = $stmt->get_result();
         if($result->num_rows==0){
             showNoContent("No post was found.");
         }else{
-            echo '<div class="list post-list">';
+            ?><div class="list post-list"><?
             while($row = $result->fetch_array()){
                 require "elements/post.php";
             }
-            echo '</div>';
+            ?></div><?
         }
         ?>
 </div>

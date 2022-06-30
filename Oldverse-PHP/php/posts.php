@@ -3,7 +3,7 @@ require_once "lib/connect.php";
 if(!isset($_GET['id'])){
     showError(400, "You must give an post ID.");
 }
-$stmt = $db->prepare("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, created_at, mii_hash, nickname, username, level, icon, name, permissions, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE posts.id = ?");
+$stmt = $db->prepare("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, created_at, mii_hash, nickname, username, is_pinned, level, icon, name, permissions, owner, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE posts.id = ?");
 $stmt->bind_param('i', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -28,7 +28,7 @@ $user = isset($user) ? $user : null;
 ?>
 <div id="page-title"><? if(!empty($row['community'])){ ?><?= htmlspecialchars($row['name']) ?><? }else{ ?>Activity Feed<? } ?></div>
 <div id="post-content" class="post <?= $row['spoiler']==1 ? 'hidden' : '' ?>" <?= $row['spoiler']==1 ? 'data-href-hidden="/posts/'.$row['id'].'"' : '' ?>>
-    <?if($user['id'] == $row['created_by']){ ?><button type="button" class="symbol button edit-button profile-post-button" data-modal-open="#edit-post-page" data-is-post="1"><span class="symbol-label">Favorite post</span></button><? } ?>
+    <?if($user['id'] == $row['created_by'] || $row['owner'] == $user['id'] || $user['level'] > 0){ ?><button type="button" class="symbol button edit-button profile-post-button" data-modal-open="#edit-post-page" data-is-post="1"><span class="symbol-label">Edit post</span></button><? } ?>
   <a href="/users/<?= $row['username'] ?>" class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], $row['feeling']) ?>" class="icon"></a>
   <p class="timestamp-container">
     <a class="timestamp" href="/posts/<?= $_GET['id'] ?>"><?= getTimeAgo($row['timestamp']) ?> <?= $row['spoiler']==1 ? '- Spoilers!' : '' ?></a>
@@ -38,9 +38,8 @@ $user = isset($user) ? $user : null;
 
   <div class="body">
     <div class="post-content">
-
-
-
+        
+        <? if($row['is_pinned']==1){ ?><p><b>Pinned post</b></p><? } ?>
       <p class="post-content-text"><?= getBody($row['body']) ?></p>
       <? if(!empty($row['screenshot'])){ ?><p class="screenshot-container still-image"><img src="<?= htmlspecialchars($row['screenshot'])?>"></p><? } ?>
       <?
@@ -86,10 +85,10 @@ $user = isset($user) ? $user : null;
         
     </div>
     <div class="report-buttons-content">
-        <button type="button" class="button" data-modal-open="#report-violation-page" data-action="/posts/<?=$row['id']?>/violations" data-is-post="1" data-is-permalink="1" data-can-report-spoiler="1">Report Violation</button>
+        <button type="button" class="button" data-modal-open="#report-violation-page" data-action="/posts/<?= $_GET['id'] ?>/violations" data-is-post="1" data-is-permalink="1" data-can-report-spoiler="1">Report Violation</button>
     </div>
 </div>
-<? if($user['id'] == $row['created_by']){ ?>
+<? if($user['id'] == $row['created_by'] || $row['owner'] == $user['id'] || $user['level'] > 0){ ?>
 <div id="edit-post-page" class="dialog none" data-modal-types="edit-post">
 <div class="dialog-inner">
   <div class="window">
@@ -102,6 +101,7 @@ $user = isset($user) ? $user : null;
           <? if(!empty($row['screenshot'])){ ?><option value="screenshot-profile-post" data-action="/posts/<?= $_GET['id'] ?>/favorite">Set as favorite post</option><? } ?>
             <option value="spoiler" data-action="/posts/<?= $_GET['id'] ?>.set_spoiler.json">Set as spoiler</option>
           <option value="delete" data-action="/posts/<?= $_GET['id'] ?>.delete.json">Delete</option>
+            <? if($row['owner'] == $user['id'] || $user['level'] > 0){ ?><option value="pin" data-action="/posts/<?= $_GET['id'] ?>.pin.json">Pin post</option><? } ?>
         </select>
          <div class="form-buttons">
           <input type="button" class="olv-modal-close-button gray-button" value="Cancel">
@@ -135,7 +135,7 @@ $user = isset($user) ? $user : null;
                         <h1 class="window-title">Report Violation to <?=SITE_NAME?> Administrators</h1>
                         <div class="window-body">
                             <p class="description">You are about to report a post with content which violates the <?=SITE_NAME?> Code of Conduct. This report will be sent to the <?=SITE_NAME?> administrators and not to the creator of the post.</p>
-                            <form method="post" action="/posts/<?=$_GET["id"]?>/violations">
+                            <form method="post" action="/posts/<?= $_GET['id'] ?>/violations">
                                 <input type="hidden" name="token" value="<?=$_SESSION["token"]?>">
                                 <select name="type" class="can-report-spoiler" style="display: inline-block;">
                                     <option value="">Select who should see the report.</option>

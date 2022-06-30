@@ -6,7 +6,7 @@ if(isset($_SESSION['token'])){
 }else{
     $userid = null;
 }
-$stmt = $db->prepare("SELECT name, icon, banner, description, permissions, type, is_flipnote, (SELECT COUNT(*) FROM favorites WHERE source = ? AND target = communities.id) AS is_favorite FROM communities WHERE id = ?");
+$stmt = $db->prepare("SELECT name, icon, banner, communities.description, permissions, type, is_flipnote, nickname, username, owner, (SELECT COUNT(*) FROM favorites WHERE source = ? AND target = communities.id) AS is_favorite FROM communities LEFT JOIN users ON owner = users.id WHERE communities.id = ?");
 $stmt->bind_param('ii', $userid, $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -25,10 +25,14 @@ require_once "lib/header.php";
 if(empty($_GET['offset'])){
     $_GET['offset'] = 0;
 }
-$stmt = $db->prepare("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE community = ? ORDER BY posts.id DESC LIMIT 20 OFFSET ?");
+$stmt = $db->prepare("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE community = ? AND is_pinned = 0 ORDER BY posts.id DESC LIMIT 20 OFFSET ?");
 $stmt->bind_param('ii', $_GET['id'], $_GET['offset']);
 $stmt->execute();
 $result = $stmt->get_result();
+$stmt = $db->prepare("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, is_pinned, feeling, posts.created_at, mii_hash, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE community = ? AND is_pinned = 1 ORDER BY posts.id DESC");
+$stmt->bind_param('i', $_GET['id']);
+$stmt->execute();
+$resultpinned = $stmt->get_result();
 ?>
 <div id="page-title"><?= htmlspecialchars($row['name']) ?></div><div class="header-banner-container"><img src="<?= htmlspecialchars($row['banner']) ?>"></div>
 <div id="community-content" class="">
@@ -36,6 +40,7 @@ $result = $stmt->get_result();
   <?= getCommunityType($row['type'], false) ?>
   <span class="title"><?= htmlspecialchars($row['name']) ?></span>
   <span class="text"><?= htmlspecialchars($row['description']) ?></span>
+  <p style="text-align: center;">Community owner: <a href="/users/<?= htmlspecialchars($row['username'])?>"><?= htmlspecialchars($row['nickname']) ?></a></p>
   <div class="buttons-content">
       <?
       if(isset($_SESSION['token'])){?>
@@ -71,12 +76,19 @@ $result = $stmt->get_result();
         if($result->num_rows==0){
             showNoContent("No posts were found on this community.");
         }else{
-            $new_offset = $_GET['offset'] + 20;
-            echo '<div class="list post-list" data-next-page-url="/communities/'.$_GET['id'].'?offset='.$new_offset.'">';
+            $new_offset = $_GET['offset'] + 20;?>
+            <h3 class="label">Pinned posts</h3>
+            <? if($resultpinned->num_rows!==0){ ?><div class="list">
+            <? while($row = $resultpinned->fetch_array()){
+                require "elements/post.php";
+            }
+            ?></div><? }else{?><p style="margin-top: 4px; color: #969696; font-size: 16px; text-align: center;">No pinned post was found on this community.</p><? } ?>
+            <h3 class="label">Posts</h3>
+            <div class="list post-list" data-next-page-url="/communities/<?= $_GET['id'] ?>?offset=<?= $new_offset ?>"><?
             while($row = $result->fetch_array()){
                 require "elements/post.php";
             }
-            echo '</div>';
+            ?></div><?
         }
         ?>
 </div>
