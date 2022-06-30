@@ -72,17 +72,17 @@ $resultpinned = $stmt->get_result();
 <?php } ?>
 </div>
 <div class="body-content" id="community-post-list" data-region="">
-        <?php
+        <h3 class="label">Pinned posts</h3>
+        <? if($resultpinned->num_rows!==0){ ?><div class="list">
+        <? while($row = $resultpinned->fetch_array()){
+            require "elements/post.php";
+        }
+        ?></div><? }else{?><p style="margin-top: 4px; color: #969696; font-size: 16px; text-align: center;">No pinned post was found on this community.</p><? }
         if($result->num_rows==0){
             showNoContent("No posts were found on this community.");
         }else{
+            theelse:
             $new_offset = $_GET['offset'] + 20;?>
-            <h3 class="label">Pinned posts</h3>
-            <? if($resultpinned->num_rows!==0){ ?><div class="list">
-            <? while($row = $resultpinned->fetch_array()){
-                require "elements/post.php";
-            }
-            ?></div><? }else{?><p style="margin-top: 4px; color: #969696; font-size: 16px; text-align: center;">No pinned post was found on this community.</p><? } ?>
             <h3 class="label">Posts</h3>
             <div class="list post-list" data-next-page-url="/communities/<?= $_GET['id'] ?>?offset=<?= $new_offset ?>"><?
             while($row = $result->fetch_array()){
