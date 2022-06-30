@@ -43,8 +43,7 @@ while($row = $stmtposts->fetch_array()){
       <input type="text" name="query" placeholder="Search Communities" minlength="2"/><input type="submit" value="q" title="Search"/>
     </form>
   </div>
-  <? if(isset($_SESSION['username']) && $_SESSION["username"] == "D"){ //haha dakux go BRRRRR ?> <p>I see you, DaKux. :)</p> <?php } ?>
-    <? if(isset($_SESSION['username']) && $_SESSION["username"] == "Braden"){ //haha braden go BRRRRR ?> <p>Sorry to say this, but you have zadly 0 brain cells left, Braden.</p> <?php } ?>
+  <p class="center" style="padding: 8px;"><b><?= SITE_NAME ?> stores cookies on your computer. <a href="/cookie-info">See more here.</a></b></p>
   <? if(isset($_SESSION['username']) && $resultfav->num_rows > 0) { ?>
   <h3 class="label">Favorite Communities</h3>
     <ul class="list community-list community-title-list">
@@ -60,7 +59,6 @@ while($row = $stmtposts->fetch_array()){
         <?php } ?>
     </ul>
     <? } ?>
-
   <div id="identified-user-banner">
     <a href="/identified_user_posts" data-pjax="#body" class="list-button us">
       <span class="title">Get the latest news here!</span>
