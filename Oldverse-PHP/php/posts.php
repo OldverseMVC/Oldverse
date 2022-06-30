@@ -3,7 +3,7 @@ require_once "lib/connect.php";
 if(!isset($_GET['id'])){
     showError(400, "You must give an post ID.");
 }
-$stmt = $db->prepare("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, created_at, mii_hash, nickname, username, is_pinned, level, icon, name, permissions, owner, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE posts.id = ?");
+$stmt = $db->prepare("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, is_locked, is_pinned, created_at, mii_hash, nickname, username, is_pinned, level, icon, name, permissions, owner, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE posts.id = ?");
 $stmt->bind_param('i', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -14,6 +14,7 @@ if($result->num_rows==0){
     showError(404, "The post could not be found.");
 }
 $row = $result->fetch_array();
+$locked = $row['is_locked'];
 $stmt = $db->prepare("SELECT replies.id, replies.created_by, replies.body, replies.screenshot, replies.feeling, mii_hash, nickname, username, level, replies.created_at, replies.spoiler, (SELECT COUNT(*) FROM empathies WHERE target = replies.id AND type = 1) AS empathy_count, (SELECT UNIX_TIMESTAMP(replies.created_at)) AS timestamp, (SELECT id FROM users WHERE id = posts.created_by) AS target_id FROM replies LEFT JOIN users ON replies.created_by = users.id LEFT JOIN posts ON target = posts.id WHERE target = ?");
 $stmt->bind_param('i', $_GET['id']);
 $stmt->execute();
@@ -101,7 +102,8 @@ $user = isset($user) ? $user : null;
           <? if(!empty($row['screenshot'])){ ?><option value="screenshot-profile-post" data-action="/posts/<?= $_GET['id'] ?>/favorite">Set as favorite post</option><? } ?>
             <option value="spoiler" data-action="/posts/<?= $_GET['id'] ?>.set_spoiler.json">Set as spoiler</option>
           <option value="delete" data-action="/posts/<?= $_GET['id'] ?>.delete.json">Delete</option>
-            <? if($row['owner'] == $user['id'] || $user['level'] > 0){ ?><option value="pin" data-action="/posts/<?= $_GET['id'] ?>.pin.json">Pin post</option><? } ?>
+            <? if($row['owner'] == $user['id'] && $row['is_pinned']!==1 || $user['level'] > 0 && $row['is_pinned']!==1){ ?><option value="pin" data-action="/posts/<?= $_GET['id'] ?>.pin.json">Pin post</option><? } ?>
+            <? if($row['owner'] == $user['id'] && $row['is_locked']!==1 || $user['level'] > 0 && $row['is_locked']!==1){ ?><option value="pin" data-action="/posts/<?= $_GET['id'] ?>.lock.json">Lock post</option><? } ?>
         </select>
          <div class="form-buttons">
           <input type="button" class="olv-modal-close-button gray-button" value="Cancel">
@@ -165,7 +167,8 @@ $user = isset($user) ? $user : null;
 </ul>
 <h2 class="label">Add a Comment</h2>
 <?php
-if(isset($_SESSION['token'])){ ?>
+if(isset($_SESSION['token'])){ 
+    if($locked!==1){ ?>
 <form id="reply-form" method="post" class="folded" action="/posts/<?= $_GET['id'] ?>/replies">
   
 
@@ -184,7 +187,10 @@ if(isset($_SESSION['token'])){ ?>
     <input type="submit" class="black-button reply-button disabled" value="Send">
   </div>
 </form>
-<?php } else {?>
+<?php }else{?>
+<div id="about">
+<p>This post has been locked and is not open for further comments.</p><br>
+</div><? } }else{ ?>
 <div id="about">
 <p>You must sign in to post a comment.<br><br>Sign in with a <?=SITE_NAME?> account to connect to users around the world by writing posts and comments and by giving Yeahs to other people's posts. You can sign up for a <?=SITE_NAME?> account <a href="/account/signup">here</a>.</p><br>
 <a href="/account/login" class="arrow-button"><span>Login</span></a>

@@ -72,7 +72,7 @@ $row = $result->fetch_assoc();
 if($row['COUNT(*)'] > 0) {
     showJSONError(403, 1213005, 'You\'re making too many posts in quick succession. Please try again in a moment.');
 }
-$stmt = $db->prepare("INSERT INTO `posts`(community, created_by, body, url, screenshot, spoiler, feeling) VALUES (?, ?, ?, ?, ?, ?, ?)");
+$stmt = $db->prepare("INSERT INTO `posts`(community, created_by, body, url, screenshot, spoiler, feeling, is_pinned, is_locked) VALUES (?, ?, ?, ?, ?, ?, ?, 0, 0)");
 $stmt->bind_param('iisssii', $_POST['community'], $user['id'], $_POST['body'], $_POST['url'], $_POST['screenshot'], $_POST['is_spoiler'], $_POST['feeling_id']);
 $stmt->execute();
 if($stmt->error){

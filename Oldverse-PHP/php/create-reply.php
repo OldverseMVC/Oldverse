@@ -17,7 +17,7 @@ if(mb_strlen($_POST['body']) > 2000) {
     showJSONError(400, 1219309, 'Your body is too long.');
 }
 $user = getUser($_SESSION['token']);
-$stmt = $db->prepare("SELECT users.id, created_by FROM posts LEFT JOIN users ON created_by = users.id WHERE posts.id = ?");
+$stmt = $db->prepare("SELECT users.id, created_by, is_locked FROM posts LEFT JOIN users ON created_by = users.id WHERE posts.id = ?");
 $stmt->bind_param('i', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -48,6 +48,9 @@ if(!empty($_POST['screenshot'])){
     }
 }
 $post_row = $result->fetch_array();
+if($post_row['is_locked']==1){
+    showJSONError(400, 5256516, "This post has been locked and is not open for further comments.");
+}
 $stmt = $db->prepare('SELECT COUNT(*) FROM replies WHERE created_by = ? AND created_at > NOW() - INTERVAL '.rand(15,20).' SECOND');
 $stmt->bind_param('i', $user['id']);
 $stmt->execute();
