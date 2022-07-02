@@ -68,7 +68,7 @@ $stmt->execute();
 if($stmt->error){
     showJSONError(500, 5655255, "An error occured while inserting the reply in the database.");
 }
-$stmt = $db->prepare("SELECT replies.id, created_by, body, screenshot, spoiler, feeling, created_at, mii_hash, username, nickname, level, (SELECT COUNT(*) FROM empathies WHERE target = replies.id AND type = 1) AS empathy_count,  (SELECT UNIX_TIMESTAMP(replies.created_at)) AS timestamp FROM replies LEFT JOIN users ON created_by = users.id WHERE created_by = ? ORDER BY id DESC LIMIT 1");
+$stmt = $db->prepare("SELECT replies.id, created_by, body, screenshot, spoiler, feeling, created_at, mii_hash, username, nick_color, nickname, level, (SELECT COUNT(*) FROM empathies WHERE target = replies.id AND type = 1) AS empathy_count,  (SELECT UNIX_TIMESTAMP(replies.created_at)) AS timestamp FROM replies LEFT JOIN users ON created_by = users.id WHERE created_by = ? ORDER BY id DESC LIMIT 1");
 $stmt->bind_param('i', $user['id']);
 $stmt->execute();
 if($stmt->error){

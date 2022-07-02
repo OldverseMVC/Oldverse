@@ -78,7 +78,7 @@ $stmt->execute();
 if($stmt->error){
     showJSONError(500, 5655255, "An error occured while inserting the post in the database.");
 }
-$stmt = $db->prepare("SELECT posts.id, community, created_by, body, posts.url, screenshot, spoiler, feeling, created_at, mii_hash, username, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count,  (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE created_by = ? ORDER BY id DESC LIMIT 1");
+$stmt = $db->prepare("SELECT posts.id, community, created_by, body, posts.url, screenshot, spoiler, feeling, created_at, mii_hash, username, nick_color, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count,  (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE created_by = ? ORDER BY id DESC LIMIT 1");
 $stmt->bind_param('i', $user['id']);
 $stmt->execute();
 if($stmt->error){
