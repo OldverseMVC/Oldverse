@@ -4,7 +4,9 @@ header("X-Frame-Options: Deny");
 
 //security
 if(isset($_SERVER['HTTP_REFERER']) && !str_starts_with($_SERVER['HTTP_REFERER'], "https://".$_SERVER['SERVER_NAME'])){
-    exit("Forbidden.");
+    echo "Seems like a website redirected you to Oldverse. To ensure security, we are refreshing the page...";
+    header("Refresh: 5; url=https://".$_SERVER['SERVER_NAME']);
+    exit;
 }
 
 // HACK: fix for including config in multiple dirs down
