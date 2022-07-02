@@ -6,7 +6,7 @@ if(!isset($_GET['id'])){
 if(!isset($_GET['mode'])){
     showError(400, 'You must precise an mode.');
 }
-$stmt = $db->prepare("SELECT id, nickname, mii_hash, level, favorite, (SELECT COUNT(*) FROM posts WHERE created_by = users.id) AS post_num, (SELECT COUNT(*) FROM empathies WHERE source = users.id) AS yeah_num, (SELECT COUNT(*) FROM follows WHERE target = users.id) AS follow_num, (SELECT COUNT(*) FROM follows WHERE source = users.id) AS followed_num FROM users WHERE username = ?");
+$stmt = $db->prepare("SELECT id, nickname, mii_hash, nick_color, level, favorite, (SELECT COUNT(*) FROM posts WHERE created_by = users.id) AS post_num, (SELECT COUNT(*) FROM empathies WHERE source = users.id) AS yeah_num, (SELECT COUNT(*) FROM follows WHERE target = users.id) AS follow_num, (SELECT COUNT(*) FROM follows WHERE source = users.id) AS followed_num FROM users WHERE username = ?");
 $stmt->bind_param('s', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -38,9 +38,9 @@ if(empty($_GET['offset'])){
     $_GET['offset'] = 0;
 }
 if($_GET['mode']==1){
-    $stmt = $db->prepare("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE created_by = ? ORDER BY posts.id DESC LIMIT 20 OFFSET ?");
+    $stmt = $db->prepare("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, nick_color, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE created_by = ? ORDER BY posts.id DESC LIMIT 20 OFFSET ?");
 }else{
-    $stmt = $db->prepare("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM empathies LEFT JOIN posts ON target = posts.id LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE empathies.source = ? AND empathies.type = 0 ORDER BY empathies.id DESC LIMIT 20 OFFSET ?");
+    $stmt = $db->prepare("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, nick_color, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM empathies LEFT JOIN posts ON target = posts.id LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE empathies.source = ? AND empathies.type = 0 ORDER BY empathies.id DESC LIMIT 20 OFFSET ?");
 }
 $stmt->bind_param('ii', $row['id'], $_GET['offset']);
 $stmt->execute();
@@ -50,7 +50,7 @@ $result = $stmt->get_result();
 <? if(!empty($row['favorite'])){ ?><a href="/posts/<?= $row['favorite'] ?>" class="user-profile-memo-container" style="background-image:url('<?= htmlspecialchars($prow['screenshot'] )?>')"><img src="<?= htmlspecialchars($prow['screenshot']) ?>" class="user-profile-screenshot"></a><? } ?>
 <div id="user-content" class="<?= !empty($row['favorite']) ? '' : 'no-profile-post-user' ?>">
     <span class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], 0)?>" class="icon"></span>
-	    <div class="nick-name"><?= htmlspecialchars($row['nickname'])?><span class="id-name"><?= htmlspecialchars($_GET['id']) ?></span></div>
+	    <div class="nick-name" style="color: <?= $row['nick_color'] ?>"><?= htmlspecialchars($row['nickname'])?><span class="id-name"><?= htmlspecialchars($_GET['id']) ?></span></div>
     <a href="/users/<?= $_GET['id'] ?>" class="profile-page-button button">To Top</a>
   </div><div id="nav-menu" class="nav-4">
     <a href="/users/<?= htmlspecialchars($_GET['id']) ?>/posts" class="selected">

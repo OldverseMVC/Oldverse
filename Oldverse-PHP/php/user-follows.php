@@ -6,7 +6,7 @@ if(!isset($_GET['id'])){
 if(!isset($_GET['mode'])){
     showError(400, 'You must precise an mode.');
 }
-$stmt = $db->prepare("SELECT id, nickname, mii_hash, description, created_on, level, favorite, (SELECT COUNT(*) FROM posts WHERE created_by = users.id) AS post_num, (SELECT COUNT(*) FROM follows WHERE target = users.id) AS follow_num, (SELECT COUNT(*) FROM follows WHERE source = users.id) AS followed_num FROM users WHERE username = ?");
+$stmt = $db->prepare("SELECT id, nickname, mii_hash, nick_color, description, created_on, level, favorite, (SELECT COUNT(*) FROM posts WHERE created_by = users.id) AS post_num, (SELECT COUNT(*) FROM follows WHERE target = users.id) AS follow_num, (SELECT COUNT(*) FROM follows WHERE source = users.id) AS followed_num FROM users WHERE username = ?");
 $stmt->bind_param('s', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -34,9 +34,9 @@ $name = $_GET['mode'] == 1 ? 'follows' : 'followers';
 $title = $row['nickname']."'s ".$name;
 require_once "lib/header.php";
 if($_GET['mode']==1){
-    $stmt = $db->prepare("SELECT users.id, username, nickname, mii_hash, description, favorite, level FROM follows LEFT JOIN users ON target = users.id WHERE source = ? ORDER BY users.id DESC");
+    $stmt = $db->prepare("SELECT users.id, username, nickname, nick_color, mii_hash, description, favorite, level FROM follows LEFT JOIN users ON target = users.id WHERE source = ? ORDER BY users.id DESC");
 }else{
-    $stmt = $db->prepare("SELECT users.id, username, nickname, mii_hash, description, favorite, level FROM follows LEFT JOIN users ON source = users.id WHERE target = ? ORDER BY users.id DESC");
+    $stmt = $db->prepare("SELECT users.id, username, nickname, nick_color, mii_hash, description, favorite, level FROM follows LEFT JOIN users ON source = users.id WHERE target = ? ORDER BY users.id DESC");
 }
 $stmt->bind_param('i', $row['id']);
 $stmt->execute();
@@ -46,7 +46,7 @@ $result = $stmt->get_result();
 <? if(!empty($row['favorite'])){ ?><a href="/posts/<?= $row['favorite'] ?>" class="user-profile-memo-container" style="background-image:url('<?= htmlspecialchars($prow['screenshot'] )?>')"><img src="<?= htmlspecialchars($prow['screenshot']) ?>" class="user-profile-screenshot"></a><? } ?>
 <div id="user-content" class="<?= !empty($row['favorite']) ? '' : 'no-profile-post-user' ?>">
     <span class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], 0)?>" class="icon"></span>
-	    <div class="nick-name"><?= htmlspecialchars($row['nickname'])?><span class="id-name"><?= htmlspecialchars($_GET['id']) ?></span></div>
+	    <div class="nick-name" style="color: <?= $row['nick_color'] ?>"><?= htmlspecialchars($row['nickname'])?><span class="id-name"><?= htmlspecialchars($_GET['id']) ?></span></div>
     <a href="/users/<?= $_GET['id'] ?>" class="profile-page-button button">To Top</a>
   </div><div id="nav-menu" class="nav-4">
     <a href="/users/<?= htmlspecialchars($_GET['id']) ?>/posts">
@@ -94,7 +94,7 @@ $result = $stmt->get_result();
         <a href="/users/<?= htmlspecialchars($row['username']) ?>" class="icon-container <?= $row['level']>0 ? 'official-user' : ''  ?>"><img src="<?= getAvatar($row['mii_hash'], 0) ?>" class="icon"></a>
         <div class="body">
             <p class="title">
-                <span class="nick-name"><a href="/users/<?= $row['username'] ?>"><?= htmlspecialchars($row['nickname']) ?></a></span>
+                <span class="nick-name"><a href="/users/<?= $row['username'] ?>" style="color: <?= $row['nick_color'] ?>"><?= htmlspecialchars($row['nickname']) ?></a></span>
                 <span class="id-name"><?= htmlspecialchars($row['username']) ?></span>
             </p>
             <p class="text"><?= htmlspecialchars($row['description']) ?></p>

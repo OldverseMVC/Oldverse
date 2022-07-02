@@ -3,7 +3,7 @@
   <a href="/users/<?= $row['username'] ?>" class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], $row['feeling'])?>" class="icon"></a>
   <div class="body">
       <div class="header">
-      <p class="user-name"><a href="/users/<?= $row['username'] ?>"><?= $row['nickname'] ?></a></p>
+      <p class="user-name"><a href="/users/<?= $row['username'] ?>" style="color: <?= htmlspecialchars($row['nick_color']) ?>"><?= $row['nickname'] ?></a></p>
       <p class="timestamp-container">
         <a class="timestamp" href="/replies/<?= $_GET['id'] ?>"><?= getTimeAgo($row['timestamp']) ?> <?= $row['spoiler']==1 ? '- Spoilers!' : '' ?></a>
     </p>

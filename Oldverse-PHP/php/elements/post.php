@@ -5,7 +5,7 @@ $display_none = isset($display_none) ? $display_none : false; ?>
   <p class="timestamp-container">
     <a class="timestamp" href="/posts/<?= $row['id'] ?>"><?= getTimeAgo($row['timestamp']) ?> <?= $row['spoiler']==1 ? '- Spoilers!' : '' ?></a>
   </p>
-  <p class="user-name"><?= htmlspecialchars($row['nickname']) ?></p>
+  <p class="user-name" style="color: <?= htmlspecialchars($row['nick_color']) ?>"><?= htmlspecialchars($row['nickname']) ?></p>
   <? if(!empty($row['community'])){ ?><p class="community-container"><a href="/communities/<?= $row['community'] ?>"><img src="<?= $row['icon'] ?>" class="community-icon"><?= htmlspecialchars($row['name']) ?></a></p><? } ?>
 
   <div class="body">

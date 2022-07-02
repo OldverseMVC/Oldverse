@@ -8368,3 +8368,15 @@ body.search .no-title-content p {
   padding: 10px 25px 8px 10px;
   line-height: 1.3em;
 }
+/*Create button styles*/
+.create-button {
+    padding-right: 171.5px;
+    padding-left: 171.5px;
+}
+.create-button::before {
+    content: "c";
+    font-size: 16px;
+    color: #28d222;
+    display: inline-block;
+    vertical-align: middle;
+}

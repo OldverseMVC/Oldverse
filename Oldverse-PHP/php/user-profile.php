@@ -3,7 +3,7 @@ require_once "lib/connect.php";
 if(!isset($_GET['id'])){
     showError(400, 'You must precise an user ID.');
 }
-$stmt = $db->prepare("SELECT id, nickname, mii_hash, description, created_on, level, favorite, nnid, url, allows_online_status, (SELECT UNIX_TIMESTAMP(last_online)) AS timestamp, (SELECT COUNT(*) FROM posts WHERE created_by = users.id) AS post_num, (SELECT COUNT(*) FROM follows WHERE target = users.id) AS follow_num, (SELECT COUNT(*) FROM follows WHERE source = users.id) AS followed_num FROM users WHERE username = ?");
+$stmt = $db->prepare("SELECT id, nickname, mii_hash, nick_color, description, created_on, level, favorite, nnid, url, allows_online_status, (SELECT UNIX_TIMESTAMP(last_online)) AS timestamp, (SELECT COUNT(*) FROM posts WHERE created_by = users.id) AS post_num, (SELECT COUNT(*) FROM follows WHERE target = users.id) AS follow_num, (SELECT COUNT(*) FROM follows WHERE source = users.id) AS followed_num FROM users WHERE username = ?");
 $stmt->bind_param('s', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -53,7 +53,7 @@ $result = $stmt->get_result();
 <? if(!empty($row['favorite'])){ ?><a href="/posts/<?= $row['favorite'] ?>" class="user-profile-memo-container" style="background-image:url('<?= htmlspecialchars($prow['screenshot'] )?>')"><img src="<?= htmlspecialchars($prow['screenshot']) ?>" class="user-profile-screenshot"></a><? } ?>
 <div id="user-content" class="<?= !empty($row['favorite']) ? '' : 'no-profile-post-user' ?>">
     <span class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], 0)?>" class="icon"></span>
-	    <div class="nick-name"><?= htmlspecialchars($row['nickname'])?><span class="id-name"><?= htmlspecialchars($_GET['id']) ?></span></div>
+	    <div class="nick-name" style="color: <?= $row['nick_color'] ?>"><?= htmlspecialchars($row['nickname'])?><span class="id-name"><?= htmlspecialchars($_GET['id']) ?></span></div>
     <div id="user-menu">
       <? if(isset($_SESSION['token']) && $row['id']==$user['id']){ ?><div id="edit-profile-settings"><a class="button symbol" href="/settings/profile">Profile Settings</a></div><? } ?>
     </div>

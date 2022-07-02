@@ -1,7 +1,7 @@
 <?php
 $title = "Communities";
 require_once "lib/header.php";
-$stmtposts = $db->query("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE posts.created_at  >= DATE_SUB(NOW(), INTERVAL 1 HOUR) ORDER BY posts.id DESC LIMIT 20");
+$stmtposts = $db->query("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, nick_color, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE posts.created_at  >= DATE_SUB(NOW(), INTERVAL 1 HOUR) ORDER BY posts.id DESC LIMIT 20");
 $stmtwiiu = $db->query("SELECT id, icon FROM communities WHERE featured = 1 AND type = 0 OR featured = 1 AND type = 2 ORDER BY id DESC LIMIT 10");
 $stmtnewiiu = $db->query("SELECT id, icon, name, type FROM communities WHERE type = 0 OR type = 2 ORDER BY id DESC LIMIT 10");
 
@@ -65,7 +65,7 @@ while($row = $stmtposts->fetch_array()){
       <span class="text">Posts from Verified Users</span>
     </a>
   </div>
-  <a href="/communities/create" class="button">Create community</a>
+  <a href="/communities/create" class="button symbol create-button">Create community</a>
   <div class="platform-tab">
     <a id="tab-wiiu" data-platform="wiiu" class="trigger selected" tabindex="0"><span>Wii U Communities</span></a>
     <a id="tab-3ds" data-platform="3ds" class="trigger" tabindex="0"><span>3DS Communities</span></a>

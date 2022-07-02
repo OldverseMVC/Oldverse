@@ -93,7 +93,7 @@ if($_SERVER['REQUEST_URI']!=='/banned'){
 function getUser($token){
     global $db;
     $id = getUserID($token);
-    $stmt = $db->prepare("SELECT id, username, mii_hash, level, password FROM users WHERE id = ?");
+    $stmt = $db->prepare("SELECT id, username, mii_hash, level, password, nick_color FROM users WHERE id = ?");
     $stmt->bind_param('i', $id);
     $stmt->execute();
     if($stmt->error){

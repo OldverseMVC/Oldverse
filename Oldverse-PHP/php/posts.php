@@ -3,7 +3,7 @@ require_once "lib/connect.php";
 if(!isset($_GET['id'])){
     showError(400, "You must give an post ID.");
 }
-$stmt = $db->prepare("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, is_locked, is_pinned, created_at, mii_hash, nickname, username, is_pinned, level, icon, name, permissions, owner, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE posts.id = ?");
+$stmt = $db->prepare("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, is_locked, is_pinned, created_at, mii_hash, nick_color, nickname, username, is_pinned, level, icon, name, permissions, owner, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE posts.id = ?");
 $stmt->bind_param('i', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -15,7 +15,7 @@ if($result->num_rows==0){
 }
 $row = $result->fetch_array();
 $locked = $row['is_locked'];
-$stmt = $db->prepare("SELECT replies.id, replies.created_by, replies.body, replies.screenshot, replies.feeling, mii_hash, nickname, username, level, replies.created_at, replies.spoiler, (SELECT COUNT(*) FROM empathies WHERE target = replies.id AND type = 1) AS empathy_count, (SELECT UNIX_TIMESTAMP(replies.created_at)) AS timestamp, (SELECT id FROM users WHERE id = posts.created_by) AS target_id FROM replies LEFT JOIN users ON replies.created_by = users.id LEFT JOIN posts ON target = posts.id WHERE target = ?");
+$stmt = $db->prepare("SELECT replies.id, replies.created_by, replies.body, replies.screenshot, replies.feeling, mii_hash, nickname, nick_color, username, level, replies.created_at, replies.spoiler, (SELECT COUNT(*) FROM empathies WHERE target = replies.id AND type = 1) AS empathy_count, (SELECT UNIX_TIMESTAMP(replies.created_at)) AS timestamp, (SELECT id FROM users WHERE id = posts.created_by) AS target_id FROM replies LEFT JOIN users ON replies.created_by = users.id LEFT JOIN posts ON target = posts.id WHERE target = ?");
 $stmt->bind_param('i', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -34,7 +34,7 @@ $user = isset($user) ? $user : null;
   <p class="timestamp-container">
     <a class="timestamp" href="/posts/<?= $_GET['id'] ?>"><?= getTimeAgo($row['timestamp']) ?> <?= $row['spoiler']==1 ? '- Spoilers!' : '' ?></a>
   </p>
-  <p class="user-name"><?= htmlspecialchars($row['nickname']) ?><span class="user-id"><?= $row['username'] ?></span></p>
+  <p class="user-name" style="color: <?= htmlspecialchars($row['nick_color']) ?>"><?= htmlspecialchars($row['nickname']) ?><span class="user-id"><?= $row['username'] ?></span></p>
  <p class="community-container"> <? if(!empty($row['community'])){ ?><a href="/communities/<?= $row['community'] ?>"><img src="<?= $row['icon'] ?>" class="community-icon"><?= htmlspecialchars($row['name']) ?></a><? }else{ ?><a href="/activity"><img src="" class="community-icon">Activity Feed</a><? } ?></p>
 
   <div class="body">

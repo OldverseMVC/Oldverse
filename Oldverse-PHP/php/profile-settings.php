@@ -43,13 +43,20 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     }else{
         showJSONError(400, 4894988, 'Your online status preference cannot be empty.');
     }
-    $stmt = $db->prepare("UPDATE users SET description = ?, nnid = ?, mii_hash = ?, url = ?, nickname = ?, allows_online_status = ? WHERE id = ?");
-    $stmt->bind_param('sssssii', $_POST['profile_comment'], $_POST['nnid'], $hash, $_POST['url'], $_POST['nickname'], $_POST['allows-online-status'], $user['id']);
+    if(!empty($_POST['nick-color'])){
+        if(!preg_match('|#([a-zA-Z0-9_-]{3,6})|', $_POST['nick-color'], $matches)){
+            showJSONError(400, 5925928, "Your nickname color isn't valid. Well played kid, next time try better!");
+        }
+    }else{
+        $_POST['nick-color'] = "#000";
+    }
+    $stmt = $db->prepare("UPDATE users SET description = ?, nnid = ?, mii_hash = ?, url = ?, nickname = ?, allows_online_status = ?, nick_color = ? WHERE id = ?");
+    $stmt->bind_param('sssssisi', $_POST['profile_comment'], $_POST['nnid'], $hash, $_POST['url'], $_POST['nickname'], $_POST['allows-online-status'], $_POST['nick-color'], $user['id']);
     $stmt->execute();
 }
 $title = "Profile Settings";
 require_once "lib/header.php";
-$stmt = $db->prepare("SELECT nickname, description, nnid, url, flipnote_token, password, favorite, allows_online_status FROM users WHERE id = ?");
+$stmt = $db->prepare("SELECT nickname, description, nnid, url, flipnote_token, password, favorite, allows_online_status, nick_color FROM users WHERE id = ?");
 $stmt->bind_param('i', $user['id']);
 $stmt->execute();
 if($stmt->error){
@@ -99,6 +106,10 @@ if(isset($row['favorite'])){
     <li class="setting-profile-comment">
       <p class="settings-label">Custom URL</p>
       <input type="text" class="textarea-line url-form" name="url" placeholder="This will show up on your profile." value="<?= htmlspecialchars($row['url']) ?>" maxlength="64">
+    </li>
+    <li class="setting-profile-comment">
+      <p class="settings-label">Nickname color</p>
+      <input type="color" name="nick-color" value="<?= htmlspecialchars($row['nick_color']) ?>">
     </li>
     <li class="setting-profile-comment">
       <p class="settings-label">Allow to display your online status</p>

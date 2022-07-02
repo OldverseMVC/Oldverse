@@ -1,6 +1,6 @@
 <?php
 require_once "lib/connect.php";
-$stmt = $db->prepare("SELECT replies.id, replies.created_by, replies.body, replies.screenshot,replies.spoiler, replies.feeling, replies.created_at, (SELECT owner FROM communities WHERE id = posts.community) AS owner, replies.target, mii_hash, nickname, username, icon, level, name, community, (SELECT COUNT(*) FROM empathies WHERE target = replies.id AND type = 1) AS empathy_count, (SELECT UNIX_TIMESTAMP(replies.created_at)) AS timestamp, (SELECT nickname FROM users WHERE id = posts.created_by) AS ogpost_nickname, (SELECT mii_hash FROM users WHERE id = posts.created_by) AS ogpost_mii_hash FROM replies LEFT JOIN users ON created_by = users.id LEFT JOIN posts ON target = posts.id LEFT JOIN communities ON posts.community = communities.id WHERE replies.id = ?");
+$stmt = $db->prepare("SELECT replies.id, replies.created_by, replies.body, replies.screenshot,replies.spoiler, replies.feeling, replies.created_at, (SELECT owner FROM communities WHERE id = posts.community) AS owner, replies.target, mii_hash, nickname, nick_color, username, icon, level, name, community, (SELECT COUNT(*) FROM empathies WHERE target = replies.id AND type = 1) AS empathy_count, (SELECT UNIX_TIMESTAMP(replies.created_at)) AS timestamp, (SELECT nickname FROM users WHERE id = posts.created_by) AS ogpost_nickname, (SELECT mii_hash FROM users WHERE id = posts.created_by) AS ogpost_mii_hash FROM replies LEFT JOIN users ON created_by = users.id LEFT JOIN posts ON target = posts.id LEFT JOIN communities ON posts.community = communities.id WHERE replies.id = ?");
 $stmt->bind_param('i', $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -24,7 +24,7 @@ $user = isset($user) ? $user : null;
 <div id="reply-<?= $row['id']?>" class="">
 <a href="/users/<?= $row['username'] ?>" class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], $row['feeling'])?>" class="icon"></a>
     <p class="timestamp-container"><span class="timestamp" href="/posts/<?= $_GET['id'] ?>"><?= getTimeAgo($row['timestamp']) ?> <?= $row['spoiler']==1 ? '- Spoilers!' : '' ?></span></p>
-    <p class="user-name"><a href="/users/<?= htmlspecialchars($row['username']) ?>"><?= htmlspecialchars($row['nickname']) ?></a></p>
+    <p class="user-name"><a href="/users/<?= htmlspecialchars($row['username']) ?>" style="color: <?= htmlspecialchars($row['nick_color']) ?>"><?= htmlspecialchars($row['nickname']) ?></a><span class="user-id"><?= $row['username'] ?></span></p>
      <p class="community-container"> <? if(!empty($row['community'])){ ?><a href="/communities/<?= $row['community'] ?>"><img src="<?= $row['icon'] ?>" class="community-icon"><?= htmlspecialchars($row['name']) ?></a><? }else{ ?><a href="/activity"><img src="" class="community-icon">Activity Feed</a><? } ?></p><div class="body">
     <p class="reply-content-text"><?= getBody($row['body']) ?></p>
     <? if(!empty($row['screenshot'])){ ?><p class="screenshot-container still-image"><img src="<?= htmlspecialchars($row['screenshot'])?>"></p><? } ?>
