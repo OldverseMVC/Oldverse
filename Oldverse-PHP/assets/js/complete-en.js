@@ -14,7 +14,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
  * jQuery JavaScript Library v1.9.1
  * http://jquery.com/
  *
- * Includes Sizzle.js
+ * Includes Sizzle.jse.r
  * http://sizzlejs.com/
  *
  * Copyright 2005, 2012 jQuery Foundation, Inc. and other contributors
@@ -1292,6 +1292,22 @@ var Olv = Olv || {};
         })
     }), b.router.connect("^/(identified_user_posts|news/my_news)+$", function(a, c, d) {
         b.Guest.isGuest() || b.User.setupFollowButton(d)
+    }), b.router.connect("^/identified_user_posts", function(c, d, e) {
+        function f(b, c) {
+            var d = a(".post-list");
+            d.length || (d = a("<div>", {
+                "class": "list post-list"
+            }).replaceAll(".no-content"));
+            var e = a(a.parseHTML(c)).filter("*");
+            e.hide().fadeIn(400).prependTo(d);
+            var f = a(window);
+            f.scrollTop(e.offset().top + e.outerHeight() / 2 - f.height() / 2)
+        }
+        b.Entry.setupHiddenContents(e), b.Content.autopagerize(".post-list", e);
+        var g = a("#post-form");
+        b.Guest.isGuest() || (b.Community.setupFavoriteButtons(e), b.Entry.setupEmpathyButtons(e), b.EntryForm.setupSubmission(g, e)), g.on("olv:entryform:post:done", f), e.done(function() {
+            g.off("olv:entryform:post:done", f)
+        })
     }), b.router.connect("^/communities/(?:favorites|played)$", function(a, c, d) {
         b.Content.autopagerize(".community-list", d)
     }), b.router.connect("^/communities/search$", function(c, d, e) {
