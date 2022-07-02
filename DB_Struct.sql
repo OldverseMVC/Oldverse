@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : jeu. 30 juin 2022 à 06:39
+-- Généré le : sam. 02 juil. 2022 à 11:38
 -- Version du serveur :  5.6.51-cll-lve
 -- Version de PHP : 7.3.32
 
@@ -218,7 +218,8 @@ CREATE TABLE `users` (
   `flipnote_token` varchar(50) NOT NULL,
   `favorite` int(11) DEFAULT NULL,
   `last_online` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `allows_online_status` tinyint(1) NOT NULL
+  `allows_online_status` tinyint(1) NOT NULL,
+  `nick_color` varchar(7) DEFAULT '#000'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
