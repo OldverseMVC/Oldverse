@@ -12,7 +12,7 @@ if(!isset($_GET['id'])){
 if(!isset($_GET['type'])){
     showJSONError(403, 8484888, 'You must precise a type.');
 }
-if($type==0){
+if($_GET['type']==0){
     $stmt = $db->prepare("SELECT created_by, (SELECT owner FROM communities WHERE id = posts.community) AS owner FROM posts WHERE id = ?");
 }else{
     $stmt = $db->prepare("SELECT replies.created_by, (SELECT owner FROM communities WHERE id = posts.community) AS owner FROM replies LEFT JOIN posts ON replies.id = posts.id WHERE replies.id = ?");
@@ -35,7 +35,7 @@ if($user['id']!==$row['created_by']){
         }
     }
 }
-if($type==0){
+if($_GET['type']==0){
     $stmt = $db->prepare("UPDATE `posts` SET `spoiler`=1 WHERE id=?");
 }else{
     $stmt = $db->prepare("UPDATE `replies` SET `spoiler`=1 WHERE id=?");
