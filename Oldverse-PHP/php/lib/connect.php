@@ -1,4 +1,12 @@
 <?php
+//Block iframes as soon as we can
+header("X-Frame-Options: Deny");
+
+//security
+if(isset($_SERVER['HTTP_REFERER']) && !str_starts_with($_SERVER['HTTP_REFERER'], "https://".$_SERVER['SERVER_NAME'])){
+    exit("Forbidden.");
+}
+
 // HACK: fix for including config in multiple dirs down
 // Please fix this!
 $config_double = 0;
@@ -91,6 +99,10 @@ function getUser($token){
     }
     $result = $stmt->get_result();
     return $result->fetch_array();
+}
+//Reimplementation of str_start_with for PHP 7. thx php docs <3
+function str_starts_with ( $haystack, $needle ) {
+  return strpos( $haystack , $needle ) === 0;
 }
 function getAvatar($hash, $feeling){
     switch($feeling){
