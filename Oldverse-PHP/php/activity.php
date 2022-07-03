@@ -25,6 +25,19 @@ requireAuth();
   </div>
 </form>
 <?
+if(empty($_GET['fragment']) && empty($_GET['offset'])){ ?>
+    <div class="activity-feed content-loading-window">
+      <div>
+        <p class="tleft"><span>Loading activity feed...</span></p>
+      </div>
+    </div>
+    <div class="activity-feed content-load-error-window none">
+      <div>
+        <p>The activity feed couldn't be loaded. Check your Internet connection, wait a moment, and then try reloading.</p>
+        <div class="buttons-content"><a href="/activity" class="button">Reload</a></div>
+      </div>
+    </div><? } ?>
+<?
 //wanna hear a joke? t h i s 
 $stmt = $db->prepare("SELECT target FROM `follows` WHERE source = ?");
 $stmt->bind_param('i', $user['id']);
@@ -48,7 +61,7 @@ $stmt = $db->prepare("SELECT posts.id, community, created_by, flipnote, body, po
 $stmt->bind_param('i', $_GET['offset']);
 $stmt->execute();
 $result = $stmt->get_result();?>
-<?php if($result->num_rows>0){ ?><div class="body-content" id="community-post-list" data-region="">
+<?php if(!empty($_GET['fragment']) || !empty($_GET['offset'])){ if($result->num_rows>0){ ?><div class="body-content" id="community-post-list" data-region="">
         <?php
         $new_offset = $_GET['offset'] + 20;?>
         <div class="list post-list" data-next-page-url="/activity?offset=<?= $new_offset ?>"><?
@@ -56,4 +69,4 @@ $result = $stmt->get_result();?>
             require "elements/post.php";
         }
         ?></div>
-</div><? }else{ showNoContent("No posts were found. Go follow some users/do some actions and get back to this page!"); } ?>
+</div><? }else{ showNoContent("No posts were found. Go follow some users/do some actions and get back to this page!"); }} ?>
