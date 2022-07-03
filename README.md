@@ -24,3 +24,5 @@ You're good to go!
 - Thanks <a href="https://github.com/jaames">jaames</a> for <a href="https://github.com/jaames/flipnote.js">flipnote.js</a> and <a href="https://gist.github.com/jaames/69af90df7a51b56ba04826bd7660420d">KwzParser.php</a>
 # Why is this private
 Because I don't want anybody else than trusted users to use my clone codebase.
+# Can I use this to do the 488585288588748474874th fork of a MVC?
+Please. STOOOOOOOPPPPPPPPP!
