@@ -51,6 +51,26 @@ $result = $stmt->get_result();
             case 4:
                 $builded_type = " followed you";
                 break;
+            case 5:
+                $stmt = $db->prepare("SELECT body FROM posts WHERE id = ?");
+                $stmt->bind_param('i', $row['additional_id']);
+                $stmt->execute();
+                $bresult = $stmt->get_result();
+                $brow = $bresult->fetch_array();
+                $drycut = substr($brow['body'], 0, 50);
+                $cut = $drycut == $brow['body'] ? getBody(htmlspecialchars($brow['body'])) : getBody(htmlspecialchars($drycut))."...";                
+                $builded_type = " mentionned you on their post (".$cut.")";
+                break;
+            case 6:
+                $stmt = $db->prepare("SELECT body FROM replies WHERE id = ?");
+                $stmt->bind_param('i', $row['additional_id']);
+                $stmt->execute();
+                $bresult = $stmt->get_result();
+                $brow = $bresult->fetch_array();
+                $drycut = substr($brow['body'], 0, 50);
+                $cut = $drycut == $brow['body'] ? getBody(htmlspecialchars($brow['body'])) : getBody(htmlspecialchars($drycut))."...";  
+                $builded_type = " mentionned you on their reply (".$cut.")";
+                break;
         }
         if($row['is_read']==0){
             $stmt = $db->prepare("UPDATE news SET is_read = 1 WHERE id = ?");

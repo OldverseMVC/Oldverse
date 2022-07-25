@@ -334,6 +334,7 @@ function getBody($body, $truncate=false, $max_length=200){
     foreach(EMOJIS as $key => $value){
         $body = preg_replace('|:'.$key.':|', '<img src="'.$value.'" width="18" height="18">', $body);
     }
+  	$body = preg_replace('|@([a-zA-Z0-9_-]{2,50})|', '<a href="/users/$1" target="_blank">@$1</a>', $body);
     return $body;
 }
 function checkProxy($ip){

@@ -61,6 +61,22 @@ if(!empty($_POST['screenshot'])){
         showJSONError(400, 6515258, "It seems your screenshot doesn't exist.");
     }
 }
+if(preg_match('|@([a-zA-Z0-9_-]{2,50})|', $_POST['body'], $matches)){
+    foreach($matches as $match){
+        $match = preg_replace('|@([a-zA-Z0-9_-]{2,50})|', '$1', $match);
+        $stmt = $db->prepare("SELECT id FROM `users` WHERE username = ?");
+        $stmt->bind_param("s", $match);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row2 = $result->fetch_assoc();
+        if(empty($row2)) {
+            showJSONError(400, 9856457, 'One of the pinged user does not exist.');
+        }
+        if($stmt->error){
+            showJSONError(500, 5820194, 'There was an error while trying to get pinged user.');
+        }
+    }
+}
 $stmt = $db->prepare('SELECT COUNT(*) FROM posts WHERE created_by = ? AND created_at > NOW() - INTERVAL '.rand(15,20).' SECOND');
 $stmt->bind_param('i', $user['id']);
 $stmt->execute();
@@ -89,5 +105,12 @@ if($result->num_rows==0){
     showJSONError(500, 4754858, 'WTF Post not found?!');
 }
 $row = $result->fetch_array();
+if(preg_match('|@([a-zA-Z0-9_-]{2,50})|', $_POST['body'], $matches)){
+    foreach($matches as $match){
+        if(!sendNotif($user['id'], $row2['id'], 5, "/posts/".$row['id'], $row['id'])){
+            showJSONError(500, 1726354, 'An error occured while sending a notification to pinged users (post has been made).');
+        }
+    }
+}
 require "elements/post.php";
 ?>
