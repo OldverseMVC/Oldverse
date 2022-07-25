@@ -100,7 +100,7 @@ CREATE TABLE `news` (
   `id` int(11) NOT NULL,
   `source` int(11) NOT NULL,
   `target` int(11) NOT NULL,
-  `type` tinyint(4) NOT NULL,
+  `type` tinyint(6) NOT NULL,
   `url` varchar(255) NOT NULL,
   `is_read` tinyint(1) NOT NULL,
   `additional_id` int(11) DEFAULT NULL,
