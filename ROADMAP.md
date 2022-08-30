@@ -1,11 +1,12 @@
 # Roadmap
 ## Version 1.3: Messages
-- [ ] Login with discord
+- [x] Welcome page
 - [ ] Messages
-    - [ ] Create a conversation
+    - [x] Create a conversation
     - [ ] Messages list
-    - [ ] Create a message
-    - [ ] Conversation page & display messages
+    - [x] Create a message
+    - [x] Conversation page & display messages
+- [x] Fix pings
 
 ## Version 1.4: ???
 i didnt decided what to add to this version **yet.** help me figure out ideas
