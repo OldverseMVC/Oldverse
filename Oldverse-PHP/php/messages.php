@@ -95,7 +95,7 @@ $_GET['offset'] = !empty($_GET['offset']) ? $_GET['offset'] : 0;
 
 ?>
 <h2 class="headline">Message <?= htmlspecialchars($row['nickname']) ?></h2>
-<form id="post-form" method="post" action="/messages/palataco" class="folded for-identified-users">
+<form id="post-form" method="post" action="/messages/<?= htmlspecialchars($_GET['id']) ?>" class="folded for-identified-users">
   
   
   <div class="feeling-selector"><label class="symbol feeling-button feeling-button-normal checked"><input type="radio" name="feeling_id" value="0" checked=""><span class="symbol-label">normal</span></label><label class="symbol feeling-button feeling-button-happy"><input type="radio" name="feeling_id" value="1"><span class="symbol-label">happy</span></label><label class="symbol feeling-button feeling-button-like"><input type="radio" name="feeling_id" value="2"><span class="symbol-label">like</span></label><label class="symbol feeling-button feeling-button-surprised"><input type="radio" name="feeling_id" value="3"><span class="symbol-label">surprised</span></label><label class="symbol feeling-button feeling-button-frustrated"><input type="radio" name="feeling_id" value="4"><span class="symbol-label">frustrated</span></label><label class="symbol feeling-button feeling-button-puzzled"><input type="radio" name="feeling_id" value="5"><span class="symbol-label">puzzled</span></label>
@@ -115,7 +115,7 @@ if($result->num_rows==0){
     showNoContent("No posts were found on this conversation.");
 }else{
     $new_offset = $_GET['offset'] + 20;?>
-    <div class="list post-list" data-next-page-url="/messages/<?= $_GET['id'] ?>?offset=<?= $new_offset ?>"><?
+    <div class="list post-list" data-next-page-url="/messages/<?= htmlspecialchars($_GET['id']) ?>?offset=<?= $new_offset ?>"><?
     while($row = $result->fetch_array()){
         require "elements/message.php";
     }
