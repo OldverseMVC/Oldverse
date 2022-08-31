@@ -1,9 +1,9 @@
 # Roadmap
-## Version 1.3: Messages
+## [DONE] Version 1.3: Messages
 - [x] Welcome page
-- [ ] Messages
+- [x] Messages
     - [x] Create a conversation
-    - [ ] Messages list
+    - [x] Messages list
     - [x] Create a message
     - [x] Conversation page & display messages
 - [x] Fix pings
