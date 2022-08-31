@@ -2,7 +2,7 @@
 $title = "Messages list";
 require_once "lib/header.php";
 requireAuth();
-$stmt = $db->prepare("SELECT cid, target, nickname, username, mii_hash, level FROM conversations LEFT JOIN users ON users.id=target WHERE source = ?");
+$stmt = $db->prepare("SELECT conversations.id, cid, target, nickname, username, mii_hash, level FROM conversations LEFT JOIN users ON users.id=target WHERE source = ? ORDER BY conversations.id DESC");
 $stmt->bind_param('i', $user['id']);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -17,17 +17,17 @@ $result = $stmt->get_result();
         $stmt = $db->prepare("SELECT body, (SELECT UNIX_TIMESTAMP(created_at)) AS timestamp FROM dms WHERE cid = ? ORDER BY id DESC LIMIT 1");
         $stmt->bind_param('i', $row['cid']);
         $stmt->execute();
-        $result = $stmt->get_result();
-        $drow = $result->fetch_assoc();
+        $dresult = $stmt->get_result();
+        $drow = $dresult->fetch_assoc();
         $drycut = substr($drow['body'], 0, 50);
         $cut = $drycut == $drow['body'] ? getBody(htmlspecialchars($drow['body'])) : getBody(htmlspecialchars($drycut))."...";  ?>
        <li class="trigger" data-href="/messages/<?= htmlspecialchars($row['username']) ?>">
             <a href="/users/<?= htmlspecialchars($row['username']) ?>" class="icon-container <?= $row['level']>0 ? 'official-user' : ''  ?>"><img src="<?= getAvatar($row['mii_hash'], 0) ?>" class="icon"></a>
             <div class="body">
                 <p class="title">
-                    <p><a class="nick-name" href="/users/<?= htmlspecialchars($row['username']) ?>"><?= htmlspecialchars($row['nickname']) ?></a><br><?= $result->num_rows==0 ? "You haven't exchanged messages with this user yet." : $cut ?></p>
+                    <p><a class="nick-name" href="/users/<?= htmlspecialchars($row['username']) ?>"><?= htmlspecialchars($row['nickname']) ?></a><br><?= $dresult->num_rows==0 ? "You haven't exchanged messages with this user yet." : $cut ?></p>
                 </p>
-                <? if($result->num_rows!==0){ ?><span class="timestamp"><?= getTimeAgo($drow['timestamp']) ?></span><? } ?>
+                <? if($dresult->num_rows!==0){ ?><span class="timestamp"><?= getTimeAgo($drow['timestamp']) ?></span><? } ?>
             </div>
         </li> 
         <?

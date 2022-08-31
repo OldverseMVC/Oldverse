@@ -45,8 +45,8 @@ if($result->num_rows==0){
         $cid = 1;
     }
     if(!isset($cid)){
-        $crow = $stmt->fetch_assoc();
-        $cid = $crow['cid'];
+        $crow = $result->fetch_assoc();
+        $cid = $crow['cid'] + 1;
     }
     $stmtcreation = $db->prepare("INSERT INTO conversations(source, target, cid) VALUES(?, ?, ?)");
     $stmtcreation->bind_param('iii', $user['id'], $row['id'], $cid);
