@@ -21,7 +21,7 @@ $stmt->execute();
 if($stmt->error){
     showError(500, "An error occured while trying to fetch the comments from the database.");
 }
-$result = $stmt->get_result();
+$rresult = $stmt->get_result();
 $title = $row['nickname']."'s post";
 $yeahs = getAllYeahs($_GET['id']);
 require_once "lib/header.php";
@@ -161,7 +161,7 @@ $user = isset($user) ? $user : null;
   </div></div>
 <ul class="list reply-list js-post-list">
     <?
-    while($row = $result->fetch_array()){
+    while($row = $rresult->fetch_array()){
         require 'elements/reply.php';
      } ?>
 </ul>
