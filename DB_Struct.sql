@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.7
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost:3306
--- Généré le : sam. 02 juil. 2022 à 11:38
--- Version du serveur :  5.6.51-cll-lve
--- Version de PHP : 7.3.32
+-- Hôte : sql213.epizy.com
+-- Généré le :  mer. 31 août 2022 à 09:38
+-- Version du serveur :  10.3.27-MariaDB
+-- Version de PHP :  7.2.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `oldverse`
+-- Base de données :  `epiz_32481996_oldverse`
 --
 
 -- --------------------------------------------------------
@@ -48,9 +48,39 @@ CREATE TABLE `communities` (
   `banner` varchar(255) NOT NULL,
   `permissions` int(11) NOT NULL,
   `type` int(11) NOT NULL,
-  `featured` tinyint(1) NOT NULL DEFAULT '0',
-  `is_flipnote` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'This should be used in only 1 community, and defines the flipnote community.',
+  `featured` tinyint(1) NOT NULL DEFAULT 0,
+  `is_flipnote` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'This should be used in only 1 community, and defines the flipnote community.',
   `owner` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `conversations`
+--
+
+CREATE TABLE `conversations` (
+  `id` int(11) NOT NULL,
+  `source` int(11) NOT NULL,
+  `target` int(11) NOT NULL,
+  `cid` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `dms`
+--
+
+CREATE TABLE `dms` (
+  `id` int(11) NOT NULL,
+  `author` int(11) NOT NULL,
+  `target` int(11) NOT NULL,
+  `cid` int(11) NOT NULL,
+  `feeling` tinyint(7) NOT NULL,
+  `body` text NOT NULL,
+  `is_read` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -63,7 +93,7 @@ CREATE TABLE `empathies` (
   `id` int(11) NOT NULL,
   `source` int(11) NOT NULL,
   `target` int(11) NOT NULL,
-  `type` tinyint(1) NOT NULL DEFAULT '0'
+  `type` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -104,7 +134,7 @@ CREATE TABLE `news` (
   `url` varchar(255) NOT NULL,
   `is_read` tinyint(1) NOT NULL,
   `additional_id` int(11) DEFAULT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -125,7 +155,7 @@ CREATE TABLE `posts` (
   `feeling` int(11) NOT NULL,
   `is_pinned` tinyint(1) NOT NULL,
   `is_locked` tinyint(1) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -153,9 +183,9 @@ CREATE TABLE `replies` (
   `target` int(11) NOT NULL,
   `body` text NOT NULL,
   `feeling` int(11) NOT NULL,
-  `spoiler` tinyint(1) NOT NULL DEFAULT '0',
+  `spoiler` tinyint(1) NOT NULL DEFAULT 0,
   `screenshot` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -210,14 +240,14 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `mii_hash` varchar(50) NOT NULL,
   `nnid` varchar(255) NOT NULL,
-  `level` int(11) NOT NULL DEFAULT '0',
+  `level` int(11) NOT NULL DEFAULT 0,
   `description` text NOT NULL,
   `url` varchar(255) NOT NULL DEFAULT '',
-  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_on` timestamp NOT NULL DEFAULT current_timestamp(),
   `ip` varchar(255) NOT NULL DEFAULT '',
   `flipnote_token` varchar(50) NOT NULL,
   `favorite` int(11) DEFAULT NULL,
-  `last_online` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_online` timestamp NOT NULL DEFAULT current_timestamp(),
   `allows_online_status` tinyint(1) NOT NULL,
   `nick_color` varchar(7) DEFAULT '#000'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -239,6 +269,18 @@ ALTER TABLE `communities`
   ADD PRIMARY KEY (`id`),
   ADD KEY `name` (`name`),
   ADD KEY `name_2` (`name`);
+
+--
+-- Index pour la table `conversations`
+--
+ALTER TABLE `conversations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `dms`
+--
+ALTER TABLE `dms`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `empathies`
@@ -321,6 +363,18 @@ ALTER TABLE `ban`
 -- AUTO_INCREMENT pour la table `communities`
 --
 ALTER TABLE `communities`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `conversations`
+--
+ALTER TABLE `conversations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `dms`
+--
+ALTER TABLE `dms`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
