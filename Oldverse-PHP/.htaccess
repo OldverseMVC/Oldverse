@@ -2,6 +2,7 @@ Options +FollowSymLinks -Indexes
 RewriteEngine on
 RewriteRule ^$ php/index.php [L,NC,QSA]
 RewriteRule ^banned$ php/banned.php [L,NC,QSA]
+RewriteRule ^communities$ php/index.php [L,NC,QSA]
 RewriteRule ^ip-banned$ php/ip-banned.php [L,NC,QSA]
 RewriteRule ^activity$ php/activity.php [L,NC,QSA]
 RewriteRule ^activity\/post$ php/create-post.php?activity=1 [L,NC,QSA]
@@ -36,6 +37,8 @@ RewriteRule ^posts\/([0-9]+)\/empathies(\.delete)?$ php/yeah.php?id=$1&type=0 [L
 RewriteRule ^identified_user_posts$ php/identified_user_posts.php [L,NC,QSA]
 RewriteRule ^my-menu$ php/my-menu.php [L,NC,QSA]
 RewriteRule ^news\/my_news$ php/news.php [L,NC,QSA]
+RewriteRule ^messages\/([A-Za-z0-9-_]+)$ php/messages.php?id=$1 [L,NC,QSA]
+RewriteRule ^news\/messages$ php/messages-list.php [L,NC,QSA]
 RewriteRule ^settings\/profile_post.unset.json php/unfavorite-post.php [L,NC,QSA]
 RewriteRule ^settings\/referral php/referral-settings.php [L,NC,QSA]
 RewriteRule ^settings\/tags$ php/tags-settings.php [L,NC,QSA]
