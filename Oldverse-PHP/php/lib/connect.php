@@ -188,6 +188,9 @@ function selected($page, $username=null){
                 return '';
             }
             break;
+        case 'messages':
+            return $_SERVER['REQUEST_URI']=="/news/messages" ? 'selected' : '';
+            break;
         case 'my-userpage':
             return $_SERVER['REQUEST_URI']=='/users/'.$username ? 'selected' : '';
     }
@@ -216,6 +219,16 @@ function requireAuth(){
     }
 }
 function showError($http_response_code, $error){
+    //Worst code ever
+    $db = @mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME); // DB_NAME
+
+    // Exit if no db connection
+    if (!$db)
+    {
+        http_response_code(500);
+        header("Content-Type: text/html");
+        exit(require_once "500.php");
+    }
     require_once "header.php";?>
     <div class="warning-content warning-content-forward">
         <div>

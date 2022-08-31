@@ -6,7 +6,7 @@ if(empty($_SESSION['token'])){
         "success" => 1,
         "admin_message" => array('unread_count' => 0),
         "mission" => array('unread_count' => 0),
-        "news" => array('unread_count' => 0)
+        "news" => array('unread_count' => 0),
     );
     exit(json_encode($notifs));
 }
@@ -24,7 +24,7 @@ $notifs = array(
     "success" => 1,
     "admin_message" => array('unread_count' => 0),
     "mission" => array('unread_count' => 0),
-    "news" => array('unread_count' => $row['COUNT(*)'])
+    "news" => array('unread_count' => $row['COUNT(*)']),
 );
 $stmt = $db->prepare("UPDATE users SET last_online=CURRENT_TIMESTAMP WHERE id = ?");
 $stmt->bind_param('i', $user['id']);

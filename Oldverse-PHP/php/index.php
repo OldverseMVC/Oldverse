@@ -1,4 +1,9 @@
 <?php
+require_once "lib/connect.php";
+if(!isset($_SESSION['username']) && $_SERVER['REQUEST_URI']!=="/communities"){
+    require_once "welcome.php";
+    exit;
+}
 $title = "Communities";
 require_once "lib/header.php";
 $stmtposts = $db->query("SELECT posts.id, community, created_by, flipnote, body, posts.url, screenshot, spoiler, feeling, posts.created_at, mii_hash, nickname, nick_color, level, icon, name, (SELECT COUNT(*) FROM empathies WHERE target = posts.id AND type = 0) AS empathy_count, (SELECT COUNT(*) FROM replies WHERE target = posts.id) AS reply_count, (SELECT UNIX_TIMESTAMP(posts.created_at)) AS timestamp FROM posts LEFT JOIN users ON created_by = users.id LEFT JOIN communities ON community = communities.id WHERE posts.created_at  >= DATE_SUB(NOW(), INTERVAL 1 HOUR) ORDER BY posts.id DESC LIMIT 20");

@@ -35,6 +35,11 @@ if(isset($_SESSION['token']) && $user['id'] !== $row['id']){
     $stmt->execute();
     $result = $stmt->get_result();
     $is_follow = $result->num_rows==0 ? false : true;
+    $stmt = $db->prepare("SELECT id FROM follows WHERE source = ? AND target = ?");
+    $stmt->bind_param('ii', $row['id'], $user['id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $is_following_back = $result->num_rows==0 ? false : true;
 }
 if(empty($row['url'])){
     $row['url'] = "Not Set";
@@ -89,6 +94,7 @@ if(!empty($row['description'])){?>
 <?php } ?>
 <div class="report-buttons-content">
     <button type="button" class="button" data-modal-open="#report-violation-page" data-action="/posts/<?= $row['id'] ?>/violations" data-is-post="1" data-is-permalink="1" data-can-report-spoiler="1">Report Violation&nbsp;&nbsp;&nbsp;</button>
+    <? if($is_follow && $is_following_back){?><a class="button" href="/messages/<?= htmlspecialchars($_GET['id']) ?>">Message</a><? } ?>
 </div>
 <div id="report-violation-page" class="dialog none" data-modal-types="report report-violation" data-is-template="1">
 <div class="dialog-inner">

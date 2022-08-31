@@ -53,6 +53,9 @@ if($post_row['is_locked']==1){
 }
 if(preg_match('|@([a-zA-Z0-9_-]{2,50})|', $_POST['body'], $matches)){
     foreach($matches as $match){
+        if(!str_starts_with($match, "@")){
+          continue;
+        }
         $match = preg_replace('|@([a-zA-Z0-9_-]{2,50})|', '$1', $match);
         $stmt = $db->prepare("SELECT id FROM `users` WHERE username = ?");
         $stmt->bind_param("s", $match);
@@ -102,7 +105,10 @@ if($user['id']!==$post_row['id']){
 }
 if(preg_match('|@([a-zA-Z0-9_-]{2,50})|', $_POST['body'], $matches)){
     foreach($matches as $match){
-        if(!sendNotif($user['id'], $row2['id'], 6, "/replies/".$_GET['id'], $_GET['id'])){
+        if(!str_starts_with($match, "@")){
+          continue;
+        }
+        if(!sendNotif($user['id'], $row2['id'], 6, "/replies/".$row['id'], $row['id'])){
             showJSONError(500, 1726354, 'An error occured while sending a notification to pinged users (post has been made).');
         }
     }

@@ -63,6 +63,9 @@ if(!empty($_POST['screenshot'])){
 }
 if(preg_match('|@([a-zA-Z0-9_-]{2,50})|', $_POST['body'], $matches)){
     foreach($matches as $match){
+        if(!str_starts_with($match, "@")){
+          continue;
+        }
         $match = preg_replace('|@([a-zA-Z0-9_-]{2,50})|', '$1', $match);
         $stmt = $db->prepare("SELECT id FROM `users` WHERE username = ?");
         $stmt->bind_param("s", $match);
@@ -107,6 +110,9 @@ if($result->num_rows==0){
 $row = $result->fetch_array();
 if(preg_match('|@([a-zA-Z0-9_-]{2,50})|', $_POST['body'], $matches)){
     foreach($matches as $match){
+        if(!str_starts_with($match, "@")){
+          continue;
+        }
         if(!sendNotif($user['id'], $row2['id'], 5, "/posts/".$row['id'], $row['id'])){
             showJSONError(500, 1726354, 'An error occured while sending a notification to pinged users (post has been made).');
         }

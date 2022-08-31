@@ -202,7 +202,7 @@ html.os-mac body {
 #footer {
   position: fixed;
   width: 260px;
-  top: 340px;
+  top: 350px;
   text-align: center;
 }
 * + html #footer {
@@ -577,11 +577,15 @@ html.os-mac body {
 #global-menu li#global-menu-community a:before {
   content: 'c';
 }
+#global-menu li#global-menu-messages a:before {
+  content: 'm';
+}
 #global-menu li#global-menu-news a:before {
   content: 'n';
 }
 #global-menu li#global-menu-feed a:before,
 #global-menu li#global-menu-news a:before,
+#global-menu li#global-menu-messsages a:before,
 #global-menu li#global-menu-mymenu a:before{
   text-indent: -44px;
 }
@@ -3664,7 +3668,7 @@ div#activity-feed-tutorial.no-content p.tleft {
   color: #5ac800;
 }
 #footer {
-  top: 400px;
+  top: 450px;
 }
 .guest .redesign-banner {
   top: 200px;
@@ -7887,6 +7891,7 @@ body.search .no-title-content p {
     margin: 6px 0 0 4px;
     float: none;
   }
+
   #user-content .report-buttons-content {
     float: right;
     margin: 0;

@@ -5,6 +5,13 @@ if(isset($_SESSION['token'])){
 }
 $is_identified_user = isset($is_identified_user) ? $is_identified_user : null;
 $custom_id = isset($custom_id) ? $custom_id : null;
+if(isset($_SESSION['token'])){
+    $stmt = $db->prepare("SELECT COUNT(*) FROM dms WHERE target = ? AND is_read = 0");
+    $stmt->bind_param('i', $user['id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $mrow = $result->fetch_array();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" data-sitecatalyst-suite-id="miiverseweb">
@@ -65,6 +72,8 @@ $custom_id = isset($custom_id) ? $custom_id : null;
                     <li id="global-menu-feed" class="<?= selected("activity") ?>"><a href="/activity" class="symbol"><span>Activity Feed</span></a></li>
                     <li id="global-menu-community" class="<?= selected("communities") ?>"><a href="/" class="symbol"><span>Communities</span></a></li>
                     <li id="global-menu-news" class="<?= selected("notifications") ?>"><a href="/news/my_news" class="symbol"><span>Notifications</span></a></li>
+                    <li id="global-menu-messages" class="<?= selected("messages") ?>"><a href="/news/messages" class="symbol"><span>Messages <? if($mrow['COUNT(*)']!==0){ ?><span class="badge"><?= $mrow['COUNT(*)'] ?></span><? } ?></a></span></li>
+
                     <li id="global-menu-mymenu" class="<?= selected("my-menu") ?>"><a href="/my-menu" class="symbol"><span>My Menu</span></a></li>
                 </menu>
                 <?php } ?>

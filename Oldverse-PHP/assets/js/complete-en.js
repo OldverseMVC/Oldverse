@@ -1169,11 +1169,11 @@ var Olv = Olv || {};
             a(document).off("click", ".toggle-button .follow-button", d), a(document).off("click", ".toggle-button .unfollow-button", e)
         })
     }, b.init.done(function(a) {
+        var c = b.UpdateChecker.getInstance();
         if (a("#global-menu-news").length) {
             a("#global-menu-news").on("click", function(b) {
                 a(b.currentTarget).find(".badge").hide()
             });
-            var c = b.UpdateChecker.getInstance();
             a(c).on("update", function(b, d) {
                 a.each(c._settings, function(b, c) {
                     var e = !0;
@@ -1306,6 +1306,22 @@ var Olv = Olv || {};
         b.Entry.setupHiddenContents(e), b.Content.autopagerize(".post-list", e);
         var g = a("#post-form");
         b.Guest.isGuest() || (b.Community.setupFavoriteButtons(e), b.Entry.setupEmpathyButtons(e), b.EntryForm.setupSubmission(g, e)), g.on("olv:entryform:post:done", f), e.done(function() {
+            g.off("olv:entryform:post:done", f)
+        })
+    }), b.router.connect("^/messages\/([0-9A-Za-z\-_]+)$", function(c, d, e) {
+        function f(b, c) {
+            var d = a(".post-list");
+            d.length || (d = a("<div>", {
+                "class": "list post-list"
+            }).replaceAll(".no-content"));
+            var e = a(a.parseHTML(c)).filter("*");
+            e.hide().fadeIn(400).prependTo(d);
+            var f = a(window);
+            f.scrollTop(e.offset().top + e.outerHeight() / 2 - f.height() / 2)
+        }
+        b.Entry.setupHiddenContents(e), b.Content.autopagerize(".post-list", e);
+        var g = a("#post-form");
+        b.Guest.isGuest() || (b.EntryForm.setupSubmission(g, e), b.EntryForm.setupFormStatus(g, e), b.EntryForm.setupFoldedForm(g, e), g.hasClass("for-identified-user") && b.EntryForm.setupIdentifiedUserForm(g, e)), g.on("olv:entryform:post:done", f), e.done(function() {
             g.off("olv:entryform:post:done", f)
         })
     }), b.router.connect("^/communities/(?:favorites|played)$", function(a, c, d) {
