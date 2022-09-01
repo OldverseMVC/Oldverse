@@ -76,6 +76,8 @@ while($row = $stmtposts->fetch_array()){
     <a id="tab-3ds" data-platform="3ds" class="trigger" tabindex="0"><span>3DS Communities</span></a>
   </div>
   <div id="tab-wiiu-body" class="tab-body">
+    <?php
+    if($stmtwiiu->num_rows!==0){ ?>
     <h3 class="label label-wiiu"><img src="/assets/img/hot-icon-wiiu.png" class="hot-icon">Spotlight</h3>
     <ul class="icon-list">
         <?php
@@ -88,9 +90,13 @@ while($row = $stmtposts->fetch_array()){
       </li>
       <?php } ?>
       </ul>
+      <? } ?>
         <h3 class="label label-wiiu">New Communities</h3>
             <ul class="list community-list community-title-list">
         <?php
+        if($stmtnewiiu->num_rows==0){
+            showNoContent("No community of this type was found. Be the first to create one!");
+        }
         while($row = $stmtnewiiu->fetch_array()){ ?>
         <li id="community-<?= $row['id'] ?>" class="trigger" data-href="/communities/<?= $row['id'] ?>" tabindex="0">
           <span class="icon-container"><img src="<?= htmlspecialchars($row['icon'])?>" class="icon"></span>
@@ -103,6 +109,8 @@ while($row = $stmtposts->fetch_array()){
         </ul>
     </div>
       <div id="tab-3ds-body" class="tab-body none">
+    <?php
+    if($stmt3ds->num_rows!==0){ ?>
     <h3 class="label label-3ds"><img src="/assets/img/hot-icon-3ds.png" class="hot-icon">Spotlight</h3>
     <ul class="icon-list">
       <?php
@@ -115,9 +123,13 @@ while($row = $stmtposts->fetch_array()){
       </li>
       <?php } ?>
      </ul>
+     <?php } ?>
      <h3 class="label label-3ds">New Communities</h3>
             <ul class="list community-list community-title-list">
         <?php
+        if($stmtnew3ds->num_rows==0){
+            showNoContent("No community of this type was found. Be the first to create one!");
+        }
         while($row = $stmtnew3ds->fetch_array()){ ?>
         <li id="community-<?= $row['id'] ?>" class="trigger" data-href="/communities/<?= $row['id'] ?>" tabindex="0">
           <span class="icon-container"><img src="<?= htmlspecialchars($row['icon'])?>" class="icon"></span>
