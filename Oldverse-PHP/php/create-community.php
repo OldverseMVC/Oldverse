@@ -44,13 +44,20 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             showError(400, "Your community name is too large. (max: 2000 characters)");
         }
     }
+    if(!empty($_POST['badge'])){
+        if(strlen($_POST['badge'])>50){
+            showError(400, "Your community badge is too large. (max: 50 characters)");
+        }
+    }else{
+        $_POST['badge'] = null;
+    }
     if(isset($_POST['type'])){
         if($_POST['type']<0 || $_POST['type']>2){
             showError(400, "Your community type is invalid.");
         }
     }
-    $stmt = $db->prepare("INSERT INTO communities(name, description, icon, banner, permissions, type, featured, is_flipnote, owner) VALUES(?, ?, ?, ?, 0, ?, 0, 0, ?)");
-    $stmt->bind_param('ssssii', $_POST['name'], $_POST['description'], $_POST['icon'], $_POST['banner'], $_POST['type'], $user['id']);
+    $stmt = $db->prepare("INSERT INTO communities(name, description, icon, banner, permissions, type, featured, is_flipnote, badge, owner) VALUES(?, ?, ?, ?, 0, ?, 0, 0, ?, ?)");
+    $stmt->bind_param('ssssisi', $_POST['name'], $_POST['description'], $_POST['icon'], $_POST['banner'], $_POST['type'], $_POST['badge'], $user['id']);
     $stmt->execute();
     $result = $db->query("SELECT id FROM communities ORDER BY id DESC LIMIT 1");
     $row = $result->fetch_array();
@@ -72,6 +79,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             <p class="settings-label">Icon & banner image URL</p>
             <input type="text" class="textarea-line url-form" name="icon" placeholder="Icon URL">
             <input type="text" class="textarea-line url-form" name="banner" placeholder="Banner URL">
+        </li>
+        <li class="setting-profile-comment">
+            <p class="settings-label">Community Badge (optional)</p>
+            <input type="text" class="textarea-line url-form" name="badge" placeholder="Badge name" maxlength="50">
         </li>
         <li class="setting-profile-comment">
             <p class="settings-label">Type</p>

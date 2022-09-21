@@ -14,14 +14,14 @@ $result = $stmt->get_result();
         showNoContent("You don't have any messages yet.");
     }
     while($row = $result->fetch_array()){
-        $stmt = $db->prepare("SELECT body, (SELECT UNIX_TIMESTAMP(created_at)) AS timestamp FROM dms WHERE cid = ? ORDER BY id DESC LIMIT 1");
+        $stmt = $db->prepare("SELECT body, is_read, author, (SELECT UNIX_TIMESTAMP(created_at)) AS timestamp FROM dms WHERE cid = ? ORDER BY id DESC LIMIT 1");
         $stmt->bind_param('i', $row['cid']);
         $stmt->execute();
         $dresult = $stmt->get_result();
         $drow = $dresult->fetch_assoc();
         $drycut = substr($drow['body'], 0, 50);
         $cut = $drycut == $drow['body'] ? getBody(htmlspecialchars($drow['body'])) : getBody(htmlspecialchars($drycut))."...";  ?>
-       <li class="trigger" data-href="/messages/<?= htmlspecialchars($row['username']) ?>">
+       <li class="trigger<?= $drow['is_read']==0 && $drow['author']!==$user['id'] ? " notify" : "" ?>" data-href="/messages/<?= htmlspecialchars($row['username']) ?>">
             <a href="/users/<?= htmlspecialchars($row['username']) ?>" class="icon-container <?= $row['level']>0 ? 'official-user' : ''  ?>"><img src="<?= getAvatar($row['mii_hash'], 0) ?>" class="icon"></a>
             <div class="body">
                 <p class="title">

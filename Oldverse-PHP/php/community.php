@@ -6,7 +6,7 @@ if(isset($_SESSION['token'])){
 }else{
     $userid = null;
 }
-$stmt = $db->prepare("SELECT name, icon, banner, communities.description, permissions, type, is_flipnote, nickname, username, owner, (SELECT COUNT(*) FROM favorites WHERE source = ? AND target = communities.id) AS is_favorite FROM communities LEFT JOIN users ON owner = users.id WHERE communities.id = ?");
+$stmt = $db->prepare("SELECT name, icon, banner, communities.description, permissions, type, is_flipnote, nickname, username, owner, badge, (SELECT COUNT(*) FROM favorites WHERE source = ? AND target = communities.id) AS is_favorite FROM communities LEFT JOIN users ON owner = users.id WHERE communities.id = ?");
 $stmt->bind_param('ii', $userid, $_GET['id']);
 $stmt->execute();
 if($stmt->error){
@@ -38,6 +38,7 @@ $resultpinned = $stmt->get_result();
 <div id="community-content" class="">
   <span class="icon-container"><img src="<?= htmlspecialchars($row['icon']) ?>" class="icon"/></span>
   <?= getCommunityType($row['type'], false) ?>
+  <? if(!empty($row['badge'])){ ?><span class="news-community-badge"><?= htmlspecialchars($row['badge']) ?></span><? } ?>
   <span class="title"><?= htmlspecialchars($row['name']) ?></span>
   <span class="text"><?= htmlspecialchars($row['description']) ?></span>
   <p style="text-align: center;">Community owner: <a href="/users/<?= htmlspecialchars($row['username'])?>"><?= htmlspecialchars($row['nickname']) ?></a></p>
