@@ -8,5 +8,11 @@
     - [x] Conversation page & display messages
 - [x] Fix pings
 
-## Version 1.4: ???
-i didnt decided what to add to this version **yet.** help me figure out ideas
+## Version 1.4: Next
+- [ ] Login with discord (maybe?)
+- [ ] OldTube
+    - [ ] Channel page
+    - [ ] Video page
+    - [ ] Suggestiobs(?)
+    - [ ] Oldverse post when new video
+- [ ] Community editing
