@@ -3,9 +3,9 @@
 header("X-Frame-Options: Deny");
 
 //security
-if(isset($_SERVER['HTTP_REFERER']) && !str_starts_with($_SERVER['HTTP_REFERER'], "https://".$_SERVER['SERVER_NAME'])){
+if(isset($_SERVER['HTTP_REFERER']) && !str_starts_with($_SERVER['HTTP_REFERER'], "http://".$_SERVER['SERVER_NAME'])){
     echo "Seems like a website redirected you to Oldverse. To ensure security, we are refreshing the page...";
-    header("Refresh: 5; url=https://".$_SERVER['SERVER_NAME']);
+    header("Refresh: 5; url=http://".$_SERVER['SERVER_NAME']);
     exit;
 }
 
@@ -21,11 +21,11 @@ else
 {
 	require_once('../config.php');
 }
-if(!isset($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] != "on")
+/*if(!isset($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] != "on")
 {
     header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"], true, 301);
     exit;
-}
+}*/
 
 if(in_array($_SERVER['REMOTE_ADDR'], FORBIDDEN_IPS) && $_SERVER['REQUEST_URI'] !== '/ip-banned'){
     header("Location: /ip-banned");

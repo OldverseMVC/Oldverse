@@ -81,6 +81,7 @@ if(isset($row['favorite'])){
 <h2 class="headline">Profile Settings</h2>
     <form id="profile-settings-form" class="setting-form" method="post" action="/settings/profile">
   <ul class="settings-list">
+    <a href="/discord-api?linkplz=1">Link your discord account to login via Discord.</a>
     <p><b>Personal Flipnote Token (to use in the <a href="/patch">companion app</a>): <?= htmlspecialchars($row['flipnote_token']) ?></b></p>
     <li class="setting-profile-comment">
       <p class="settings-label">Nickname</p>

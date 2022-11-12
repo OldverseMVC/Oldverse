@@ -54,4 +54,5 @@ showForm:
     </div>
     <br>
     <? if(!SIGNUP_CLOSED){ ?><a href="/account/signup">No account yet?</a><? } ?>
+    <br><a href="/discord-api">Or sign in using Discord</a> 
 </form>

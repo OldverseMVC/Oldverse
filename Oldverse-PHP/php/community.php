@@ -47,6 +47,11 @@ $resultpinned = $stmt->get_result();
       if(isset($_SESSION['token'])){?>
       <button type="button" class="symbol button favorite-button <?= $row['is_favorite'] > 0 ? 'checked' : '' ?>" data-action-favorite="/communities/<?= $_GET['id'] ?>/favorite.json" data-action-unfavorite="/communities/<?= $_GET['id'] ?>/unfavorite.json"><span class="favorite-button-text">Favorite</span></button>
       <? } ?>
+     <?
+     if(isset($_SESSION['token']) && $user['id']==$row['owner']){?>
+        <a href="/communities/<?= htmlspecialchars($_GET['id']) ?>/edit" class="button">Edit community</a>
+     <? }
+     ?> 
   </div>
   <?php if(isset($_SESSION['username']) && $user['level'] > $row['permissions'] && $row['is_flipnote']!==1 || isset($_SESSION['username']) && $user['level'] == $row['permissions'] && $row['is_flipnote']!==1){ ?>
  <form id="post-form" method="post" action="/posts" class="folded for-identified-users">
