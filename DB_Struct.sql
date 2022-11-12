@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Hôte : sql213.epizy.com
--- Généré le :  mer. 31 août 2022 à 09:38
--- Version du serveur :  10.3.27-MariaDB
--- Version de PHP :  7.2.22
+-- Hôte : localhost
+-- Généré le : dim. 13 nov. 2022 à 00:33
+-- Version du serveur : 10.6.7-MariaDB-2ubuntu1.1
+-- Version de PHP : 7.4.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `epiz_32481996_oldverse`
+-- Base de données : `oldverse`
 --
 
 -- --------------------------------------------------------
@@ -250,7 +249,8 @@ CREATE TABLE `users` (
   `favorite` int(11) DEFAULT NULL,
   `last_online` timestamp NOT NULL DEFAULT current_timestamp(),
   `allows_online_status` tinyint(1) NOT NULL,
-  `nick_color` varchar(7) DEFAULT '#000'
+  `nick_color` varchar(7) DEFAULT '#000',
+  `discordid` varchar(255) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
