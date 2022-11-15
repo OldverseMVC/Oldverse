@@ -55,12 +55,6 @@ $exts = array('jpg', 'gif', 'png', 'webp', 'jpeg', 'bmp', 'svg');
 if(!empty($_POST['screenshot']) && !in_array(strtolower(pathinfo($_POST['screenshot'], PATHINFO_EXTENSION)), $exts)) {
     showJSONError(400, 5154487, "Your screenshot URL is NOT an image. (or it is an data:image)");
 }
-if(!empty($_POST['screenshot'])){
-    $chk = file_get_contents($_POST['screenshot']);
-    if(!$chk){
-        showJSONError(400, 6515258, "It seems your screenshot doesn't exist.");
-    }
-}
 if(preg_match('|@([a-zA-Z0-9_-]{2,50})|', $_POST['body'], $matches)){
     foreach($matches as $match){
         if(!str_starts_with($match, "@")){

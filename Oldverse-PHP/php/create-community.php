@@ -15,10 +15,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         if(!in_array(strtolower(pathinfo($_POST['icon'], PATHINFO_EXTENSION)), $exts)) {
             showError(400, "Your icon URL is NOT an image. (or it is an data:image)");
         }
-        $chk = file_get_contents($_POST['icon']);
-        if(!$chk){
-            showError(400, "It seems your icon doesn't exist.");
-        }
     }
     if(!empty($_POST['banner'])){
         if(!preg_match('|(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', $_POST['banner'])){
@@ -27,11 +23,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         $exts = array('jpg', 'gif', 'png', 'webp', 'jpeg', 'bmp', 'svg');
         
         if(!in_array(strtolower(pathinfo($_POST['banner'], PATHINFO_EXTENSION)), $exts)) {
-            showError(400, "Your icon URL is NOT an image. (or it is an data:image)");
-        }
-        $chk = file_get_contents($_POST['banner']);
-        if(!$chk){
-            showError(400, "It seems your icon doesn't exist.");
+            showError(400, "Your banner URL is NOT an image. (or it is an data:image)");
         }
     }
     if(!empty($_POST['name'])){

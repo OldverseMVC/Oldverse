@@ -41,12 +41,6 @@ $exts = array('jpg', 'gif', 'png', 'webp', 'jpeg', 'bmp', 'svg');
 if(!empty($_POST['screenshot']) && !in_array(strtolower(pathinfo($_POST['screenshot'], PATHINFO_EXTENSION)), $exts)) {
     showJSONError(400, 5154487, "Your screenshot URL is NOT an image. (or it is an data:image)");
 }
-if(!empty($_POST['screenshot'])){
-    $chk = file_get_contents($_POST['screenshot']);
-    if(!$chk){
-        showJSONError(400, 6515258, "It seems your screenshot doesn't exist.");
-    }
-}
 $post_row = $result->fetch_array();
 if($post_row['is_locked']==1){
     showJSONError(400, 5256516, "This post has been locked and is not open for further comments.");
