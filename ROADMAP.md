@@ -9,10 +9,4 @@
 - [x] Fix pings
 
 ## Version 1.4: Next
-- [ ] Login with discord (maybe?)
-- [ ] OldTube
-    - [ ] Channel page
-    - [ ] Video page
-    - [ ] Suggestiobs(?)
-    - [ ] Oldverse post when new video
-- [ ] Community editing
+This version is in early works. We're still thinking about ideas; come check this back later!
