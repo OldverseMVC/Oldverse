@@ -5,6 +5,19 @@ if(SIGNUP_CLOSED){
     showError(403, "Signups are closed. Contact an admin.");
 }
 if($_SERVER['REQUEST_METHOD']=="POST"){
+    if(!empty(PRIVATE_KEY)) {
+        $ch = curl_init('https://www.google.com/recaptcha/api/siteverify');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['secret' => PRIVATE_KEY, 'response' => $_POST['g-recaptcha-response'], 'remoteip' => $_SERVER['REMOTE_ADDR']]));
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $responseJSON = json_decode($response);
+        if($responseJSON->success === false) {
+            $error = 'The reCAPTCHA was not solved correctly.';
+            goto showForm;
+        }
+    }
     if(empty($_POST['username']) || empty($_POST['password']) || empty($_POST['cpassword']) || empty($_POST['nnid']) || empty($_POST['nickname']) || empty($_POST['referral'])){
         $error = "Some fields are empty.";
         goto showForm;
@@ -88,6 +101,10 @@ showForm:
     <input type="text" placeholder="Nintendo Network ID (NNID)" name="nnid" maxlength="16" requried>
     <p><b><i>Required. To have a referral key, <br>you must be friend with the people here, and ask someone<br> you know for a referral key.</i></b></p>
     <input type="text" placeholder="Referral key" name="referral" maxlength="69" requried>
+    <?php if(!empty(SITE_KEY)) { ?><br>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <div class="g-recaptcha" style="display:inline-block" data-sitekey="<?=htmlspecialchars(SITE_KEY)?>"></div>
+    <?php } ?>
     <div class="form-buttons">
         <input type="submit" value="Sign Up" class="black-button">
     </div>
