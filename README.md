@@ -23,4 +23,4 @@ You're good to go!
 # Can I use this to do the 488585288588748474874th fork of a MVC?
 Please. STOOOOOOOPPPPPPPPP!
 # New version soon? :eyes:
-I plan on a 1.3, and maybe an 1.4. (_maybe_)
+1.3 is already released, and 1.4 is still in brainstorming.
