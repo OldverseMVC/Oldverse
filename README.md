@@ -5,7 +5,7 @@ To finally make Grape crappy source code die!!!
 # Who created this
 Me, and <a href="https://github.com/TermOfficial">terminal</a> from our own fucking bare hands. (what you gotta say about THAT, PF2M?)
 # Can I use this
-Ask Rixy. If you don't, enjoy raids :D
+yeah as long as you drop the oldverse name and respect the LICENSE
 # How to use this
 Well you install it like any classical PHP app, create a new DB, import DB structure, upload website files to your server, modify config.php as you liking.
 # is dis from scratch
