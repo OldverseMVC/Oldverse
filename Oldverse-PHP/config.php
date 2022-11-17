@@ -15,6 +15,11 @@ const MAJOR = "1";
 const MINOR = "3.10";
 const LOGIN_NOTE = "please don't rehost";
 
+// ReCAPTCHA settings
+// set it to null for no recaptcha, else put on your site key & private key
+const SITE_KEY = null;
+const PRIVATE_KEY = null;
+
 //Discord login
 //be sure to add a slash to the end of the url
 const WEBSITE_URL = "http://localhost/";
