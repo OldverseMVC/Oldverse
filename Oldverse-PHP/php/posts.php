@@ -27,38 +27,38 @@ $yeahs = getAllYeahs($_GET['id']);
 require_once "lib/header.php";
 $user = isset($user) ? $user : null;
 ?>
-<div id="page-title"><? if(!empty($row['community'])){ ?><?= htmlspecialchars($row['name']) ?><? }else{ ?>Activity Feed<? } ?></div>
+<div id="page-title"><?php  if(!empty($row['community'])){ ?><?= htmlspecialchars($row['name']) ?><?php  }else{ ?>Activity Feed<?php  } ?></div>
 <div id="post-content" class="post <?= $row['spoiler']==1 ? 'hidden' : '' ?>" <?= $row['spoiler']==1 ? 'data-href-hidden="/posts/'.$row['id'].'"' : '' ?>>
-    <?if($user['id'] == $row['created_by'] || $row['owner'] == $user['id'] || $user['level'] > 0){ ?><button type="button" class="symbol button edit-button profile-post-button" data-modal-open="#edit-post-page" data-is-post="1"><span class="symbol-label">Edit post</span></button><? } ?>
+    <?php if($user['id'] == $row['created_by'] || $row['owner'] == $user['id'] || $user['level'] > 0){ ?><button type="button" class="symbol button edit-button profile-post-button" data-modal-open="#edit-post-page" data-is-post="1"><span class="symbol-label">Edit post</span></button><?php  } ?>
   <a href="/users/<?= $row['username'] ?>" class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], $row['feeling']) ?>" class="icon"></a>
   <p class="timestamp-container">
     <a class="timestamp" href="/posts/<?= $_GET['id'] ?>"><?= getTimeAgo($row['timestamp']) ?> <?= $row['spoiler']==1 ? '- Spoilers!' : '' ?></a>
   </p>
   <p class="user-name" style="color: <?= htmlspecialchars($row['nick_color']) ?>"><?= htmlspecialchars($row['nickname']) ?><span class="user-id"><?= $row['username'] ?></span></p>
- <p class="community-container"> <? if(!empty($row['community'])){ ?><a href="/communities/<?= $row['community'] ?>"><img src="<?= $row['icon'] ?>" class="community-icon"><?= htmlspecialchars($row['name']) ?></a><? }else{ ?><a href="/activity"><img src="" class="community-icon">Activity Feed</a><? } ?></p>
+ <p class="community-container"> <?php  if(!empty($row['community'])){ ?><a href="/communities/<?= $row['community'] ?>"><img src="<?= $row['icon'] ?>" class="community-icon"><?= htmlspecialchars($row['name']) ?></a><?php  }else{ ?><a href="/activity"><img src="" class="community-icon">Activity Feed</a><?php  } ?></p>
 
   <div class="body">
     <div class="post-content">
         
-        <? if($row['is_pinned']==1){ ?><p><b>Pinned post</b></p><? } ?>
+        <?php  if($row['is_pinned']==1){ ?><p><b>Pinned post</b></p><?php  } ?>
       <p class="post-content-text"><?= getBody($row['body']) ?></p>
-      <? if(!empty($row['screenshot'])){ ?><p class="screenshot-container still-image"><img src="<?= htmlspecialchars($row['screenshot'])?>"></p><? } ?>
-      <?
+      <?php  if(!empty($row['screenshot'])){ ?><p class="screenshot-container still-image"><img src="<?= htmlspecialchars($row['screenshot'])?>"></p><?php  } ?>
+      <?php 
       if($row['spoiler']==1){ ?>
       <div class="hidden-content">
             <p>This Post may contain spoilers, view at your own risk!<button type="button" class="hidden-content-button">View Post</button></p>
         </div>
-    <? } ?>
-    <? if(!empty($row['flipnote'])){?>
+    <?php  } ?>
+    <?php  if(!empty($row['flipnote'])){?>
         <flipnote-player style="--flipnote-player-icon-color: green; --flipnote-player-button-background: #46b046;  --flipnote-player-slider-track: #46b046; --flipnote-player-slider-level: green; --flipnote-player-slider-handle: green;" src="/flipnote/kwz/<?= $row['flipnote'] ?>.kwz"></flipnote-player>
-    <? } ?>
-    <?
+    <?php  } ?>
+    <?php 
     if(preg_match('/(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\/?\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/', $row['url'], $matches)) {?>
         <div class="screenshot-container video"><iframe class="youtube-player" type="text/html" width="40" height="40" src="https://www.youtube.com/embed/<?= htmlspecialchars($matches[1]) ?>?rel=0&amp;modestbranding=1&amp;iv_load_policy=3" frameborder="0"></iframe></div>
-    <? }else{
+    <?php  }else{
     ?>
     <p class="url-link"><a href="<?= htmlspecialchars($row['url'])?>" target="_blank"><?= htmlspecialchars($row['url']) ?></a></p>
-    <? } ?>
+    <?php  } ?>
 
       <div class="post-meta">
         <button type="button" class="post symbol submit empathy-button <?= checkIfYeah($user['id'], $row['id']) ?> <?= !isset($_SESSION['token']) || $row['created_by']==$user['id'] ? 'disabled" disabled' : '"' ?> data-feeling="<?= getFeeling($row['feeling']) ?>" data-action="/posts/<?= $row['id'] ?>/empathies" data-yeah-type="post"><span class="empathy-button-text"><?= getYeahText($row['feeling'], checkIfYeah($user['id'], $row['id'])) ?></span></button>
@@ -68,9 +68,9 @@ $user = isset($user) ? $user : null;
     </div>
   </div>
  </div>
-<? if($row['empathy_count']!==0){ ?>
+<?php  if($row['empathy_count']!==0){ ?>
 <div id="empathy-content">
-<? while($row_y = $yeahs->fetch_array()){
+<?php  while($row_y = $yeahs->fetch_array()){
     $stmt = $db->prepare("SELECT username, mii_hash, level FROM users WHERE id = ?");
     $stmt->bind_param('i', $row_y['source']);
     $stmt->execute();
@@ -79,7 +79,7 @@ $user = isset($user) ? $user : null;
     }
     $cool_result = $stmt->get_result();
     $row_ya = $cool_result->fetch_array();?>
-<a href="/users/<?= $row_ya['username'] ?>" class="post-permalink-feeling-icon <?= $row_ya['level'] > 0 ? 'official-user' : '' ?>"><img src="<?= getAvatar($row_ya['mii_hash'], $row['feeling'])?>" class="user-icon"></a><? } $stmt->close(); ?></div><?}?>
+<a href="/users/<?= $row_ya['username'] ?>" class="post-permalink-feeling-icon <?= $row_ya['level'] > 0 ? 'official-user' : '' ?>"><img src="<?= getAvatar($row_ya['mii_hash'], $row['feeling'])?>" class="user-icon"></a><?php  } $stmt->close(); ?></div><?php }?>
 <!-- NOTE TO OLDVERSE DEVS: DO NOT REMOVE THIS (!!!!!) else spacing will be broken-->
 <div class="buttons-content">
     <div class="social-buttons-content">
@@ -89,7 +89,7 @@ $user = isset($user) ? $user : null;
         <button type="button" class="button" data-modal-open="#report-violation-page" data-action="/posts/<?= $_GET['id'] ?>/violations" data-is-post="1" data-is-permalink="1" data-can-report-spoiler="1">Report Violation</button>
     </div>
 </div>
-<? if($user['id'] == $row['created_by'] || $row['owner'] == $user['id'] || $user['level'] > 0){ ?>
+<?php  if($user['id'] == $row['created_by'] || $row['owner'] == $user['id'] || $user['level'] > 0){ ?>
 <div id="edit-post-page" class="dialog none" data-modal-types="edit-post">
 <div class="dialog-inner">
   <div class="window">
@@ -99,11 +99,11 @@ $user = isset($user) ? $user : null;
         <p class="select-button-label">Select an option.</p>
         <select name="edit-type">
           <option value selected>Select an option.</option>
-          <? if(!empty($row['screenshot'])){ ?><option value="screenshot-profile-post" data-action="/posts/<?= $_GET['id'] ?>/favorite">Set as favorite post</option><? } ?>
+          <?php  if(!empty($row['screenshot'])){ ?><option value="screenshot-profile-post" data-action="/posts/<?= $_GET['id'] ?>/favorite">Set as favorite post</option><?php  } ?>
             <option value="spoiler" data-action="/posts/<?= $_GET['id'] ?>.set_spoiler.json">Set as spoiler</option>
           <option value="delete" data-action="/posts/<?= $_GET['id'] ?>.delete.json">Delete</option>
-            <? if($row['owner'] == $user['id'] && $row['is_pinned']!==1 || $user['level'] > 0 && $row['is_pinned']!==1){ ?><option value="pin" data-action="/posts/<?= $_GET['id'] ?>.pin.json">Pin post</option><? } ?>
-            <? if($row['owner'] == $user['id'] && $row['is_locked']!==1 || $user['level'] > 0 && $row['is_locked']!==1){ ?><option value="pin" data-action="/posts/<?= $_GET['id'] ?>.lock.json">Lock post</option><? } ?>
+            <?php  if($row['owner'] == $user['id'] && $row['is_pinned']!==1 || $user['level'] > 0 && $row['is_pinned']!==1){ ?><option value="pin" data-action="/posts/<?= $_GET['id'] ?>.pin.json">Pin post</option><?php  } ?>
+            <?php  if($row['owner'] == $user['id'] && $row['is_locked']!==1 || $user['level'] > 0 && $row['is_locked']!==1){ ?><option value="pin" data-action="/posts/<?= $_GET['id'] ?>.lock.json">Lock post</option><?php  } ?>
         </select>
          <div class="form-buttons">
           <input type="button" class="olv-modal-close-button gray-button" value="Cancel">
@@ -113,7 +113,7 @@ $user = isset($user) ? $user : null;
     </div>
 </div>
 </div></div>
-  <? } ?>
+  <?php  } ?>
 <?php if($user['level'] < $row['permissions']){ ?>
 <div id="report-violation-page" class="dialog none" data-modal-types="report report-violation" data-is-template="1">
 <div class="dialog-inner">
@@ -160,7 +160,7 @@ $user = isset($user) ? $user : null;
     <p>This post has no comments.</p>
   </div></div>
 <ul class="list reply-list js-post-list">
-    <?
+    <?php 
     while($row = $rresult->fetch_array()){
         require 'elements/reply.php';
      } ?>
@@ -190,7 +190,7 @@ if(isset($_SESSION['token'])){
 <?php }else{?>
 <div id="about">
 <p>This post has been locked and is not open for further comments.</p><br>
-</div><? } }else{ ?>
+</div><?php  } }else{ ?>
 <div id="about">
 <p>You must sign in to post a comment.<br><br>Sign in with a <?=SITE_NAME?> account to connect to users around the world by writing posts and comments and by giving Yeahs to other people's posts. You can sign up for a <?=SITE_NAME?> account <a href="/account/signup">here</a>.</p><br>
 <a href="/account/login" class="arrow-button"><span>Login</span></a>

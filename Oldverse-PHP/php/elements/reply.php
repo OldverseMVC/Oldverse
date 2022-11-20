@@ -1,4 +1,4 @@
-<? $user = isset($user) ? $user : null; ?>
+<?php  $user = isset($user) ? $user : null; ?>
 <li id="reply-<?= $row['id'] ?>" data-href="/replies/<?= $row['id'] ?>" class="reply <?= $row['target_id']==$row['created_by'] ? 'my' : 'other'?> trigger <?= $row['spoiler']==1 ? 'hidden' : '' ?>" <?= $row['spoiler']==1 ? 'data-href-hidden="/replies/'.$row['id'].'"' : '' ?> tabindex="0">
   <a href="/users/<?= $row['username'] ?>" class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], $row['feeling'])?>" class="icon"></a>
   <div class="body">
@@ -10,13 +10,13 @@
     </div>
     
       <p class="reply-content-text"><?= getBody($row['body'], true, 500) ?></p>
-    <? if(!empty($row['screenshot'])){ ?><p class="screenshot-container still-image"><img src="<?= htmlspecialchars($row['screenshot'])?>"></p><? } ?>
+    <?php  if(!empty($row['screenshot'])){ ?><p class="screenshot-container still-image"><img src="<?= htmlspecialchars($row['screenshot'])?>"></p><?php  } ?>
     
-    <? if($row['spoiler']==1){ ?>
+    <?php  if($row['spoiler']==1){ ?>
       <div class="hidden-content">
             <p>This reply may contain spoilers, view at your own risk!<button type="button" class="hidden-content-button">View Reply</button></p>
         </div>
-    <? } ?>
+    <?php  } ?>
 
 
     <div class="reply-meta">

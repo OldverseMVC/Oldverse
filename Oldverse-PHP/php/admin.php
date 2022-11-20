@@ -16,24 +16,24 @@ if(!isset($_SESSION['token'])){
         </div>
     </div>
 </div>
-<?
+<?php 
 }else{?>
 <div class="mainContainer">
     <div class="col-md-6 col-md-offset-3">
         <h1>Oldverse Administration</h1>
         <a href="/">Home</a>
-        <?
+        <?php 
         if($user['level']<1){?>
             <p class="red">You don't have any admin permissions. Access denied.</p>
-        <?}else{ ?>
+        <?php }else{ ?>
         <p>Welcome to Oldverse admin panel! This is mostly as WIP, but things are getting added! Hope you'll enjoy it....</p>
         <h2>List of admin actions</h2>
         <ul>
             <li><a href="/settings/admin/accounts">Account/Posts management</a></li>
             <li><a href="/settings/admin/reports">Reports management</a></li>
         </ul>
-        <? } ?>
+        <?php  } ?>
     </div>
 </div>
-<?}
+<?php }
 ?>

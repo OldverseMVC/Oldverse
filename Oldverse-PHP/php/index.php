@@ -26,10 +26,10 @@ if(!isset($_SESSION['username'])){
     <p><?= MEMO ?></p>
 </div>
 <?php }?>
-<? if($stmtposts->num_rows!==0){ ?>
+<?php if($stmtposts->num_rows!==0){ ?>
 <h2 class="headline">Yo momma (Latest posts)</h2>
 <div class="list post-list">
-<?
+<?php 
 $i = 0;
 while($row = $stmtposts->fetch_array()){
     if($i!==0){
@@ -40,7 +40,7 @@ while($row = $stmtposts->fetch_array()){
 }
 ?>
 </div>
-<? } ?>
+<?php } ?>
 <div class="body-content" id="community-top" data-region="USA">
 <div class="headline">
     <h2 class="headline-text">Communities</h2>
@@ -49,7 +49,7 @@ while($row = $stmtposts->fetch_array()){
     </form>
   </div>
   <p class="center" style="padding: 8px;"><b><?= SITE_NAME ?> stores cookies on your computer. <a href="/cookie-info">See more here.</a></b></p>
-  <? if(isset($_SESSION['username']) && $resultfav->num_rows > 0) { ?>
+  <?php if(isset($_SESSION['username']) && $resultfav->num_rows > 0) { ?>
   <h3 class="label">Favorite Communities</h3>
     <ul class="list community-list community-title-list">
         <?php
@@ -63,7 +63,7 @@ while($row = $stmtposts->fetch_array()){
         </li>
         <?php } ?>
     </ul>
-    <? } ?>
+    <?php } ?>
   <div id="identified-user-banner">
     <a href="/identified_user_posts" data-pjax="#body" class="list-button us">
       <span class="title">Get the latest news here!</span>
@@ -90,7 +90,7 @@ while($row = $stmtposts->fetch_array()){
       </li>
       <?php } ?>
       </ul>
-      <? } ?>
+      <?php } ?>
         <h3 class="label label-wiiu">New Communities</h3>
             <ul class="list community-list community-title-list">
         <?php

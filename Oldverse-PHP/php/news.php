@@ -12,7 +12,7 @@ $result = $stmt->get_result();
 ?>
 <h1 class="headline">Notifications</h1>
 <ul class="list news-list" data-next-page-url="">
-    <?
+    <?php 
     if($result->num_rows==0){
         showNoContent("No updates.");
     }
@@ -86,5 +86,5 @@ $result = $stmt->get_result();
                 <span class="timestamp"><?= getTimeAgo($row['tmstp']) ?></span>
             </div>
         </li>
-    <? } ?>
+    <?php  } ?>
 </ul>

@@ -55,16 +55,16 @@ if($stmt->error){
 $result = $stmt->get_result();
 ?>
 <div class="user-page">
-<? if(!empty($row['favorite'])){ ?><a href="/posts/<?= $row['favorite'] ?>" class="user-profile-memo-container" style="background-image:url('<?= htmlspecialchars($prow['screenshot'] )?>')"><img src="<?= htmlspecialchars($prow['screenshot']) ?>" class="user-profile-screenshot"></a><? } ?>
+<?php  if(!empty($row['favorite'])){ ?><a href="/posts/<?= $row['favorite'] ?>" class="user-profile-memo-container" style="background-image:url('<?= htmlspecialchars($prow['screenshot'] )?>')"><img src="<?= htmlspecialchars($prow['screenshot']) ?>" class="user-profile-screenshot"></a><?php  } ?>
 <div id="user-content" class="<?= !empty($row['favorite']) ? '' : 'no-profile-post-user' ?>">
     <span class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], 0)?>" class="icon"></span>
 	    <div class="nick-name" style="color: <?= $row['nick_color'] ?>"><?= htmlspecialchars($row['nickname'])?><span class="id-name"><?= htmlspecialchars($_GET['id']) ?></span></div>
     <div id="user-menu">
-      <? if(isset($_SESSION['token']) && $row['id']==$user['id']){ ?><div id="edit-profile-settings"><a class="button symbol" href="/settings/profile">Profile Settings</a></div><? } ?>
+      <?php  if(isset($_SESSION['token']) && $row['id']==$user['id']){ ?><div id="edit-profile-settings"><a class="button symbol" href="/settings/profile">Profile Settings</a></div><?php  } ?>
     </div>
     <div class="user-action-content">
         <div class="toggle-button">
-            <? if(isset($_SESSION['token']) && $user['id']!==$row['id']){ ?><button type="button" data-action="/users/<?= $_GET['id'] ?>.follow.json" class="follow-button button symbol <?= $is_follow ? 'none' : '' ?>">Follow</button><button type="button" data-action="/users/<?= $_GET['id'] ?>.unfollow.json" class="unfollow-button button symbol <?= $is_follow ? '' : 'none' ?>" data-screen-name="<?= $row['nickname'] ?>">Unfollow</button><? } ?>
+            <?php  if(isset($_SESSION['token']) && $user['id']!==$row['id']){ ?><button type="button" data-action="/users/<?= $_GET['id'] ?>.follow.json" class="follow-button button symbol <?= $is_follow ? 'none' : '' ?>">Follow</button><button type="button" data-action="/users/<?= $_GET['id'] ?>.unfollow.json" class="unfollow-button button symbol <?= $is_follow ? '' : 'none' ?>" data-screen-name="<?= $row['nickname'] ?>">Unfollow</button><?php  } ?>
         </div>
     </div>
   </div><div id="nav-menu" class="nav-4">
@@ -86,7 +86,7 @@ $result = $stmt->get_result();
     </a>
   </div>
 </div>
-<?
+<?php 
 if(!empty($row['description'])){?>
 <div class="profile-comment">
 <p><?= nl2br(htmlspecialchars($row['description']))?></p>
@@ -94,7 +94,7 @@ if(!empty($row['description'])){?>
 <?php } ?>
 <div class="report-buttons-content">
     <button type="button" class="button" data-modal-open="#report-violation-page" data-action="/posts/<?= $row['id'] ?>/violations" data-is-post="1" data-is-permalink="1" data-can-report-spoiler="1">Report Violation&nbsp;&nbsp;&nbsp;</button>
-    <? if($is_follow && $is_following_back){?><a class="button" href="/messages/<?= htmlspecialchars($_GET['id']) ?>">Message</a><? } ?>
+    <?php  if($is_follow && $is_following_back){?><a class="button" href="/messages/<?= htmlspecialchars($_GET['id']) ?>">Message</a><?php  } ?>
 </div>
 <div id="report-violation-page" class="dialog none" data-modal-types="report report-violation" data-is-template="1">
 <div class="dialog-inner">
@@ -133,15 +133,15 @@ if(!empty($row['description'])){?>
       <h4><span>Custom URL</span></h4>
       <div class="note"><?= $row['url'] ?></div>
   </div>
-  <? if($row['allows_online_status']==1){ ?><div class="user-main-profile data-content">
+  <?php  if($row['allows_online_status']==1){ ?><div class="user-main-profile data-content">
       <h4><span>Last seen</span></h4>
       <div class="note"><?= getTimeAgo($row['timestamp']) ?></div>
-  </div><? } ?>
-  <?
+  </div><?php  } ?>
+  <?php 
   while($row = $result->fetch_array()){ ?>
   <div class="user-main-profile data-content">
       <h4><span><?= htmlspecialchars($row['name']) ?></span></h4>
       <div class="note"><?= htmlspecialchars($row['value']) ?></div>
   </div>
-  <? } ?>
+  <?php  } ?>
 </div>

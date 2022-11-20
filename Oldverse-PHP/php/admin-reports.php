@@ -6,7 +6,7 @@ if($user["level"] < 1 || !isset($_SESSION['token'])){
 <div class="mainContainer">
     <div class="col-md-6 col-md-offset-3">
         <h1>Admin Panel - Reports</h1>
-        <?
+        <?php 
         if(isset($_GET['id'])){
             $action = $db->prepare("DELETE FROM reports WHERE id = ?");
             $action->bind_param('i', $_GET['id']);

@@ -54,14 +54,14 @@ if($_SERVER['REQUEST_METHOD']=='POST' && empty($_POST['value'])){
         <li class="setting-profile-comment">
             <p>List of tags</p>
         </li>
-        <? if($result->num_rows!==0){
+        <?php  if($result->num_rows!==0){
             while($row = $result->fetch_array()){?>
                 <li class="setting-profile-comment">
                     <h1 style="font-size: large;"><?= htmlspecialchars($row['name'])?></h1>
                     <p><?= htmlspecialchars($row['value'])?></p>
                     <form method="post"><input type="hidden" name="id" value="<?= $row['id'] ?>"><input type="submit" class="button" style="color: red;" value="Remove" class="a"></form>
                 </li>
-        <? }} ?>
+        <?php  }} ?>
     </ul>
 </div>
-<? if($result->num_rows==0){ showNoContent("No profile tag was found."); } ?>
+<?php  if($result->num_rows==0){ showNoContent("No profile tag was found."); } ?>

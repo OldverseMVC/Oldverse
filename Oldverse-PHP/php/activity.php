@@ -24,7 +24,7 @@ requireAuth();
     <input type="submit" class="black-button post-button" value="Send">
   </div>
 </form>
-<?
+<?php 
 if(empty($_GET['fragment']) && empty($_GET['offset'])){ ?>
     <div class="activity-feed content-loading-window">
       <div>
@@ -36,8 +36,8 @@ if(empty($_GET['fragment']) && empty($_GET['offset'])){ ?>
         <p>The activity feed couldn't be loaded. Check your Internet connection, wait a moment, and then try reloading.</p>
         <div class="buttons-content"><a href="/activity" class="button">Reload</a></div>
       </div>
-    </div><? } ?>
-<?
+    </div><?php } ?>
+<?php 
 //wanna hear a joke? t h i s 
 $stmt = $db->prepare("SELECT target FROM `follows` WHERE source = ?");
 $stmt->bind_param('i', $user['id']);
@@ -64,9 +64,9 @@ $result = $stmt->get_result();?>
 <?php if(!empty($_GET['fragment']) || !empty($_GET['offset'])){ if($result->num_rows>0){ ?><div class="body-content" id="community-post-list" data-region="">
         <?php
         $new_offset = $_GET['offset'] + 20;?>
-        <div class="list post-list" data-next-page-url="/activity?offset=<?= $new_offset ?>"><?
+        <div class="list post-list" data-next-page-url="/activity?offset=<?= $new_offset ?>"><?php 
         while($row = $result->fetch_array()){
             require "elements/post.php";
         }
         ?></div>
-</div><? }else{ showNoContent("No posts were found. Go follow some users/do some actions and get back to this page!"); }} ?>
+</div><?php }else{ showNoContent("No posts were found. Go follow some users/do some actions and get back to this page!"); }} ?>

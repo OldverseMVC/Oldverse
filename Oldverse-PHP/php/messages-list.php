@@ -27,10 +27,10 @@ $result = $stmt->get_result();
                 <p class="title">
                     <p><a class="nick-name" href="/users/<?= htmlspecialchars($row['username']) ?>"><?= htmlspecialchars($row['nickname']) ?></a><br><?= $dresult->num_rows==0 ? "You haven't exchanged messages with this user yet." : $cut ?></p>
                 </p>
-                <? if($dresult->num_rows!==0){ ?><span class="timestamp"><?= getTimeAgo($drow['timestamp']) ?></span><? } ?>
+                <?php  if($dresult->num_rows!==0){ ?><span class="timestamp"><?= getTimeAgo($drow['timestamp']) ?></span><?php  } ?>
             </div>
         </li> 
-        <?
+        <?php 
     }
     ?>
 </ul>

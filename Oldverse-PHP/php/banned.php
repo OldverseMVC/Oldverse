@@ -1,4 +1,4 @@
-<?
+<?php 
 require_once "lib/connect.php";
 requireAuth();
 $user = getUserID($_SESSION['token']);

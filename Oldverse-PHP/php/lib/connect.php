@@ -2,13 +2,6 @@
 //Block iframes as soon as we can
 header("X-Frame-Options: Deny");
 
-//security
-if(isset($_SERVER['HTTP_REFERER']) && !str_starts_with($_SERVER['HTTP_REFERER'], "https://".$_SERVER['SERVER_NAME']) && !str_starts_with($_SERVER['HTTP_REFERER'], "http://".$_SERVER['SERVER_NAME']) && !str_starts_with($_SERVER['HTTP_REFERER'], "https://discord.com")){
-    echo "Seems like a website redirected you to Oldverse. To ensure security, we are refreshing the page...";
-    header("Refresh: 5; url=https://".$_SERVER['SERVER_NAME']);
-    exit;
-}
-
 // HACK: fix for including config in multiple dirs down
 // Please fix this!
 $config_double = 0;
@@ -21,6 +14,20 @@ else
 {
 	require_once('../config.php');
 }
+
+//Reimplementation of str_start_with for PHP 7. thx php docs <3
+if(PHP7_ENABLED){
+    function str_starts_with ( $haystack, $needle ) {
+        return strpos( $haystack , $needle ) === 0;
+    }
+}
+//security
+if(isset($_SERVER['HTTP_REFERER']) && !str_starts_with($_SERVER['HTTP_REFERER'], "https://".$_SERVER['SERVER_NAME']) && !str_starts_with($_SERVER['HTTP_REFERER'], "http://".$_SERVER['SERVER_NAME']) && !str_starts_with($_SERVER['HTTP_REFERER'], "https://discord.com")){
+    echo "Seems like a website redirected you to Oldverse. To ensure security, we are refreshing the page...";
+    header("Refresh: 5; url=https://".$_SERVER['SERVER_NAME']);
+    exit;
+}
+
 if(!isset($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] != "on")
 {
     header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"], true, 301);
@@ -78,7 +85,7 @@ if(!isset($skip_t_check) && isset($_SESSION['token'])){
     }
 }
 
-if($_SERVER['REQUEST_URI']!=='/banned'){
+if($_SERVER['REQUEST_URI']!=='/banned' && !empty($_SESSION['token'])){
     $user = getUserID($_SESSION['token']);
     $stmt = $db->prepare("SELECT reason FROM ban WHERE target = ?");
     $stmt->bind_param('i', $user);
@@ -101,10 +108,6 @@ function getUser($token){
     }
     $result = $stmt->get_result();
     return $result->fetch_array();
-}
-//Reimplementation of str_start_with for PHP 7. thx php docs <3
-function str_starts_with ( $haystack, $needle ) {
-  return strpos( $haystack , $needle ) === 0;
 }
 function getAvatar($hash, $feeling){
     switch($feeling){

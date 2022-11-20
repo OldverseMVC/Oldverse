@@ -20,22 +20,22 @@ $user = isset($user) ? $user : null;
 <a class="post-permalink-button info-ticker arrow-left-button" href="/posts/<?= $row['target'] ?>">
     <span><span class="post-user-description">View <img src="<?= getAvatar($row['ogpost_mii_hash'], 0)?>" class="user-icon"><?= $row['ogpost_nickname'] ?>'s post for this comment.</span></span>
   </a>
-    <?if($user['id'] == $row['created_by'] || $row['owner'] == $user['id'] || $user['level'] > 0){ ?><button type="button" class="symbol button edit-button profile-post-button" data-modal-open="#edit-post-page"><span class="symbol-label">Edit comment</span></button><? } ?>
+    <?php if($user['id'] == $row['created_by'] || $row['owner'] == $user['id'] || $user['level'] > 0){ ?><button type="button" class="symbol button edit-button profile-post-button" data-modal-open="#edit-post-page"><span class="symbol-label">Edit comment</span></button><?php  } ?>
 <div id="reply-<?= $row['id']?>" class="">
 <a href="/users/<?= $row['username'] ?>" class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], $row['feeling'])?>" class="icon"></a>
     <p class="timestamp-container"><span class="timestamp" href="/posts/<?= $_GET['id'] ?>"><?= getTimeAgo($row['timestamp']) ?> <?= $row['spoiler']==1 ? '- Spoilers!' : '' ?></span></p>
     <p class="user-name"><a href="/users/<?= htmlspecialchars($row['username']) ?>" style="color: <?= htmlspecialchars($row['nick_color']) ?>"><?= htmlspecialchars($row['nickname']) ?></a><span class="user-id"><?= $row['username'] ?></span></p>
-     <p class="community-container"> <? if(!empty($row['community'])){ ?><a href="/communities/<?= $row['community'] ?>"><img src="<?= $row['icon'] ?>" class="community-icon"><?= htmlspecialchars($row['name']) ?></a><? }else{ ?><a href="/activity"><img src="" class="community-icon">Activity Feed</a><? } ?></p><div class="body">
+     <p class="community-container"> <?php  if(!empty($row['community'])){ ?><a href="/communities/<?= $row['community'] ?>"><img src="<?= $row['icon'] ?>" class="community-icon"><?= htmlspecialchars($row['name']) ?></a><?php  }else{ ?><a href="/activity"><img src="" class="community-icon">Activity Feed</a><?php  } ?></p><div class="body">
     <p class="reply-content-text"><?= getBody($row['body']) ?></p>
-    <? if(!empty($row['screenshot'])){ ?><p class="screenshot-container still-image"><img src="<?= htmlspecialchars($row['screenshot'])?>"></p><? } ?>
+    <?php  if(!empty($row['screenshot'])){ ?><p class="screenshot-container still-image"><img src="<?= htmlspecialchars($row['screenshot'])?>"></p><?php  } ?>
 
     <div class="post-meta">
         <button type="button" class="symbol submit empathy-button <?= checkIfYeah($user['id'], $row['id'], true) ?> <?= !isset($_SESSION['token']) || $row['created_by']==$user['id'] ? 'disabled" disabled' : '"' ?> data-feeling="<?= getFeeling($row['feeling']) ?>" data-action="/replies/<?= $row['id'] ?>/empathies" ><span class="empathy-button-text"><?= getYeahText($row['feeling'], checkIfYeah($user['id'], $row['id'], true)) ?></span></button>
       <div class="empathy symbol"><span class="symbol-label">Yeahs</span><span class="empathy-count"><?= $row['empathy_count'] ?></span></div>
     </div>
-    <? if($row['empathy_count']!==0){ ?>
+    <?php  if($row['empathy_count']!==0){ ?>
 <div id="empathy-content">
-<? while($row_y = $yeahs->fetch_array()){
+<?php  while($row_y = $yeahs->fetch_array()){
     $stmt = $db->prepare("SELECT username, mii_hash, level FROM users WHERE id = ?");
     $stmt->bind_param('i', $row_y['source']);
     $stmt->execute();
@@ -44,7 +44,7 @@ $user = isset($user) ? $user : null;
     }
     $cool_result = $stmt->get_result();
     $row_ya = $cool_result->fetch_array();?>
-<a href="/users/<?= $row_ya['username'] ?>" class="post-permalink-feeling-icon <?= $row_ya['level'] > 0 ? 'official-user' : '' ?>"><img src="<?= getAvatar($row_ya['mii_hash'], $row['feeling'])?>" class="user-icon"></a><? } $stmt->close();?></div><? }?>
+<a href="/users/<?= $row_ya['username'] ?>" class="post-permalink-feeling-icon <?= $row_ya['level'] > 0 ? 'official-user' : '' ?>"><img src="<?= getAvatar($row_ya['mii_hash'], $row['feeling'])?>" class="user-icon"></a><?php  } $stmt->close();?></div><?php  }?>
     <div class="post-meta">
 	
 </div>
@@ -76,7 +76,7 @@ $user = isset($user) ? $user : null;
 </div>
 </div>
 </div>
-<? if($user['id'] == $row['created_by'] || $row['owner'] == $user['id'] || $user['level'] > 0){ ?>
+<?php  if($user['id'] == $row['created_by'] || $row['owner'] == $user['id'] || $user['level'] > 0){ ?>
 <div id="edit-post-page" class="dialog none" data-modal-types="edit-post">
 <div class="dialog-inner">
   <div class="window">
@@ -97,4 +97,4 @@ $user = isset($user) ? $user : null;
     </div>
 </div>
 </div></div>
-  <? } ?>
+  <?php  } ?>

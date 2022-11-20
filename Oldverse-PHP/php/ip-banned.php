@@ -1,4 +1,4 @@
-<?
+<?php 
 require_once "../config.php";
 if(!in_array($_SERVER['REMOTE_ADDR'], FORBIDDEN_IPS)){
     header("Location: /");

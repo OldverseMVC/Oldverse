@@ -47,7 +47,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 ?>
 <div class="user-page">
-<? if(!empty($row['favorite'])){ ?><a href="/posts/<?= $row['favorite'] ?>" class="user-profile-memo-container" style="background-image:url('<?= htmlspecialchars($prow['screenshot'] )?>')"><img src="<?= htmlspecialchars($prow['screenshot']) ?>" class="user-profile-screenshot"></a><? } ?>
+<?php  if(!empty($row['favorite'])){ ?><a href="/posts/<?= $row['favorite'] ?>" class="user-profile-memo-container" style="background-image:url('<?= htmlspecialchars($prow['screenshot'] )?>')"><img src="<?= htmlspecialchars($prow['screenshot']) ?>" class="user-profile-screenshot"></a><?php  } ?>
 <div id="user-content" class="<?= !empty($row['favorite']) ? '' : 'no-profile-post-user' ?>">
     <span class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], 0)?>" class="icon"></span>
 	    <div class="nick-name" style="color: <?= $row['nick_color'] ?>"><?= htmlspecialchars($row['nickname'])?><span class="id-name"><?= htmlspecialchars($_GET['id']) ?></span></div>
@@ -79,11 +79,11 @@ $result = $stmt->get_result();
             showNoContent("No posts were found.");
         }else{
             $new_offset = $_GET['offset'] + 20;?>
-            <div class="list post-list" data-next-page-url="/users/<?= $_GET['id'] ?>/<?= $name_2 ?>?offset=<?= $new_offset ?>"><?
+            <div class="list post-list" data-next-page-url="/users/<?= $_GET['id'] ?>/<?= $name_2 ?>?offset=<?= $new_offset ?>"><?php 
             while($row = $result->fetch_array()){
                 require "elements/post.php";
             }
-            ?></div><?
+            ?></div><?php 
         }
         ?>
 </div>

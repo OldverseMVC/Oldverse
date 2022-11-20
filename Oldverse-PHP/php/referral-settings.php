@@ -33,13 +33,13 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         <li class="setting-profile-comment">
             <p>List of referral keys</p>
         </li>
-        <? if($result->num_rows!==0){
+        <?php  if($result->num_rows!==0){
             while($row = $result->fetch_array()){?>
                 <li class="setting-profile-comment">
                     <h1 style="font-size: large;"><?= htmlspecialchars($row['referralkey'])?></h1>
                     <?= $row['used']==1 ? '<p style="color: red;">Used</p>' : '<p>Not used</p>'?>
                 </li>
-        <? }} ?>
+        <?php  }} ?>
     </ul>
 </div>
-<? if($result->num_rows==0){ showNoContent("No referral key was found."); } ?>
+<?php  if($result->num_rows==0){ showNoContent("No referral key was found."); } ?>

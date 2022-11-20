@@ -14,7 +14,7 @@ $new_offset = $offset+20;
       <input type="text" name="query" placeholder="Search Communities" minlength="2"/><input type="submit" value="q" title="Search"/>
     </form>
   </div>
-  <?
+  <?php 
   if($result->num_rows>0){ ?>
   <ul class="list community-list community-title-list" data-next-page-url="/communities/all?offset=<?= $new_offset ?>">
         <?php
@@ -28,4 +28,4 @@ $new_offset = $offset+20;
         </li>
         <?php }  ?>
     </ul>
-    <? }else{ showNoContent("No community was found."); }?>
+    <?php  }else{ showNoContent("No community was found."); }?>

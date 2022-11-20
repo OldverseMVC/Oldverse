@@ -22,7 +22,7 @@ $resultrandom = $stmt->get_result();
     </form>
     </div>
    <ul class="list-content-with-icon-and-text arrow-list" id="following-list-content" data-next-page-url="">
-    <?
+    <?php 
     if($result->num_rows==0){
         showNoContent("No user was found.");
         goto skip;
@@ -39,12 +39,12 @@ $resultrandom = $stmt->get_result();
             <p class="text"><?= $row['description'] ?></p>
         </div>
     </li>
-    <? } ?>
+    <?php  } ?>
     </ul>
-    <? skip: ?>
+    <?php  skip: ?>
 <h2 class="label">Recommended Users</h2>
  <ul class="list-content-with-icon-and-text arrow-list" id="following-list-content" data-next-page-url="">
-    <?
+    <?php 
     if($resultrandom->num_rows==0){
         showNoContent("No user was found.");
         exit;
@@ -61,5 +61,5 @@ $resultrandom = $stmt->get_result();
             <p class="text"><?= $row['description'] ?></p>
         </div>
     </li>
-    <? } ?>
+    <?php  } ?>
 </ul>

@@ -70,14 +70,14 @@ showForm:
 <div class="mainContainer">
     <div class="col-md-6 col-md-offset-3">
         <h1>Account/posts management</h1>
-        <?
+        <?php 
         if(isset($success_msg)){?>
         <p class="green"><?= $success_msg ?></p>
-        <? } ?>
-        <?
+        <?php  } ?>
+        <?php 
         if(isset($error)){?>
         <p class="red"><?= $error ?></p>
-        <? } ?>
+        <?php  } ?>
         <h2>Ban accounts</h2>
         <p>Banning is a serious action, it can be destructive.</p>
         <p style="color: red;"><b>Think 2-3 more times before banning someone!</b></p>

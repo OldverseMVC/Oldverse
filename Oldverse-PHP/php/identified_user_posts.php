@@ -21,11 +21,11 @@ $result = $stmt->get_result();
             showNoContent("No post was found.");
         }else{
             $new_offset = $_GET['offset'] + 20;?>
-            <div class="list post-list" data-next-page-url="/identified_user_posts?offset=<?= $new_offset ?>"><?
+            <div class="list post-list" data-next-page-url="/identified_user_posts?offset=<?= $new_offset ?>"><?php 
             while($row = $result->fetch_array()){
                 require "elements/post.php";
             }
-            ?></div><?
+            ?></div><?php 
         }
         ?>
 </div>

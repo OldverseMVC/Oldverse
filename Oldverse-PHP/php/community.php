@@ -38,19 +38,19 @@ $resultpinned = $stmt->get_result();
 <div id="community-content" class="">
   <span class="icon-container"><img src="<?= htmlspecialchars($row['icon']) ?>" class="icon"/></span>
   <?= getCommunityType($row['type'], false) ?>
-  <? if(!empty($row['badge'])){ ?><span class="news-community-badge"><?= htmlspecialchars($row['badge']) ?></span><? } ?>
+  <?php  if(!empty($row['badge'])){ ?><span class="news-community-badge"><?= htmlspecialchars($row['badge']) ?></span><?php  } ?>
   <span class="title"><?= htmlspecialchars($row['name']) ?></span>
   <span class="text"><?= htmlspecialchars($row['description']) ?></span>
   <p style="text-align: center;">Community owner: <a href="/users/<?= htmlspecialchars($row['username'])?>"><?= htmlspecialchars($row['nickname']) ?></a></p>
   <div class="buttons-content">
-      <?
+      <?php 
       if(isset($_SESSION['token'])){?>
       <button type="button" class="symbol button favorite-button <?= $row['is_favorite'] > 0 ? 'checked' : '' ?>" data-action-favorite="/communities/<?= $_GET['id'] ?>/favorite.json" data-action-unfavorite="/communities/<?= $_GET['id'] ?>/unfavorite.json"><span class="favorite-button-text">Favorite</span></button>
-      <? } ?>
-     <?
+      <?php  } ?>
+     <?php 
      if(isset($_SESSION['token']) && $user['id']==$row['owner']){?>
         <a href="/communities/<?= htmlspecialchars($_GET['id']) ?>/edit" class="button">Edit community</a>
-     <? }
+     <?php  }
      ?> 
   </div>
   <?php if(isset($_SESSION['username']) && $user['level'] > $row['permissions'] && $row['is_flipnote']!==1 || isset($_SESSION['username']) && $user['level'] == $row['permissions'] && $row['is_flipnote']!==1){ ?>
@@ -79,22 +79,22 @@ $resultpinned = $stmt->get_result();
 </div>
 <div class="body-content" id="community-post-list" data-region="">
         <h3 class="label">Pinned posts</h3>
-        <? if($resultpinned->num_rows!==0){ ?><div class="list">
-        <? while($row = $resultpinned->fetch_array()){
+        <?php  if($resultpinned->num_rows!==0){ ?><div class="list">
+        <?php  while($row = $resultpinned->fetch_array()){
             require "elements/post.php";
         }
-        ?></div><? }else{?><p style="margin-top: 4px; color: #969696; font-size: 16px; text-align: center;">No pinned post was found on this community.</p><? }
+        ?></div><?php  }else{?><p style="margin-top: 4px; color: #969696; font-size: 16px; text-align: center;">No pinned post was found on this community.</p><?php  }
         if($result->num_rows==0){
             showNoContent("No posts were found on this community.");
         }else{
             theelse:
             $new_offset = $_GET['offset'] + 20;?>
             <h3 class="label">Posts</h3>
-            <div class="list post-list" data-next-page-url="/communities/<?= $_GET['id'] ?>?offset=<?= $new_offset ?>"><?
+            <div class="list post-list" data-next-page-url="/communities/<?= $_GET['id'] ?>?offset=<?= $new_offset ?>"><?php 
             while($row = $result->fetch_array()){
                 require "elements/post.php";
             }
-            ?></div><?
+            ?></div><?php 
         }
         ?>
 </div>

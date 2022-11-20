@@ -43,7 +43,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 ?>
 <div class="user-page">
-<? if(!empty($row['favorite'])){ ?><a href="/posts/<?= $row['favorite'] ?>" class="user-profile-memo-container" style="background-image:url('<?= htmlspecialchars($prow['screenshot'] )?>')"><img src="<?= htmlspecialchars($prow['screenshot']) ?>" class="user-profile-screenshot"></a><? } ?>
+<?php  if(!empty($row['favorite'])){ ?><a href="/posts/<?= $row['favorite'] ?>" class="user-profile-memo-container" style="background-image:url('<?= htmlspecialchars($prow['screenshot'] )?>')"><img src="<?= htmlspecialchars($prow['screenshot']) ?>" class="user-profile-screenshot"></a><?php  } ?>
 <div id="user-content" class="<?= !empty($row['favorite']) ? '' : 'no-profile-post-user' ?>">
     <span class="icon-container <?= $row['level'] > 0 ? 'official-user' : ''?>"><img src="<?= getAvatar($row['mii_hash'], 0)?>" class="icon"></span>
 	    <div class="nick-name" style="color: <?= $row['nick_color'] ?>"><?= htmlspecialchars($row['nickname'])?><span class="id-name"><?= htmlspecialchars($_GET['id']) ?></span></div>
@@ -70,7 +70,7 @@ $result = $stmt->get_result();
 <div class="list follow-list following">
 <div id="user-page-no-content" class="none"></div>
   <ul class="list-content-with-icon-and-text arrow-list" id="following-list-content" data-next-page-url="">
-    <?
+    <?php 
     if($result->num_rows==0){
         showNoContent("No user was found.");
         exit;
@@ -98,9 +98,9 @@ $result = $stmt->get_result();
                 <span class="id-name"><?= htmlspecialchars($row['username']) ?></span>
             </p>
             <p class="text"><?= htmlspecialchars($row['description']) ?></p>
-            <? if(isset($row['favorite'])){ ?><div class="user-profile-memo-content"><img src="<?= htmlspecialchars($prow['screenshot']) ?>" class="user-profile-memo"></div><? } ?>
+            <?php  if(isset($row['favorite'])){ ?><div class="user-profile-memo-content"><img src="<?= htmlspecialchars($prow['screenshot']) ?>" class="user-profile-memo"></div><?php  } ?>
         </div>
     </li>
-    <? } ?>
+    <?php  } ?>
     </ul>
 </div>

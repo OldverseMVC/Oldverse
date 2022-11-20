@@ -106,7 +106,7 @@ $_GET['offset'] = !empty($_GET['offset']) ? $_GET['offset'] : 0;
     <input type="submit" class="black-button post-button" value="Send">
   </div>
 </form>
-<?
+<?php 
 $stmt = $db->prepare("SELECT dms.id, author, feeling, body, created_at, (SELECT UNIX_TIMESTAMP(dms.created_at)) AS timestamp, level, mii_hash, nickname, username FROM dms LEFT JOIN users on users.id = author WHERE cid = ? ORDER BY dms.id DESC LIMIT 20 OFFSET ?");
 $stmt->bind_param('ii', $crow['cid'], $_GET['offset']);
 $stmt->execute();
@@ -115,10 +115,10 @@ if($result->num_rows==0){
     showNoContent("No posts were found on this conversation.");
 }else{
     $new_offset = $_GET['offset'] + 20;?>
-    <div class="list post-list" data-next-page-url="/messages/<?= htmlspecialchars($_GET['id']) ?>?offset=<?= $new_offset ?>"><?
+    <div class="list post-list" data-next-page-url="/messages/<?= htmlspecialchars($_GET['id']) ?>?offset=<?= $new_offset ?>"><?php 
     while($row = $result->fetch_array()){
         require "elements/message.php";
     }
-    ?></div><?
+    ?></div><?php 
 }
 ?>

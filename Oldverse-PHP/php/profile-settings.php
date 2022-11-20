@@ -94,11 +94,11 @@ if(isset($row['favorite'])){
     <li class="setting-profile-post">
       <p class="settings-label">Favorite Post</p>
       <p class="note">You can set one of your own screenshot posts as your favorite from the settings button on that post.</p>
-      <? if(!empty($row['favorite'])){ ?>
+      <?php  if(!empty($row['favorite'])){ ?>
       <div class="select-content">
         <button id="profile-post" type="button" class="submit"><img src="<?= htmlspecialchars($prow['screenshot'])?>"><span class="symbol">Remove</span></button>
 	   </div>
-	   <? } ?>
+	   <?php  } ?>
     </li>
     <li class="setting-profile-comment">
       <p class="settings-label">Nintendo Network ID</p>

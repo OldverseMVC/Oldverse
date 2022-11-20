@@ -72,7 +72,7 @@ if(isset($_SESSION['token'])){
                     <li id="global-menu-feed" class="<?= selected("activity") ?>"><a href="/activity" class="symbol"><span>Activity Feed</span></a></li>
                     <li id="global-menu-community" class="<?= selected("communities") ?>"><a href="/" class="symbol"><span>Communities</span></a></li>
                     <li id="global-menu-news" class="<?= selected("notifications") ?>"><a href="/news/my_news" class="symbol"><span>Notifications</span></a></li>
-                    <li id="global-menu-messages" class="<?= selected("messages") ?>"><a href="/news/messages" class="symbol"><span>Messages <? if($mrow['COUNT(*)']!==0){ ?><span class="badge"><?= $mrow['COUNT(*)'] ?></span><? } ?></a></span></li>
+                    <li id="global-menu-messages" class="<?= selected("messages") ?>"><a href="/news/messages" class="symbol"><span>Messages <?php  if($mrow['COUNT(*)']!==0){ ?><span class="badge"><?= $mrow['COUNT(*)'] ?></span><?php  } ?></a></span></li>
 
                     <li id="global-menu-mymenu" class="<?= selected("my-menu") ?>"><a href="/my-menu" class="symbol"><span>My Menu</span></a></li>
                 </menu>
