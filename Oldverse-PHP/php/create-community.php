@@ -23,7 +23,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         $exts = array('jpg', 'gif', 'png', 'webp', 'jpeg', 'bmp', 'svg');
         
         if(!in_array(strtolower(pathinfo($_POST['banner'], PATHINFO_EXTENSION)), $exts)) {
-            showError(400, "Your icon URL is NOT an image. (or it is an data:image)");
+            showError(400, "Your banner URL is NOT an image. (or it is an data:image)");
         }
     }
     if(!empty($_POST['name'])){
