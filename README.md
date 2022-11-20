@@ -1,4 +1,10 @@
-# Oldverse
+# **VERY IMPORTANT NOTE**
+On November 28, 2022, PHP Foundation will officially drop support for PHP 7. Farewell, PHP 7.
+Following this, progress has been made on PHP 8 support, and I'm proud to say it's now complete.
+The day my web host will drop PHP 7, Oldverse PHP 7 support will drop too.
+Please migrate to PHP 8 ASAP, while you can.
+
+## Oldverse
 Codenamed OINM (Oldverse Is Not Miiverse), a new miiverse clone from scratch for the 6564545962598256225th time!!!!!!!
 
 To finally make Grape crappy source code die!!!
