@@ -15,6 +15,14 @@ const MAJOR = "1";
 const MINOR = "3.10";
 const LOGIN_NOTE = "please don't rehost";
 
+//Change to true if you're using PHP 7.4 or older.
+/* VERY VERY IMPORTANT NOTE */
+//Starting from when my host will migrate to PHP 8,
+//PHP 7 support for Oldverse will drop.
+//While it might work with PHP 7 with a few mods on the codebase,
+//It is highly discouraged to do so. Use PHP 8.
+const PHP7_ENABLED = false;
+
 // ReCAPTCHA settings
 // set it to null for no recaptcha, else put on your site key & private key
 const SITE_KEY = null;
