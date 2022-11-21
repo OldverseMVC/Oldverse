@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : dim. 13 nov. 2022 à 00:33
+-- Généré le : lun. 21 nov. 2022 à 22:28
 -- Version du serveur : 10.6.7-MariaDB-2ubuntu1.1
--- Version de PHP : 7.4.32
+-- Version de PHP : 8.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -107,6 +107,19 @@ CREATE TABLE `favorites` (
   `source` int(11) NOT NULL,
   `target` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `files`
+--
+
+CREATE TABLE `files` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `author` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -296,6 +309,12 @@ ALTER TABLE `favorites`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `files`
+--
+ALTER TABLE `files`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `follows`
 --
 ALTER TABLE `follows`
@@ -388,6 +407,12 @@ ALTER TABLE `empathies`
 -- AUTO_INCREMENT pour la table `favorites`
 --
 ALTER TABLE `favorites`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `files`
+--
+ALTER TABLE `files`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
