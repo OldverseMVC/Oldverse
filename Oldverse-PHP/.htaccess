@@ -21,6 +21,7 @@ RewriteRule ^communities\/([0-9]+)\/favorite.json$ php/favorite.php?id=$1 [L,NC,
 RewriteRule ^communities\/([0-9]+)\/unfavorite.json$ php/favorite.php?id=$1 [L,NC,QSA]
 RewriteRule ^comments$ php/create-comment.php [L,NC,QSA]
 RewriteRule ^discord-api$ php/discord-api.php [L,NC,QSA]
+RewriteRule ^olddrive$ php/drive.php [L,NC,QSA]
 RewriteRule ^emoji-list$ php/emoji-list.php [L,NC,QSA]
 RewriteRule ^posts$ php/create-post.php [L,NC,QSA]
 RewriteRule ^posts\/([0-9]+)$ php/posts.php?id=$1 [L,NC,QSA]
