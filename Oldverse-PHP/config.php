@@ -12,7 +12,7 @@ const TIMEZONE = "America/New_York";
 const SITE_NAME = "Oldverse";
 const MEMO = SITE_NAME." is a service that lets you communicate with other players from around the world. It is accessible via PC, Wii U, and systems in the Nintendo 3DS family.";
 const MAJOR = "1";
-const MINOR = "3.10";
+const MINOR = "3.20";
 const LOGIN_NOTE = "please don't rehost";
 
 //Change to true if you're using PHP 7.4 or older.
