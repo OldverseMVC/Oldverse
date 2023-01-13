@@ -1,4 +1,11 @@
 <?php
+/*
+Oldverse Kernel source code.
+
+Copyright (c) the Oldverse Team 2022-2023
+
+Contains basic functions for the website and initializes the website core (database, etc).
+*/
 //Block iframes as soon as we can
 header("X-Frame-Options: Deny");
 
