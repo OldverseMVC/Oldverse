@@ -15,7 +15,7 @@ yeah as long as you drop the oldverse name and respect the LICENSE
 # How to use this
 Well you install it like any classical PHP app, create a new DB, import DB structure, upload website files to your server, modify config.php as you liking.
 # is dis from scratch
-yup. i actually used very little piece of code from others miiverse clone just to begin, but around 98% of the codebase is .
+yup. i actually used very little piece of code from others miiverse clone just to begin, but around 98% of the codebase is 100% me.
 # Setup the FS3D server
 NOTE: config is in the /lib/connect.php file inside the FS3D-Server folder.
 
