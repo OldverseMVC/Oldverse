@@ -22,7 +22,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
         $error = "Some fields are empty.";
         goto showForm;
     }
-    if(PRIVATE_ENABLED && empty($_POST['referral']){
+    if(PRIVATE_ENABLED && empty($_POST['referral'])){
         $error = "Some fields are empty.";
         goto showForm;
     }
