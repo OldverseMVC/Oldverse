@@ -1,9 +1,9 @@
 <?php
 require_once "lib/connect.php";
 
-if(!empty(CLIENT_ID) && !empty(CLIENT_TOKEN){
-    header("Refresh: 5; url=".$_SERVER['BASE_URI'])
-    exit("Sorry but administrator hasn't configured Discord support yet. Going back home in 5 seconds.");
+if(empty(CLIENT_ID) || empty(CLIENT_SECRET)){
+    header("Refresh: 5; url=/");
+    exit("Sorry but administrator hasn't configured Discord support yet. Going >
 }
 if(isset($_GET['linkplz'])){
     $_SESSION["link_d"] = "yes";
