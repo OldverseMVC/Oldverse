@@ -27,19 +27,19 @@ if(isset($_SESSION['token'])){
         <link rel="apple-touch-icon" sizes="144x144" href="/assets/img/apple-touch-icon-144x144.png">
         <meta name="format-detection" content="telephone=no">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-        <meta name="title" content="Oldverse" />
-        <meta name="description" content="Welcome back to Miiverse from 2014." />
+        <meta name="title" content="<?= SITE_NAME ?>" />
+        <meta name="description" content="<?= MEMO ?>" />
         <meta name="abstract" content="Welcome back to Miiverse from 2014." />
         <meta name="keywords" content="miiverse, old, oldmiiverse, 2014, miiverseclone, mvc, socialnetwork" />
         <meta name="author" content="Oldverse Team" />
         <meta name="language" content="EN" />
         <meta property="og:locale" content="en_US" />
-        <meta property="og:title" content="Oldverse" />
+        <meta property="og:title" content="<?= SITE_NAME ?>" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://<?= $_SERVER['SERVER_NAME'] ?>/" />
         <meta property="og:image" content="https://<?= $_SERVER['SERVER_NAME'] ?>/assets/img/favicon.ico" />
-        <meta property="og:description" content="Welcome back to Miiverse from 2014." />
-        <meta name="theme-color" content="#27f011">
+        <meta property="og:description" content="<?= MEMO ?>" />
+        <meta name="theme-color" content="<?= META_COLOR ?>">
         </script>
     </head>
     <body <?php if(!isset($_SESSION['username'])){ ?>id="<?php if(isset($is_guide)){ ?>help<?php } ?><?= !is_null($custom_id) ? ' '.$custom_id : '' ?>"  class="guest-top guest <?= $is_identified_user ? "identified_user" : "" ?>"<?php }else{ ?> class="<?= $is_identified_user ? "identified_user" : "" ?>" <?php } ?>id="<?php if(isset($is_guide)){ ?>help<?php } ?><?= !is_null($custom_id) ? ' '.$custom_id : '' ?>"data-token="<?= $_SESSION['token'] ?>">
