@@ -13,7 +13,7 @@ if(isset($_SESSION["username"])){
 <h2 class="headline">User Menu</h2><div class="list my-menu-list">
     <a id="my-menu-settings-profile" class="scroll big-button" href="/settings/profile">Profile Settings</a>
     <a id="my-menu-settings-account" class="scroll big-button" href="/settings/tags">Tags Settings</a>
-    <a id="my-menu-settings-account" class="scroll big-button" href="/settings/referral">Referral settings</a>
+    <?php if(PRIVATE_ENABLED){ ?><a id="my-menu-settings-account" class="scroll big-button" href="/settings/referral">Referral settings</a><?php } ?>
     <a id="my-menu-settings-account" class="scroll big-button" href="/olddrive">OldDrive</a>
     <?php if($adminrow["level"] > 1){ ?>
     <a id="my-menu-settings-profile" class="scroll big-button" href="/settings/admin">Admin Panel</a>
