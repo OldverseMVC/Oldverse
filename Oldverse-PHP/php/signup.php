@@ -18,7 +18,11 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
             goto showForm;
         }
     }
-    if(empty($_POST['username']) || empty($_POST['password']) || empty($_POST['cpassword']) || empty($_POST['nnid']) || empty($_POST['nickname']) || empty($_POST['referral'])){
+    if(empty($_POST['username']) || empty($_POST['password']) || empty($_POST['cpassword']) || empty($_POST['nnid']) || empty($_POST['nickname'])){
+        $error = "Some fields are empty.";
+        goto showForm;
+    }
+    if(PRIVATE_ENABLED && empty($_POST['referral']){
         $error = "Some fields are empty.";
         goto showForm;
     }
@@ -100,7 +104,7 @@ showForm:
     <p><b><i>This is required. You MUST have a valid NNID.</i></b></p>
     <input type="text" placeholder="Nintendo Network ID (NNID)" name="nnid" maxlength="16" requried>
     <p><b><i>Required. To have a referral key, <br>you must be friend with the people here, and ask someone<br> you know for a referral key.</i></b></p>
-    <input type="text" placeholder="Referral key" name="referral" maxlength="69" requried>
+    <?php if(PRIVATE_ENABLED){ ?><input type="text" placeholder="Referral key" name="referral" maxlength="69" requried><?php } ?>
     <?php if(!empty(SITE_KEY)) { ?><br>
     <script src="https://www.google.com/recaptcha/api.js"></script>
     <div class="g-recaptcha" style="display:inline-block" data-sitekey="<?=htmlspecialchars(SITE_KEY)?>"></div>
