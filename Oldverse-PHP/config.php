@@ -14,6 +14,7 @@ const MEMO = SITE_NAME." is a service that lets you communicate with other playe
 const MAJOR = "1";
 const MINOR = "3.20";
 const LOGIN_NOTE = "please don't rehost";
+const META_COLOR = "#27f011";
 //enable yes or no referral keys
 const PRIVATE_ENABLED = false;
 
