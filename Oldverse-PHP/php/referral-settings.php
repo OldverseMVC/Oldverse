@@ -2,6 +2,9 @@
 $title = "Referral Settings";
 require_once "lib/header.php";
 requireAuth();
+if(!PRIVATE_ENABLED){
+    showError(403, "This instance isn't private. You don't need those referral keys.");
+}
 $stmt = $db->prepare("SELECT id, referralkey, used FROM referralkey WHERE created_by = ? ORDER BY id DESC");
 $stmt->bind_param('i', $user['id']);
 $stmt->execute();
