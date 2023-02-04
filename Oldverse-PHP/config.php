@@ -14,6 +14,8 @@ const MEMO = SITE_NAME." is a service that lets you communicate with other playe
 const MAJOR = "1";
 const MINOR = "3.20";
 const LOGIN_NOTE = "please don't rehost";
+//enable yes or no referral keys
+const PRIVATE_ENABLED = false;
 
 //Change to true if you're using PHP 7.4 or older.
 /* VERY VERY IMPORTANT NOTE */
