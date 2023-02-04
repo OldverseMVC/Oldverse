@@ -54,5 +54,5 @@ showForm:
     </div>
     <br>
     <?php  if(!SIGNUP_CLOSED){ ?><a href="/account/signup">No account yet?</a><?php  } ?>
-    <br><a href="/discord-api">Or sign in using Discord</a> 
+    <?php if(!empty(CLIENT_ID) && !empty(CLIENT_TOKEN){ ?><br><a href="/discord-api">Or sign in using Discord</a><?php } ?>
 </form>
