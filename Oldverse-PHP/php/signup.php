@@ -103,8 +103,8 @@ showForm:
     <input type="password" placeholder="Confirm Password" name="cpassword" required>
     <p><b><i>This is required. You MUST have a valid NNID.</i></b></p>
     <input type="text" placeholder="Nintendo Network ID (NNID)" name="nnid" maxlength="16" requried>
-    <p><b><i>Required. To have a referral key, <br>you must be friend with the people here, and ask someone<br> you know for a referral key.</i></b></p>
-    <?php if(PRIVATE_ENABLED){ ?><input type="text" placeholder="Referral key" name="referral" maxlength="69" requried><?php } ?>
+    <?php if(PRIVATE_ENABLED){ ?><p><b><i>Required. To have a referral key, <br>you must be friend with the people here, and ask someone<br> you know for a referral key.</i></b></p>
+    <input type="text" placeholder="Referral key" name="referral" maxlength="69" requried><?php } ?>
     <?php if(!empty(SITE_KEY)) { ?><br>
     <script src="https://www.google.com/recaptcha/api.js"></script>
     <div class="g-recaptcha" style="display:inline-block" data-sitekey="<?=htmlspecialchars(SITE_KEY)?>"></div>
