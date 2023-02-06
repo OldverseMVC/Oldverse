@@ -1,4 +1,4 @@
-Oldverse Private License (OVPL) version 1.0
+Oldverse Private License (OVPL) version 2.0
             November 16, 2022
             
 Please read the License carefully, as it contains information on
@@ -10,3 +10,5 @@ possible usages of Oldverse (refered as the Software)
 4. You can modify this Software as your wish.
 5. You CANNOT share this Software under a public Git repository.
 6. Any violations of the above rules may result in blocking you from using the Software.
+7. The Miiverse Clone created using this source code MUST be private, if it isn't this is a violation, blocking you from using the source code.
+8. Your modified source code isn't totally yours, this means you should not share it to unauthorized parties.
