@@ -1,21 +1,17 @@
-# **VERY IMPORTANT NOTE**
-On November 28, 2022, PHP Foundation will officially drop support for PHP 7. Farewell, PHP 7.
+# Oldverse
+source code
+# notice
+im done with mvc community. its a toxic place and its cringe. only 5 years old seem to use mvc (except maybe 10 to 20 people are way older)
 
-Following this, progress has been made on PHP 8 support, and I'm proud to say it's now complete.
+im releasing this source code because people kept asking for it. so here you go i guess
 
-The day my web host will drop PHP 7, Oldverse PHP 7 support will drop too.
-Please migrate to PHP 8 ASAP, while you can.
+if you want to create a mvc using this, please don't. mvc are bad things to exist, and are only a waste of time. at least this code will be useful to show my programming skills lol
 
-## Oldverse
-Oldverse official source code idk
-# Who created this
-Me from my own bare hands. (with some help from term)
-# Can I use this
-yeah as long as you drop the oldverse name and respect the LICENSE
-# How to use this
-Well you install it like any classical PHP app, create a new DB, import DB structure, upload website files to your server, modify config.php as you liking.
+bye! (below is random info)
 # is dis from scratch
-yup. i actually used very little piece of code from others miiverse clone just to begin, but around 98% of the codebase is 100% me.
+the website PHP code itself is pretty much yeah; i only used 5 lines of codes from Miiverse World, and the rest is pretty much 100% me.
+
+however, the fs3d server code contains a file that i havent written, KwzParser.php.
 # Setup the FS3D server
 NOTE: config is in the /lib/connect.php file inside the FS3D-Server folder.
 
