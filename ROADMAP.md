@@ -1,4 +1,5 @@
-# Roadmap
+# I was writing this when Oldverse was still being worked on. Oldverse is now a cancelled project; don't even try to rehost it.
+## Roadmap
 ## [DONE] Version 1.3: Messages
 - [x] Welcome page
 - [x] Messages
