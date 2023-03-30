@@ -22,6 +22,17 @@ else
 	require_once('../config.php');
 }
 
+if($config_double == 1 && LET_IT_DIE)
+{
+	require_once('../closed.php');
+	exit;
+}
+elseif(LET_IT_DIE)
+{
+	require_once('./closed.php');
+	exit;
+}
+
 //Reimplementation of str_start_with for PHP 7. thx php docs <3
 if(PHP7_ENABLED){
     function str_starts_with ( $haystack, $needle ) {

@@ -37,6 +37,9 @@ const WEBSITE_URL = "http://localhost/";
 const CLIENT_ID = "";
 const CLIENT_SECRET = "";
 
+//Let it die (site closed)
+const LET_IT_DIE = true;
+
 //Forbidden IP list
 /*
 Insert forbidden IPs inside the list.
