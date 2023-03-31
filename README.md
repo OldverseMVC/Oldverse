@@ -1,3 +1,5 @@
+**Note: the source code will no longer be updated normally from this day on, I finished the unfinished corners of the website.**
+
 # Oldverse
 source code
 # notice
