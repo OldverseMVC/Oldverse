@@ -84,9 +84,9 @@ $resultpinned = $stmt->get_result();
             require "elements/post.php";
         }
         ?></div><?php  }else{?><p style="margin-top: 4px; color: #969696; font-size: 16px; text-align: center;">No pinned post was found on this community.</p>
-		<?php  } ?>
-		<h3 class="label">Posts</h3>
-		<?php
+	<?php  } ?>
+	<h3 class="label">Posts</h3>
+	<?php
         if($result->num_rows==0){
             showNoContent("No posts were found on this community.");
         }else{
