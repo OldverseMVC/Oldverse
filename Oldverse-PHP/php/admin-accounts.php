@@ -101,7 +101,7 @@ showForm:
             <br>
             <input type="submit" class="btn btn-success" value="GO!">
         </form>
-        <h2 class="label">Remove post</h1>
+        <h2>Remove post</h1>
         <form method="post">
             <input type="hidden" name="mode" value="removepost">
             <input type="number" name="postid" placeholder="Post ID" maxlength="255">
@@ -109,7 +109,7 @@ showForm:
             <br>
             <input type="submit" class="btn btn-success" value="GO!">
         </form>
-        <h1>Purge posts from User ID</h1>
+        <h2>Purge posts from User ID</h1>
         <p style="color: red;"><b>/!!\ THIS IS A DESTRUCTIVE ACTION /!!\</b></p>
         <form method="post">
             <input type="hidden" name="mode" value="purgeact">
