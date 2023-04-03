@@ -1,5 +1,5 @@
 **Note: the source code will no longer be updated normally from this day on, I finished the unfinished corners of the website.**
-
+**Another note: this software contains anti-rehost measures.**
 # Oldverse
 source code
 # notice
