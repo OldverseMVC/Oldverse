@@ -1,5 +1,5 @@
              OLDVERSE PUBLIC LICENSE
-              Version 1, April 2023 
+              Version 2, April 2023 
 
  Copyright (C) 2023 Rixy <rix.gui@mail.com> 
 
@@ -12,3 +12,6 @@
 
 0. You are not permitted to use the source code unless you have explicit permission from the owner.
 1. When permission is revoked from the owner, you must immediately discard all data associated with the code until permission is regained.
+2. You are not permitted to change the license from the source code in any shape or form, or remove the license from the source code without the author's permission.
+3. All distributions of this software must retain the license included with it.
+4. You are not permitted to change the software source code without disclosing the source code first.
