@@ -84,7 +84,7 @@ session_name("oldv_session");
 session_start();
 
 if(!isset($_SESSION['token']) && LOGIN_FORCED){
-    if($_SERVER['REQUEST_URI']!=="/" && $_SERVER['REQUEST_URI']!=="/account/login" && $_SERVER['REQUEST_URI'] !== "/account/signup"){
+    if($_SERVER['REQUEST_URI']!=="/account/login" && $_SERVER['REQUEST_URI'] !== "/account/signup"){
         header("Location: /account/login");
     }
 }
