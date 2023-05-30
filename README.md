@@ -1,15 +1,8 @@
-**Note: the source code will no longer be updated normally from this day on, I finished the unfinished corners of the website.**
-**Another note: this software contains anti-rehost measures.**
+**Note: the source code will no longer recieve any quality-of-life updates nor big updates**
 # Oldverse
 source code
-# notice
-im done with mvc community. its a toxic place and its cringe. only 5 years old seem to use mvc (except maybe 10 to 20 people are way older)
-
-im releasing this source code because people kept asking for it. so here you go i guess
-
-if you want to create a mvc using this, please don't. mvc are bad things to exist, and are only a waste of time. at least this code will be useful to show my programming skills lol
-
-bye! (below is random info)
+# how do i install
+like galaxy plaza
 # is dis from scratch
 the website PHP code itself is pretty much yeah; i only used 5 lines of codes from Miiverse World, and the rest is pretty much 100% me.
 

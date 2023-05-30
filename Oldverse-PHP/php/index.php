@@ -49,6 +49,7 @@ while($row = $stmtposts->fetch_array()){
     </form>
   </div>
   <p class="center" style="padding: 8px;"><b><?= SITE_NAME ?> stores cookies on your computer. <a href="/cookie-info">See more here.</a></b></p>
+  <div style="padding: 15px 35px 15px 15px; margin-bottom: 20px; border: 1px solid #f1e9bc; border-radius: 4px; color: #8f8031; background-color: #f7edd9;"><strong>Warning:</strong> this social network is soo bad it can give you cancer</div>
   <?php if(isset($_SESSION['username']) && $resultfav->num_rows > 0) { ?>
   <h3 class="label">Favorite Communities</h3>
     <ul class="list community-list community-title-list">

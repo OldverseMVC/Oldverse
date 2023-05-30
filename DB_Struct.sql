@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 4.9.5
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost
--- Généré le : lun. 21 nov. 2022 à 22:28
--- Version du serveur : 10.6.7-MariaDB-2ubuntu1.1
--- Version de PHP : 8.1.12
+-- Hôte : localhost:3306
+-- Généré le : mar. 30 mai 2023 à 12:51
+-- Version du serveur :  10.3.28-MariaDB-cll-lve
+-- Version de PHP : 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `oldverse`
+-- Base de données : `wowomgso_oldverse`
 --
 
 -- --------------------------------------------------------
@@ -76,8 +77,8 @@ CREATE TABLE `dms` (
   `id` int(11) NOT NULL,
   `author` int(11) NOT NULL,
   `target` int(11) NOT NULL,
-  `cid` int(11) NOT NULL,
-  `feeling` tinyint(7) NOT NULL,
+  `cid` int(11) NOT NULL DEFAULT 0,
+  `feeling` tinyint(7) NOT NULL DEFAULT 0,
   `body` text NOT NULL,
   `is_read` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -119,7 +120,7 @@ CREATE TABLE `files` (
   `name` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
   `author` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -143,9 +144,9 @@ CREATE TABLE `news` (
   `id` int(11) NOT NULL,
   `source` int(11) NOT NULL,
   `target` int(11) NOT NULL,
-  `type` tinyint(6) NOT NULL,
-  `url` varchar(255) NOT NULL,
-  `is_read` tinyint(1) NOT NULL,
+  `type` tinyint(6) NOT NULL DEFAULT 0,
+  `url` varchar(255) NOT NULL DEFAULT '0',
+  `is_read` tinyint(1) NOT NULL DEFAULT 0,
   `additional_id` int(11) DEFAULT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -164,10 +165,10 @@ CREATE TABLE `posts` (
   `url` varchar(255) DEFAULT NULL,
   `flipnote` varchar(255) DEFAULT NULL,
   `screenshot` varchar(255) DEFAULT NULL,
-  `spoiler` tinyint(1) NOT NULL,
-  `feeling` int(11) NOT NULL,
-  `is_pinned` tinyint(1) NOT NULL,
-  `is_locked` tinyint(1) NOT NULL,
+  `spoiler` tinyint(1) NOT NULL DEFAULT 0,
+  `feeling` int(11) NOT NULL DEFAULT 0,
+  `is_pinned` tinyint(1) NOT NULL DEFAULT 0,
+  `is_locked` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -181,8 +182,8 @@ CREATE TABLE `referralkey` (
   `id` int(11) NOT NULL,
   `created_by` int(11) NOT NULL,
   `referralkey` varchar(255) NOT NULL,
-  `used` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `used` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -226,7 +227,7 @@ CREATE TABLE `tags` (
   `name` varchar(255) NOT NULL,
   `value` varchar(255) NOT NULL,
   `created_by` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -254,7 +255,7 @@ CREATE TABLE `users` (
   `mii_hash` varchar(50) NOT NULL,
   `nnid` varchar(255) NOT NULL,
   `level` int(11) NOT NULL DEFAULT 0,
-  `description` text NOT NULL,
+  `description` text NOT NULL DEFAULT '',
   `url` varchar(255) NOT NULL DEFAULT '',
   `created_on` timestamp NOT NULL DEFAULT current_timestamp(),
   `ip` varchar(255) NOT NULL DEFAULT '',
