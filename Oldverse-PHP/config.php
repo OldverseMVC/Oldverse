@@ -10,10 +10,10 @@ const DB_NAME = "oldverse";
 //general
 const TIMEZONE = "America/New_York";
 const SITE_NAME = "Oldverse";
-const MEMO = SITE_NAME." is a service that lets you communicate with other players from around the world. It is accessible via PC, Wii U, and systems in the Nintendo 3DS family.";
+const MEMO = SITE_NAME." is something you shouldnt join";
 const MAJOR = "1";
 const MINOR = "3.20";
-const LOGIN_NOTE = "please don't rehost";
+const LOGIN_NOTE = "have fun, warning: it will die in a few weeks";
 const META_COLOR = "#27f011";
 //enable yes or no referral keys
 const PRIVATE_ENABLED = false;
