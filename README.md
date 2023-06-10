@@ -2,7 +2,7 @@
 # Oldverse
 source code
 # how do i install
-you use https://x10hosting.org, then you put the files in the Oldverse-PHP directory on the server, then you configure config.php, and you setup the db.
+you use https://x10hosting.com, then you put the files in the Oldverse-PHP directory on the server, then you configure config.php, and you setup the db.
 
 if you don't know how to setup a database or have basic understanding of web hosting/php hosting then i cant do anything for you
 # is dis from scratch
