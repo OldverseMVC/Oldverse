@@ -1,4 +1,4 @@
-<?
+<?php
 require_once "lib/connect.php";
 ob_start();
 ?>
@@ -13,7 +13,7 @@ ob_start();
     <a href="main.php">Go to Oldverse companion app main menu</a>
 </body>
 </html>
-<? 
+<?php
 header("Content-Length: ".ob_get_length());
 ob_end_flush();
 ?>
