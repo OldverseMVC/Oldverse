@@ -68,11 +68,6 @@ if (!$db)
 	exit(require_once "500.php");
 }
 
-//Proxy checking
-if (checkProxy($_SERVER['REMOTE_ADDR'])) {
-	exit("Fuck proxies. Use your real IP.");
-}
-
 // Set Timezone
 date_default_timezone_set(TIMEZONE);
 
@@ -354,30 +349,6 @@ function getBody($body, $truncate=false, $max_length=200){
     }
   	$body = preg_replace('|@([a-zA-Z0-9_-]{2,50})|', '<a href="/users/$1" target="_blank">@$1</a>', $body);
     return $body;
-}
-function checkProxy($ip){
-		$contactEmail="me@example.com";
-		$timeout=5;
-		$banOnProbability=0.99;
-		
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-
-		curl_setopt($ch, CURLOPT_URL, "http://check.getipintel.net/check.php?ip=$ip&contact=$contactEmail");
-		$response=curl_exec($ch);
-		
-		curl_close($ch);
-		
-		
-		if ($response > $banOnProbability) {
-				return true;
-		} else {
-			if ($response < 0 || strcmp($response, "") == 0 ) {
-
-			}
-				return false;
-		}
 }
 function random_str(
     int $length = 64,
