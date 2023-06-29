@@ -49,7 +49,7 @@ $stmt->bind_param('iisssiis', $community, $user['id'], $text, $null, $null, $zer
 $stmt->execute();
 header("Location: http://".$_SERVER['SERVER_NAME']."/finish.php");
 error:
-if(isset($error)){?><html><body><p style="color:red;"><?= $error ?></p></body></html><? }
+if(isset($error)){?><html><body><p style="color:red;"><?= $error ?></p></body></html><?php }
 header('Content-Length: '.ob_get_length());
 ob_end_flush();
 ?>
