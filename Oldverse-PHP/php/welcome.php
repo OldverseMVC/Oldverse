@@ -45,7 +45,7 @@
             <div class="social-button-area">
                 <ul class="social-button">
                     <li>
-                        <a href="/communities" class="twitter-share-button"><img src="/assets/img/welcome-button.png"></a>
+                        <a href="/communities" class="twitter-share-button"><img src="/assets/img/signin_base.png"></a>
                     </li>
                 </ul>
             </div>
