@@ -1,4 +1,4 @@
-<?
+<?php
 ob_start();
 require_once "lib/header.php";
 ?>
@@ -8,7 +8,7 @@ require_once "lib/header.php";
     <a href="http://<?= $_SERVER['SERVER_NAME'] ?>/info.php">More info</a>
 </body>
 </html>
-<?
+<?php
 header('Content-Length: '.ob_get_length());
 ob_end_flush();
 ?>
