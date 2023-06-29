@@ -92,7 +92,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
 showForm:
 ?>
 <h2 class="welcome-message">Sign Up</h2>
-<p style="text-align: center;">Time to shine, baby!</p>
+<p style="text-align: center;"><?= SIGNUP_NOTE ?></p>
 <form method="post" class="center">
     <?php if(!empty($error)){?>
     <p style="color: red;"><b><?= $error ?></b></p>
