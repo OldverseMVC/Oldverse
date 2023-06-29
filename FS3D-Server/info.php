@@ -1,4 +1,4 @@
-<?
+<?php
 ob_start();
 require_once "lib/header.php";
 ?>
@@ -8,7 +8,7 @@ require_once "lib/header.php";
     <p>Because it is cool to post flips, no? Like you can upload a flipnote about your dog scrathing their ass!</p>
 </body>
 </html>
-<?
+<?php
 header('Content-Length: '.ob_get_length());
 ob_end_flush();
 ?>
