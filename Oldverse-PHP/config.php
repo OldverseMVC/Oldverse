@@ -3,7 +3,7 @@
 //DO NOT REMOVE THIS FILE!!! It will immediately break the website.
 //Setup this to your liking, except PHP7_ENABLED (set it to true only if you're using PHP 7
 //(which you shouldn't, at this point its outdated + vulnerable)
-//reCaptcha and Discord login are both disabled.
+//reCaptcha and Discord login are both optional.
 
 
 //database
