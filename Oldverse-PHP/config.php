@@ -25,11 +25,8 @@ const META_COLOR = "#27f011";
 const PRIVATE_ENABLED = false;
 
 //Change to true if you're using PHP 7.4 or older.
-/* VERY VERY IMPORTANT NOTE */
-//Starting from when my host will migrate to PHP 8,
-//PHP 7 support for Oldverse will drop.
-//While it might work with PHP 7 with a few mods on the codebase,
-//It is highly discouraged to do so. Use PHP 8.
+//Please, for the sake of god, use PHP 8.
+//Please note that Oldverse only work with PHP 8.0, not 8.1 and older.
 const PHP7_ENABLED = false;
 
 // ReCAPTCHA settings
@@ -44,7 +41,7 @@ const WEBSITE_URL = "http://localhost/";
 const CLIENT_ID = "";
 const CLIENT_SECRET = "";
 
-//Let it die (site closed)
+//Let it die (closes the websites and show up a website closed message)
 const LET_IT_DIE = false;
 
 //Forbidden IP list
@@ -63,5 +60,7 @@ const SIGNUP_CLOSED = false;
 
 // ----------------------EMOJIS------------------------
 
-//In this category you can setup custom emojis that can be sent in a message like this :emojiname: (like discord) (18x18)
+//This is a list in the following format: "emoji_name"=>"emoji_url"
+//Seperate each entry with a comma.
+//You use them like you would do on discord: :emoji_name:
 const EMOJIS = ["oldverse"=>"/assets/img/favicon.ico"];
