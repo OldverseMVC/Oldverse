@@ -1,5 +1,10 @@
 <?php
-//Oldverse settings.
+//Oldverse configuration file
+//DO NOT REMOVE THIS FILE!!! It will immediately break the website.
+//Setup this to your liking, except PHP7_ENABLED (set it to true only if you're using PHP 7
+//(which you shouldn't, at this point its outdated + vulnerable)
+//reCaptcha and Discord login are both disabled.
+
 
 //database
 const DB_HOST = "localhost"; //usally localhost
@@ -10,11 +15,11 @@ const DB_NAME = "oldverse";
 //general
 const TIMEZONE = "America/New_York";
 const SITE_NAME = "Oldverse";
-const MEMO = SITE_NAME." is something you shouldnt join";
+const MEMO = SITE_NAME." is a service that lets you communicate with other players from around the world. It is accessible via PC, Wii U, and systems in the Nintendo 3DS family.";
 const MAJOR = "1";
 const MINOR = "3.20";
-const LOGIN_NOTE = "have fun, warning: it will die in a few weeks";
-const SIGNUP_NOTE = "don't leave please";
+const LOGIN_NOTE = "This can be configured in config.php (const LOGIN_NOTE)";
+const SIGNUP_NOTE = "This can also be configured in config.php (const SIGNUP_NOTE)";
 const META_COLOR = "#27f011";
 //enable yes or no referral keys
 const PRIVATE_ENABLED = false;
@@ -34,12 +39,13 @@ const PRIVATE_KEY = null;
 
 //Discord login
 //be sure to add a slash to the end of the url
+//if either CLIENT_ID or CLIENT_SECRET is set to "", the discord login functionnality is disabled
 const WEBSITE_URL = "http://localhost/";
 const CLIENT_ID = "";
 const CLIENT_SECRET = "";
 
 //Let it die (site closed)
-const LET_IT_DIE = true;
+const LET_IT_DIE = false;
 
 //Forbidden IP list
 /*
