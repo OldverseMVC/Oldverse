@@ -54,9 +54,9 @@
     <div class="contents-bg diary-bg">
         <div class="new-diary-image-bg body-content">
             <div class="new-diary-text-wrapper">
-                <h2 class="new-diary-title">No</h2>
-                <p>What the fuck I'm doing with my life send help please I need help AAAAAAAA</p>
-                <p class="note">&#9670; You can find (and be found by) all kinds of users through the smart recommendation feed, where you'll also see current trends and more.</p>
+                <h2 class="new-diary-title">This is a message you can change in /php/welcome.php</h2>
+                <p>You can change the image next to this text by replacing /assets/img/welcome-image-1.png by an image of your choice.</p>
+                <p class="note">&#9670; Or you can change the path to the image directly in /php/welcome.php</p>
             </div>
             <img class="new-diary-image test-diary-screenshot-img" src="/assets/img/welcome-image-1.png">
         </div>
@@ -64,9 +64,9 @@
     <div class="contents-bg bg1">
         <div class="body-content">
             <div class="new-album-text-wrapper">
-                <h2 class="new-album-title">Stop</h2>
-                <p>we do not need yet another miiverse clone stolen from github. p l e a s e</p>
-                <p class="note">&#9670; Really<br>&#9670; Please<br>&#9670; Don't be dumb</p>
+                <h2 class="new-album-title">Lorem ipsum</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non.</p>
+                <p class="note">&#9670; This is a note! Yeah, it is!</p>
             </div>
             <img class="new-album-image test-album-screenshot-img" src="/assets/img/welcome-image-1.png">
         </div>
@@ -75,12 +75,14 @@
         <div class="other body-content">
             <h2>Other Information</h2>
             <ul>
-                <li>made from my bare hands(Rixy), stop just fucking copy pasting another clone and making it ur own.</li>
+                <li>This website is based off Oldverse, a FOSS clone of the old Miiverse website available on miiverse.nintendo.net from 2011 to 2015.</li>
+                <li>It includes a lot more of functionnality than the original Miiverse, such as more customization options and user-made communities.</li>
+                <li>The original source code (under AGPL v3 terms) is available here: <a href="https://github.com/OldverseMVC/Oldverse">https://github.com/OldverseMVC/Oldverse</a></li>
             </ul>
         </div>
     </div>
     <div class="footer">
-        <a class="footer" href="http://minecraft.net/">MineCraft.net MineCraft.net MineCraft.net MineCraft.net MineCraft.net MineCraft.net MineCraft.net MineCraft.net</a>
+        <a class="footer" href="http://discord.com/">miiverse better edition</a>
     </div>
 </div>
             </div>
