@@ -51,7 +51,8 @@ CREATE TABLE `communities` (
   `featured` tinyint(1) NOT NULL DEFAULT 0,
   `is_flipnote` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'This should be used in only 1 community, and defines the flipnote community.',
   `badge` varchar(50) DEFAULT NULL,
-  `owner` int(11) NOT NULL
+  `owner` int(11) NOT NULL,
+  `is_announcement` tinyint(1) NOT NULL DEFAULT 0,
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
