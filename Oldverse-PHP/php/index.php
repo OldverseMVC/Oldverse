@@ -71,6 +71,12 @@ while($row = $stmtposts->fetch_array()){
       <span class="text">Posts from Verified Users</span>
     </a>
   </div>
+  <div id="identified-user-banner">
+    <a href="/announcements" data-pjax="#body" class="list-button eu">
+      <span class="title">Get the latest (shitty) news here!</span>
+      <span class="text">Posts from announcements communities</span>
+    </a>
+  </div>
   <a href="/communities/create" class="button symbol create-button">Create community</a>
   <div class="platform-tab">
     <a id="tab-wiiu" data-platform="wiiu" class="trigger selected" tabindex="0"><span>Wii U Communities</span></a>
