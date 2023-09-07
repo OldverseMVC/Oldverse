@@ -1266,7 +1266,7 @@ var Olv = Olv || {};
                 j.abort()
             })
         } else f()
-    }), b.router.connect("^(?:/|/communities|/communities/search)$", function(c, d, e) {
+    }), b.router.connect("^(?:/|/communities|/communities/search|/communities/all)$", function(c, d, e) {
         function f(b) {
             a(".tab-body").addClass("none"), a("#tab-" + b + "-body").removeClass("none"), a(".platform-tab a").removeClass("selected"), a("#tab-" + b).addClass("selected")
         }
