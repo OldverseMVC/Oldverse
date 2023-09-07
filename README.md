@@ -1,4 +1,4 @@
-**Note: the source code will no longer recieve any quality-of-life updates nor big updates**
+**Note: the source code will not recieve any quality-of-life updates nor big updates frequently, only when I want to (very rare)**
 # Oldverse
 source code
 # how do i install
