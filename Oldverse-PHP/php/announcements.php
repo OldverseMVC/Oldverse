@@ -1,5 +1,5 @@
 <?php
-$title = "Posts from announcements community";
+$title = "Posts from announcements communities";
 require_once "lib/header.php";
 //Ugly but eh, who cares, it works now.
 $_GET['offset'] = isset($_GET['offset']) ? $_GET['offset'] : 0;
@@ -10,7 +10,7 @@ $result = $stmt->get_result();
 ?>
 <div id="image-header-content">
   <span class="image-header-title">
-    <span class="title">Posts from announcements community</span>
+    <span class="title">Posts from announcements communities</span>
     <span class="text">when did it all go to shit????</span>
   </span>
   <img src="/assets/img/identified-user.png">
