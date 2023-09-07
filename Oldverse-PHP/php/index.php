@@ -67,7 +67,7 @@ while($row = $stmtposts->fetch_array()){
     <?php } ?>
   <div id="identified-user-banner">
     <a href="/identified_user_posts" data-pjax="#body" class="list-button us">
-      <span class="title">Get the latest news here!</span>
+      <span class="title">Get the latest verified posts here!</span>
       <span class="text">Posts from Verified Users</span>
     </a>
   </div>
