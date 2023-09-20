@@ -1,6 +1,9 @@
 <?php
 $title = "Create community";
 require_once "lib/header.php";
+if(LIMIT_COMMUNITY_CREATION && $user['level'] < 1){
+    showError(403, "Community creation is limited to admins on this instance.");
+}
 requireAuth();
 if($_SERVER['REQUEST_METHOD']=='POST'){
     if(empty($_POST['name']) || empty($_POST['description']) || empty($_POST['icon']) || empty($_POST['banner']) || !isset($_POST['type'])){
