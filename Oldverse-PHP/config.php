@@ -17,12 +17,14 @@ const TIMEZONE = "America/New_York";
 const SITE_NAME = "Oldverse";
 const MEMO = SITE_NAME." is a service that lets you communicate with other players from around the world. It is accessible via PC, Wii U, and systems in the Nintendo 3DS family.";
 const MAJOR = "1";
-const MINOR = "3.21";
+const MINOR = "3.22";
 const LOGIN_NOTE = "This can be configured in config.php (const LOGIN_NOTE)";
 const SIGNUP_NOTE = "This can also be configured in config.php (const SIGNUP_NOTE)";
 const META_COLOR = "#27f011";
 //enable yes or no referral keys
 const PRIVATE_ENABLED = false;
+//if enabled, only admins will be able to create communities.
+const LIMIT_COMMUNITY_CREATION = false;
 
 //Change to true if you're using PHP 7.4 or older.
 //Please, for the sake of god, use PHP 8.
