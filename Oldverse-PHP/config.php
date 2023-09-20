@@ -57,6 +57,9 @@ const FORBIDDEN_IPS = [];
 //If this setting is enabled, users will need to login to see Oldverse
 const LOGIN_FORCED = false;
 
+//not sure why would you do this except if you do an archive
+const LOGIN_CLOSED = false;
+
 //As the title says
 const SIGNUP_CLOSED = false;
 
