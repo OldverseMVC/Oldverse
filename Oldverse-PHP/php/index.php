@@ -77,7 +77,7 @@ while($row = $stmtposts->fetch_array()){
       <span class="text">Posts from announcements communities</span>
     </a>
   </div>
-  <a href="/communities/create" class="button symbol create-button">Create community</a>
+  <?php if(LIMIT_COMMUNITY_CREATION && empty($_SESSION['token']) || LIMIT_COMMUNITY_CREATION && $user['level'] < 1){ ?><a href="/communities/create" class="button symbol create-button">Create community</a><?php } ?>
   <div class="platform-tab">
     <a id="tab-wiiu" data-platform="wiiu" class="trigger selected" tabindex="0"><span>Wii U Communities</span></a>
     <a id="tab-3ds" data-platform="3ds" class="trigger" tabindex="0"><span>3DS Communities</span></a>
