@@ -1,6 +1,9 @@
 <?php
 $title = "Login";
 require_once "lib/header.php";
+if(LOGIN_CLOSED){
+    showError(403, "Logins have been closed. You cannot sign in.");
+}
 if($_SERVER['REQUEST_METHOD']=="POST"){
     if(empty($_POST['username']) || empty($_POST['password'])){
         $error = "Some fields are empty.";
